@@ -1,0 +1,45 @@
+server:
+    port: 9080
+    ssl:
+        key-store: classpath:server.keystore
+        key-alias: tomcat
+        enabled: false
+        key-store-password: 123456
+        key-store-type: JKS
+
+multipart:
+    maxFileSize: 200Mb
+    maxRequestSize: 200Mb
+
+spring:
+    profiles:
+        active: prod
+    application:
+        name: uchat
+#    datasource:
+#        driver-class-name: com.mysql.jdbc.Driver
+#        url: jdbc:mysql://localhost:3306/webapp
+#        username: webapp
+#        password: webapp123
+#    rabbitmq:
+#        host: 54.223.24.218
+#        port: 5672
+#        username: ulab
+#        password: ulab123456
+#        virtual-host: /
+#        publisher-confirms: true
+
+netty:
+  port: 9090    #监听端口
+  bossThread: 2 #线程数
+  workerThread: 2 #线程数
+  keepalive: true #保持连接
+  backlog: 100
+  
+logging:
+    config: classpath:log/logback.xml
+
+#mybatis:
+#    type-aliases-package: com.ulab.sync.model.pojo
+#    configLocation: classpath:db/mybatis-config.xml
+#    mapperLocations: classpath:db/mappers/*.xml

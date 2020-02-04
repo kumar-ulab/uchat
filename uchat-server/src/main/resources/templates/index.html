@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot and Thymeleaf example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+    <form onsubmit="return false;">
+        <h3>Welcome to uChat         
+        	<input id="login" type="button" value="login"/>
+        </h3>
+        <textarea id="responseText" readonly="readonly" style="width: 500px; height: 300px;"></textarea>
+        <br>
+        <input id="text" type="text" name="message"  style="width: 300px;" value=""/>
+        <input id="send" type="button" value="send"/>
+        <input id="clear" type="button" onclick="javascript:document.getElementById('responseText').value=''" value="clear"/>
+    </form>
+    <br/> 
+	<script type="text/javascript">
+	/*<![CDATA[*/
+        var socket;
+        if (!window.WebSocket) {
+            window.WebSocket = window.MozWebSocket;
+	        if (!window.WebSocket) {
+	        	document.getElementById('responseText').value="Browser doesn't support WebSocket！";
+	        }
+        }
+
+        var login = function() {
+            if (socket && socket.readyState == WebSocket.OPEN) {
+            	socket.close();
+                document.getElementById('login').value='login'
+            	return;
+            } else {
+//                socket = new WebSocket("ws://10.3.0.17:9090/ws");
+                socket = new WebSocket("ws://52.81.17.213:9090/ws");
+                socket.onmessage = function(event) {
+                    var ta = document.getElementById('responseText');
+                    ta.value = ta.value + '\n' + event.data
+                    ta.scrollTop = ta.scrollHeight;
+                };
+                socket.onopen = function(event) {
+                    var ta = document.getElementById('responseText');
+                    ta.value += "\nconnected!";
+                    ta.scrollTop = ta.scrollHeight;
+                };
+                socket.onclose = function(event) {
+                    var ta = document.getElementById('responseText');
+                    ta.value += "\ndisconnected";
+                    ta.scrollTop = ta.scrollHeight;
+                };
+                document.getElementById('login').value='logout'
+            }
+        }
+        
+        var send = function() {
+            if (!window.WebSocket) {
+                return;
+            }
+            if (socket.readyState == WebSocket.OPEN) {
+                socket.send(document.getElementById("text").value);
+            } else {
+                alert("not connected.");
+            }
+        }
+        
+        document.getElementById("login").onclick = login;
+        document.getElementById("send").onclick = send;
+        
+   	/*]]>*/
+    </script>
+</body>
+</html>
