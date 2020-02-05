@@ -32,8 +32,8 @@
                 document.getElementById('login').value='login'
             	return;
             } else {
-//                socket = new WebSocket("ws://10.3.0.17:9090/ws");
-                socket = new WebSocket("ws://52.81.17.213:9090/ws");
+                socket = new WebSocket("wss://127.0.0.1:9090/ws");
+//                socket = new WebSocket("ws://52.81.17.213:9090/ws");
                 socket.onmessage = function(event) {
                     var ta = document.getElementById('responseText');
                     ta.value = ta.value + '\n' + event.data

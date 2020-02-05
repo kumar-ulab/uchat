@@ -27,11 +27,11 @@ public class ChannelUtil {
     private static UChatConnections  connections= UChatConnections.getInstance();	
 	public static void addWebSocketHandlers(Channel ch) {
 		ChannelPipeline pipeline = ch.pipeline();
-//		SSLContext sslContext = SslUtil.createSSLContext();
-//		SSLEngine sslEngine = sslContext.createSSLEngine();
-//		sslEngine.setUseClientMode(false);
-//		sslEngine.setNeedClientAuth(false);
-//		pipeline.addLast("ssl", new SslHandler(sslEngine));		
+		SSLContext sslContext = SslUtil.createSSLContext();
+		SSLEngine sslEngine = sslContext.createSSLEngine();
+		sslEngine.setUseClientMode(false);
+		sslEngine.setNeedClientAuth(false);
+		pipeline.addLast("ssl", new SslHandler(sslEngine));		
 		pipeline.addLast(new HttpServerCodec());
 		pipeline.addLast(new HttpObjectAggregator(64*1024));
 		pipeline.addLast(new ChunkedWriteHandler());

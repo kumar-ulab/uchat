@@ -1,11 +1,10 @@
 server:
-    port: 9080
+    port: 9443
     ssl:
-        key-store: classpath:server.keystore
-        key-alias: tomcat
-        enabled: false
-        key-store-password: 123456
+        key-store: classpath:uchat.jks
+        key-store-password: ulab123
         key-store-type: JKS
+        enabled: true
 
 multipart:
     maxFileSize: 200Mb
@@ -13,7 +12,7 @@ multipart:
 
 spring:
     profiles:
-        active: prod
+        active: dev
     application:
         name: uchat
 #    datasource:
