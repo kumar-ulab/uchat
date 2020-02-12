@@ -1,4 +1,4 @@
-package com.ulab.uchat.server;
+package com.ulab.uchat.server.handler;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ulab.uchat.server.types.ClientType;
+import com.ulab.uchat.server.util.ChannelUtil;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -10,18 +10,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class SimpleChatClient {
-    public static void main(String[] args) throws Exception {
-    	String host = "52.81.17.213";
-    	int port = 9090;
-    	if (args.length > 0) {
-    		host = args[0];
-    	}
-    	if (args.length > 1) {
-        	port = Integer.parseInt(args[1]);
-    	}
-        new SimpleChatClient(host, port).run();
-    }
-
     private final String host;
     private final int port;
 
@@ -43,6 +31,7 @@ public class SimpleChatClient {
             channel.writeAndFlush("win\r\n");
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             while(true){
+            	String line = in.readLine();
                 channel.writeAndFlush(in.readLine() + "\r\n");
             }
         } catch (Exception e) {

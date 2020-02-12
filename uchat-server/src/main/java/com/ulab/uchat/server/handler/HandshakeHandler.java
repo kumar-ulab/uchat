@@ -1,9 +1,10 @@
-package com.ulab.uchat.server;
+package com.ulab.uchat.server.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ulab.uchat.server.types.ClientType;
+import com.ulab.uchat.server.util.ChannelUtil;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

@@ -1,4 +1,4 @@
-package com.ulab.uchat.server;
+package com.ulab.uchat.server.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -13,6 +13,6 @@ public class App
 		SpringApplication app = new SpringApplication(App.class);
 //		app.setWebApplicationType(WebApplicationType.NONE);
 		app.run(args);
-		new WebsocketChatServer(9090).run();
+		new UchatServer(9090).run();
     }
 }

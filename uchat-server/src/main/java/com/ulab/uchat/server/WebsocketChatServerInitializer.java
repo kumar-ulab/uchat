@@ -1,5 +1,9 @@
 package com.ulab.uchat.server;
 
+import com.ulab.uchat.server.handler.ClientTypeJudgeHandler;
+import com.ulab.uchat.server.handler.ConnectionHandler;
+import com.ulab.uchat.server.handler.HandshakeHandler;
+
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

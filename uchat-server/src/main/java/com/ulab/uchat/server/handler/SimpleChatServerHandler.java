@@ -1,4 +1,4 @@
-package com.ulab.uchat.server;
+package com.ulab.uchat.server.handler;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;

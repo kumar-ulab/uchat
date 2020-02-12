@@ -1,4 +1,4 @@
-package com.ulab.uchat.server;
+package com.ulab.util;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

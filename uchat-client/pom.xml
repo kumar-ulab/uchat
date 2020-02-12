@@ -10,11 +10,22 @@
   <name>uchat-client</name>
   <url>http://maven.apache.org</url>
 
+  <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.5.RELEASE</version>
+  </parent>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
   </properties>
 
   <dependencies>
+    <dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter</artifactId>
+	</dependency>
 	<!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
 	<dependency>
 	    <groupId>io.netty</groupId>

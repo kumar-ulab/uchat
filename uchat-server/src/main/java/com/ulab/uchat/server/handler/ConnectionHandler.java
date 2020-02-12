@@ -1,4 +1,4 @@
-package com.ulab.uchat.server;
+package com.ulab.uchat.server.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.ulab.uchat.server.online.UChatConnections;
+import com.ulab.uchat.server.util.ChannelUtil;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
