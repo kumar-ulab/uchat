@@ -3,71 +3,177 @@
 <head>
     <title>Spring Boot and Thymeleaf example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<style type="text/css">
+		img{
+		    width: auto;
+		    height: auto;
+		    max-width: 100%;
+		    max-height: 100%;  
+		}
+	</style>
+	<script type="text/javascript" src="/js/jquery.1.11.1.js"></script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+			var devTypes = ["Web", "Win", "Ios"];
+			var srvChannel = "";
+			
+	        var socket;
+	        if (!window.WebSocket) {
+	            window.WebSocket = window.MozWebSocket;
+		        if (!window.WebSocket) {
+		        	document.getElementById('responseText').value="Browser doesn't support WebSocket！";
+		        }
+	        }
+
+	        var login = function() {
+	            if (socket && socket.readyState == WebSocket.OPEN) {
+	            	socket.close();
+	                document.getElementById('login').value='login'
+	            	return;
+	            } else {
+	            	var url=window.document.location.href;
+	            	var hostPos = url.indexOf("//") + 2 ;
+	            	var pathPos = url.indexOf(hostPos, "/");
+	            	var hostport;
+	            	if (pathPos >= 0) {
+	            		hostport = url.substring(hostPos, pathPos);
+	            	} else {
+	            		hostport = url.substring(hostPos);
+	            	}
+	            	var portPath = hostport.indexOf(":");
+	            	var host;
+	            	if (portPath >= 0) {
+	            		host = hostport.substring(0, portPath);
+	            	} else {
+	            		host = hostport;
+	            	}
+//	                socket = new WebSocket("wss://127.0.0.1:${chatport}/ws");
+					var wsport = [[${chatPort}]];
+	                socket = new WebSocket("ws://" + host + ":" + wsport + "/ws");
+	                socket.onmessage = function(event) {
+	                    var ta = document.getElementById('responseText');
+	                    var rsp = JSON.parse(event.data);
+	                    var devType = devTypes[rsp.device];
+	                    var client = rsp.channel == srvChannel ? "you" : rsp.channel;
+	                    switch (rsp.type) {
+	                    case 0:
+	                    	srvChannel = rsp.channel;
+	                    	ta.value = ta.value + '\n' 
+	                    			+ "[you(" + devType + ")] " + rsp.data;
+	                    	break;
+	                    case 1:
+	                    	ta.value = ta.value + '\n' 
+                			+ "[" + client + "(" + devType + ")] " + rsp.data;
+	                    	break;
+	                    case 2:
+	                    	document.getElementById("chatImg").src = "/picture/channel/" + rsp.channel + "/pic/" + rsp.data;
+	                    	ta.value = ta.value + '\n' 
+                			+ "[" + client + "(" + devType + ")] " + rsp.data;
+	                    	break;
+	                    case 3:
+	                    default:
+	                    	ta.value = ta.value + '\n' 
+                			+ "[" + client + "(" + devType + ")] " + rsp.data;
+	                    }
+	                    ta.scrollTop = ta.scrollHeight;
+	                };
+	                socket.onopen = function(event) {
+	                    var ta = document.getElementById('responseText');
+	                    ta.value += "\nconnected!";
+	                    ta.scrollTop = ta.scrollHeight;
+	                };
+	                socket.onclose = function(event) {
+	                    var ta = document.getElementById('responseText');
+	                    ta.value += "\ndisconnected";
+	                    ta.scrollTop = ta.scrollHeight;
+	                };
+	                document.getElementById('login').value='logout'
+	            }
+	        }
+	        
+	        var sendText = function() {
+	            if (!window.WebSocket) {
+	                return;
+	            }
+	            if (socket.readyState == WebSocket.OPEN) {
+	            	var msg = {
+	            		type: 1,
+	            		data: document.getElementById("text").value
+	            	};
+	            	var json = JSON.stringify(msg);
+	                socket.send(json);
+	            } else {
+	                alert("not connected.");
+	            }
+	        }
+	        
+	        var sendPic = function() {
+	            if (!window.WebSocket) {
+	                return;
+	            }
+	            if (socket.readyState == WebSocket.OPEN) {
+	            	uploadPic(document.getElementById("text").value, socket);
+	            } else {
+	                alert("not connected.");
+	            }
+	        }
+	        
+	        document.getElementById("login").onclick = login;
+	        document.getElementById("sendText").onclick = sendText;
+	        document.getElementById("sendPic").onclick = sendPic;
+
+			var uploadPic = function(fileName) {				
+				var formData = new FormData();
+//			    formData.append("file", fileName); 
+				var file = $('#filePath')[0].files[0];
+				formData.append("file", file);
+			    $.ajax({
+			        url: "/picture/channel/" + srvChannel,
+			        dataType: "json",
+			        type: "post",
+			        data: formData, 
+			        processData: false,
+			        contentType: false,
+			        error: function (res) {
+			            alert(res.desc);
+			            return;
+			        },
+			        success: function (res) {
+		            	var msg = {
+			            		type: 2,
+			            		data: res.pic
+			            	};
+			            	var json = JSON.stringify(msg);
+			                socket.send(json);
+			            return;
+			        }
+				});
+			};
+		});
+	/*]]>*/
+	</script>
 </head>
 <body>
     <form onsubmit="return false;">
-        <h3>Welcome to uChat         
+        <h3>Welcome to uChat 
         	<input id="login" type="button" value="login"/>
         </h3>
-        <textarea id="responseText" readonly="readonly" style="width: 500px; height: 300px;"></textarea>
-        <br>
-        <input id="text" type="text" name="message"  style="width: 300px;" value=""/>
-        <input id="send" type="button" value="send"/>
+        <table>
+        <tr>
+        <td>
+        <textarea id="responseText" readonly="readonly" style="width: 500px; height: 500px;"></textarea>
+        </td>
+        <td>
+	        <div style="width: 500px; height: 500px;"><img id="chatImg" src="/images/uChat.jpg"></div>
+        </td>
+        </tr>
+        </table>
+        <input id="text" type="text" name="message"  style="width: 400px;" value=""/>
+        <input id="sendText" type="button" value="send text"/>
+	    <input id="filePath" name="filePath" type="file"/>
+        <input id="sendPic" type="button" value="send picture"/>
         <input id="clear" type="button" onclick="javascript:document.getElementById('responseText').value=''" value="clear"/>
     </form>
-    <br/> 
-	<script type="text/javascript">
-	/*<![CDATA[*/
-        var socket;
-        if (!window.WebSocket) {
-            window.WebSocket = window.MozWebSocket;
-	        if (!window.WebSocket) {
-	        	document.getElementById('responseText').value="Browser doesn't support WebSocket！";
-	        }
-        }
-
-        var login = function() {
-            if (socket && socket.readyState == WebSocket.OPEN) {
-            	socket.close();
-                document.getElementById('login').value='login'
-            	return;
-            } else {
-                socket = new WebSocket("wss://127.0.0.1:9090/ws");
-//                socket = new WebSocket("ws://52.81.17.213:9090/ws");
-                socket.onmessage = function(event) {
-                    var ta = document.getElementById('responseText');
-                    ta.value = ta.value + '\n' + event.data
-                    ta.scrollTop = ta.scrollHeight;
-                };
-                socket.onopen = function(event) {
-                    var ta = document.getElementById('responseText');
-                    ta.value += "\nconnected!";
-                    ta.scrollTop = ta.scrollHeight;
-                };
-                socket.onclose = function(event) {
-                    var ta = document.getElementById('responseText');
-                    ta.value += "\ndisconnected";
-                    ta.scrollTop = ta.scrollHeight;
-                };
-                document.getElementById('login').value='logout'
-            }
-        }
-        
-        var send = function() {
-            if (!window.WebSocket) {
-                return;
-            }
-            if (socket.readyState == WebSocket.OPEN) {
-                socket.send(document.getElementById("text").value);
-            } else {
-                alert("not connected.");
-            }
-        }
-        
-        document.getElementById("login").onclick = login;
-        document.getElementById("send").onclick = send;
-        
-   	/*]]>*/
-    </script>
 </body>
 </html>

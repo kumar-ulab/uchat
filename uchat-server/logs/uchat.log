@@ -1,0 +1,1101 @@
+09:10:56.742 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (54  ) : Client(f51f4721):/0:0:0:0:0:0:0:1:61948 disconnected
+09:10:56.751 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (41  ) : Client(f51f4721):/0:0:0:0:0:0:0:1:61948 leave
+09:10:57.827 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (30  ) : Client(2f72c6bd):/0:0:0:0:0:0:0:1:56344 join
+09:10:57.834 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (48  ) : Client(2f72c6bd):/0:0:0:0:0:0:0:1:56344 online
+09:11:03.959 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 3333
+09:11:04.604 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 3333
+09:11:05.032 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 3333
+09:11:05.247 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 3333
+09:11:05.465 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 3333
+09:11:05.752 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 3333
+10:26:03.985 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (30  ) : Client(2cd26650):/127.0.0.1:59073 join
+10:26:04.577 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (48  ) : Client(2cd26650):/127.0.0.1:59073 online
+10:26:53.111 [ntLoopGroup-3-3]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:59073 error
+java.lang.ClassCastException: io.netty.handler.codec.http.DefaultFullHttpRequest cannot be cast to io.netty.handler.codec.http.websocketx.TextWebSocketFrame
+	at com.ulab.uchat.server.WebSocketTextHandler.channelRead0(WebSocketTextHandler.java:1)
+	at com.ulab.uchat.server.UlabChannelInboundHandler.channelRead(UlabChannelInboundHandler.java:42)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:102)
+	at com.ulab.uchat.server.UchatWebSocketServerProtocolHandler.channelRead(UchatWebSocketServerProtocolHandler.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.Utf8FrameValidator.channelRead(Utf8FrameValidator.java:77)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:65)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:102)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+10:26:53.385 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (54  ) : Client(2cd26650):/127.0.0.1:59073 disconnected
+10:26:53.386 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (41  ) : Client(2cd26650):/127.0.0.1:59073 leave
+10:55:13.506 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (30  ) : Client(7d18a677):/127.0.0.1:60940 join
+10:55:13.553 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (48  ) : Client(7d18a677):/127.0.0.1:60940 online
+10:55:13.562 [ntLoopGroup-3-4]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:60940 error
+java.lang.ClassCastException: io.netty.handler.codec.http.DefaultFullHttpRequest cannot be cast to io.netty.handler.codec.http.websocketx.TextWebSocketFrame
+	at com.ulab.uchat.server.WebSocketTextHandler.channelRead0(WebSocketTextHandler.java:1)
+	at com.ulab.uchat.server.UlabChannelInboundHandler.channelRead(UlabChannelInboundHandler.java:42)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:102)
+	at com.ulab.uchat.server.UchatWebSocketServerProtocolHandler.channelRead(UchatWebSocketServerProtocolHandler.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.Utf8FrameValidator.channelRead(Utf8FrameValidator.java:77)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:65)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:102)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+10:55:13.566 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (54  ) : Client(7d18a677):/127.0.0.1:60940 disconnected
+10:55:13.567 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (41  ) : Client(7d18a677):/127.0.0.1:60940 leave
+10:57:03.936 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 30164 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+10:57:03.949 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+10:57:08.479 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+10:57:08.520 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+10:57:08.582 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+10:57:08.583 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+10:57:08.919 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+10:57:08.920 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 4684 ms
+10:57:09.771 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+10:57:10.251 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+10:57:10.896 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+10:57:12.276 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+10:57:12.281 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 9.989 seconds (JVM running for 10.91)
+10:57:12.431 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+10:57:16.638 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(622cfd16):/127.0.0.1:61094 join
+10:57:16.824 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (48  ) : Client(622cfd16):/127.0.0.1:61094 online
+10:57:23.550 [ntLoopGroup-3-1]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:61094 error
+java.lang.ClassCastException: io.netty.handler.codec.http.DefaultFullHttpRequest cannot be cast to io.netty.handler.codec.http.websocketx.TextWebSocketFrame
+	at com.ulab.uchat.server.WebSocketTextHandler.channelRead0(WebSocketTextHandler.java:1)
+	at com.ulab.uchat.server.UlabChannelInboundHandler.channelRead(UlabChannelInboundHandler.java:42)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:102)
+	at com.ulab.uchat.server.UchatWebSocketServerProtocolHandler.channelRead(UchatWebSocketServerProtocolHandler.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at io.netty.handler.codec.http.websocketx.Utf8FrameValidator.channelRead(Utf8FrameValidator.java:77)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:65)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelRead(ChannelInboundHandlerAdapter.java:93)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:102)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:20)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+10:57:23.560 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (54  ) : Client(622cfd16):/127.0.0.1:61094 disconnected
+10:57:23.561 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (41  ) : Client(622cfd16):/127.0.0.1:61094 leave
+10:59:04.355 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 9676 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+10:59:04.383 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+10:59:10.053 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+10:59:10.117 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+10:59:10.155 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+10:59:10.157 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+10:59:10.666 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+10:59:10.667 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 6063 ms
+10:59:12.338 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+10:59:12.848 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+10:59:13.788 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+10:59:15.162 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+10:59:15.174 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 14.42 seconds (JVM running for 19.167)
+10:59:15.451 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+10:59:28.203 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(11aba3b3):/127.0.0.1:61259 join
+10:59:28.665 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (48  ) : Client(11aba3b3):/127.0.0.1:61259 online
+11:02:17.404 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 28080 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+11:02:17.412 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+11:02:21.757 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+11:02:21.797 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+11:02:21.830 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+11:02:21.831 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+11:02:22.152 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+11:02:22.153 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 4631 ms
+11:02:22.990 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+11:02:23.380 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+11:02:24.271 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+11:02:25.736 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+11:02:25.742 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 9.695 seconds (JVM running for 11.02)
+11:02:25.889 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+11:03:32.936 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 25760 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+11:03:32.942 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+11:03:37.692 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+11:03:37.732 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+11:03:37.782 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+11:03:37.783 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+11:03:38.160 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+11:03:38.161 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 5065 ms
+11:03:38.920 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+11:03:39.256 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+11:03:39.822 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+11:03:39.846 [           main]                 o.a.c.util.LifecycleBase (175 ) : Failed to start component [Connector[HTTP/1.1-9443]]
+org.apache.catalina.LifecycleException: Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1008)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:226)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.addPreviouslyRemovedConnectors(TomcatWebServer.java:259)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:197)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.startWebServer(ServletWebServerApplicationContext.java:311)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.finishRefresh(ServletWebServerApplicationContext.java:164)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:552)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:142)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:316)
+	at com.ulab.uchat.server.App.main(App.java:15)
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:239)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:213)
+	at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1116)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:1202)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:568)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1005)
+	... 12 common frames omitted
+11:03:39.858 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Pausing ProtocolHandler ["https-jsse-nio-9443"]
+11:03:39.858 [           main]               o.a.c.core.StandardService (173 ) : Stopping service [Tomcat]
+11:03:39.961 [           main]                 o.a.c.util.LifecycleBase (173 ) : The stop() method was called on component [StandardServer[-1]] after stop() had already been called. The second call will be ignored.
+11:03:39.963 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Stopping ProtocolHandler ["https-jsse-nio-9443"]
+11:03:39.966 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Destroying ProtocolHandler ["https-jsse-nio-9443"]
+11:03:40.007 [           main] ConditionEvaluationReportLoggingListener (142 ) : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+11:03:40.013 [           main]   o.s.b.d.LoggingFailureAnalysisReporter (42  ) : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 9443 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 9443, or configure this application to listen on another port.
+
+11:03:40.072 [           main]           o.s.s.c.ThreadPoolTaskExecutor (208 ) : Shutting down ExecutorService 'applicationTaskExecutor'
+11:12:23.282 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 23456 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+11:12:23.293 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+11:12:27.162 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+11:12:27.208 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+11:12:27.239 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+11:12:27.240 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+11:12:27.538 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+11:12:27.539 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 4120 ms
+11:12:28.411 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+11:12:28.769 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+11:12:29.342 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+11:12:30.653 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+11:12:30.672 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 9.177 seconds (JVM running for 10.939)
+11:12:30.900 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+11:13:17.655 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(5872de17):/127.0.0.1:61777 join
+11:13:17.978 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (48  ) : Client(5872de17):/127.0.0.1:61777 online
+11:15:21.798 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 30640 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+11:15:21.822 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+11:15:25.512 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+11:15:25.540 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+11:15:25.567 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+11:15:25.568 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+11:15:25.829 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+11:15:25.829 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3765 ms
+11:15:26.726 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+11:15:27.003 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+11:15:27.737 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+11:15:28.881 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+11:15:28.887 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 8.127 seconds (JVM running for 8.922)
+11:15:28.997 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+11:15:51.510 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:15:51.510 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+11:15:51.530 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 19 ms
+11:15:54.626 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(7ccbd38c):/0:0:0:0:0:0:0:1:61892 join
+11:15:54.712 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (48  ) : Client(7ccbd38c):/0:0:0:0:0:0:0:1:61892 online
+11:15:54.747 [ntLoopGroup-3-1]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/0:0:0:0:0:0:0:1:61892 error
+java.lang.ClassCastException: io.netty.handler.codec.http.DefaultHttpRequest cannot be cast to io.netty.handler.codec.http.FullHttpRequest
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:63)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+11:15:54.753 [ntLoopGroup-3-1]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/0:0:0:0:0:0:0:1:61892 error
+java.lang.ClassCastException: io.netty.handler.codec.http.LastHttpContent$1 cannot be cast to io.netty.handler.codec.http.FullHttpRequest
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:63)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+11:15:54.754 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (54  ) : Client(7ccbd38c):/0:0:0:0:0:0:0:1:61892 disconnected
+11:15:54.755 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (41  ) : Client(7ccbd38c):/0:0:0:0:0:0:0:1:61892 leave
+11:21:06.805 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (30  ) : Client(a2ccb13d):/0:0:0:0:0:0:0:1:61936 join
+11:21:06.809 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (48  ) : Client(a2ccb13d):/0:0:0:0:0:0:0:1:61936 online
+11:21:06.810 [ntLoopGroup-3-2]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/0:0:0:0:0:0:0:1:61936 error
+java.lang.ClassCastException: io.netty.handler.codec.http.DefaultHttpRequest cannot be cast to io.netty.handler.codec.http.FullHttpRequest
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:63)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+11:21:06.811 [ntLoopGroup-3-2]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/0:0:0:0:0:0:0:1:61936 error
+java.lang.ClassCastException: io.netty.handler.codec.http.LastHttpContent$1 cannot be cast to io.netty.handler.codec.http.FullHttpRequest
+	at io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandshakeHandler.channelRead(WebSocketServerProtocolHandshakeHandler.java:63)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketChunkedWriteHandler.channelRead(WebsocketChunkedWriteHandler.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.WebsocketHttpObjectAggregator.channelRead(WebsocketHttpObjectAggregator.java:22)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.CombinedChannelDuplexHandler$DelegatingChannelHandlerContext.fireChannelRead(CombinedChannelDuplexHandler.java:436)
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:316)
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:290)
+	at io.netty.channel.CombinedChannelDuplexHandler.channelRead(CombinedChannelDuplexHandler.java:251)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at com.ulab.uchat.server.ClientTypeJudgeHandler.channelRead(ClientTypeJudgeHandler.java:43)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:355)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1410)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:377)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:363)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:919)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:163)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+11:21:06.812 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (54  ) : Client(a2ccb13d):/0:0:0:0:0:0:0:1:61936 disconnected
+11:21:06.812 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (41  ) : Client(a2ccb13d):/0:0:0:0:0:0:0:1:61936 leave
+11:21:37.400 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 27092 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+11:21:37.414 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+11:21:42.101 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+11:21:42.150 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+11:21:42.184 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+11:21:42.185 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+11:21:42.488 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+11:21:42.488 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 4912 ms
+11:21:43.891 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+11:21:44.366 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+11:21:45.225 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+11:21:46.627 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+11:21:46.647 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 11.333 seconds (JVM running for 12.847)
+11:21:47.064 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+11:21:47.309 [nio-9443-exec-7]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:21:47.310 [nio-9443-exec-7]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+11:21:47.334 [nio-9443-exec-7]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 23 ms
+11:22:01.576 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(cf413223):/0:0:0:0:0:0:0:1:62034 join
+11:22:01.747 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (48  ) : Client(cf413223):/0:0:0:0:0:0:0:1:62034 online
+13:30:41.703 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 22264 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+13:30:41.708 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+13:30:44.791 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+13:30:44.815 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+13:30:44.842 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+13:30:44.842 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+13:30:45.242 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+13:30:45.243 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3396 ms
+13:30:45.927 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+13:30:46.261 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+13:30:46.970 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+13:30:48.306 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+13:30:48.313 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 7.531 seconds (JVM running for 8.227)
+13:30:48.542 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+13:30:48.792 [io-9443-exec-10]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:30:48.792 [io-9443-exec-10]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+13:30:48.806 [io-9443-exec-10]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 13 ms
+13:30:50.484 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(07822c0f):/0:0:0:0:0:0:0:1:63371 join
+13:30:50.529 [ntLoopGroup-3-1]             i.n.c.DefaultChannelPipeline (618 ) : Failed to remove a handler: UlabHttpServerCodec#0
+java.lang.NullPointerException: null
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerRemoved(CombinedChannelDuplexHandler.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:964)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:614)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:21)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+13:30:50.530 [ntLoopGroup-3-1]           i.n.channel.ChannelInitializer (97  ) : Failed to initialize a channel. Closing: [id: 0x07822c0f, L:/0:0:0:0:0:0:0:1:8080 - R:/0:0:0:0:0:0:0:1:63371]
+io.netty.channel.ChannelPipelineException: com.ulab.uchat.server.UlabHttpServerCodec.handlerAdded() has thrown an exception; also failed to remove.
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:628)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:21)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.IllegalStateException: init() must be invoked before being added to a ChannelPipeline if CombinedChannelDuplexHandler was constructed with the default constructor.
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerAdded(CombinedChannelDuplexHandler.java:132)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	... 23 common frames omitted
+13:30:50.599 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (54  ) : Client(07822c0f):/0:0:0:0:0:0:0:1:63371 disconnected
+13:30:50.600 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (41  ) : Client(07822c0f):/0:0:0:0:0:0:0:1:63371 leave
+13:33:44.797 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 8872 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+13:33:44.807 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+13:33:49.078 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+13:33:49.123 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+13:33:49.157 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+13:33:49.158 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+13:33:49.455 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+13:33:49.456 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 4527 ms
+13:33:50.355 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+13:33:50.743 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+13:33:51.398 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+13:33:52.678 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+13:33:52.708 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 10.001 seconds (JVM running for 12.408)
+13:33:52.999 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+13:33:54.642 [nio-9443-exec-9]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+13:33:54.643 [nio-9443-exec-9]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+13:33:54.693 [nio-9443-exec-9]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 49 ms
+13:34:03.077 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(82127c83):/0:0:0:0:0:0:0:1:63526 join
+13:34:03.147 [ntLoopGroup-3-1]             i.n.c.DefaultChannelPipeline (618 ) : Failed to remove a handler: UlabHttpServerCodec#0
+java.lang.NullPointerException: null
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerRemoved(CombinedChannelDuplexHandler.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:964)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:614)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:21)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+13:34:03.148 [ntLoopGroup-3-1]           i.n.channel.ChannelInitializer (97  ) : Failed to initialize a channel. Closing: [id: 0x82127c83, L:/0:0:0:0:0:0:0:1:8080 - R:/0:0:0:0:0:0:0:1:63526]
+io.netty.channel.ChannelPipelineException: com.ulab.uchat.server.UlabHttpServerCodec.handlerAdded() has thrown an exception; also failed to remove.
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:628)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:21)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.IllegalStateException: init() must be invoked before being added to a ChannelPipeline if CombinedChannelDuplexHandler was constructed with the default constructor.
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerAdded(CombinedChannelDuplexHandler.java:132)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	... 23 common frames omitted
+13:34:03.275 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (54  ) : Client(82127c83):/0:0:0:0:0:0:0:1:63526 disconnected
+13:34:03.276 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (41  ) : Client(82127c83):/0:0:0:0:0:0:0:1:63526 leave
+13:35:30.677 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (30  ) : Client(c6390393):/0:0:0:0:0:0:0:1:63548 join
+13:35:46.029 [ntLoopGroup-3-2]             i.n.c.DefaultChannelPipeline (618 ) : Failed to remove a handler: UlabHttpServerCodec#0
+java.lang.NullPointerException: null
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerRemoved(CombinedChannelDuplexHandler.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:964)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:614)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:21)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+13:35:46.071 [ntLoopGroup-3-2]           i.n.channel.ChannelInitializer (97  ) : Failed to initialize a channel. Closing: [id: 0xc6390393, L:/0:0:0:0:0:0:0:1:8080 - R:/0:0:0:0:0:0:0:1:63548]
+io.netty.channel.ChannelPipelineException: com.ulab.uchat.server.UlabHttpServerCodec.handlerAdded() has thrown an exception; also failed to remove.
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:628)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:21)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.IllegalStateException: init() must be invoked before being added to a ChannelPipeline if CombinedChannelDuplexHandler was constructed with the default constructor.
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerAdded(CombinedChannelDuplexHandler.java:132)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	... 23 common frames omitted
+14:12:53.757 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 26832 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+14:12:53.762 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+14:12:56.764 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+14:12:56.786 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+14:12:56.810 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+14:12:56.810 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+14:12:57.010 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+14:12:57.011 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3105 ms
+14:12:57.649 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+14:12:57.902 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+14:12:58.368 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+14:12:59.418 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+14:12:59.423 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 6.639 seconds (JVM running for 7.326)
+14:12:59.516 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+14:13:17.810 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+14:13:17.811 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+14:13:17.826 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 15 ms
+14:13:20.355 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(f5c1cf68):/0:0:0:0:0:0:0:1:64155 join
+14:13:20.402 [ntLoopGroup-3-1]             i.n.c.DefaultChannelPipeline (618 ) : Failed to remove a handler: UlabHttpServerCodec#0
+java.lang.NullPointerException: null
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerRemoved(CombinedChannelDuplexHandler.java:183)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerRemoved(AbstractChannelHandlerContext.java:964)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:614)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:22)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+14:13:20.403 [ntLoopGroup-3-1]           i.n.channel.ChannelInitializer (97  ) : Failed to initialize a channel. Closing: [id: 0xf5c1cf68, L:/0:0:0:0:0:0:0:1:8080 - R:/0:0:0:0:0:0:0:1:64155]
+io.netty.channel.ChannelPipelineException: com.ulab.uchat.server.UlabHttpServerCodec.handlerAdded() has thrown an exception; also failed to remove.
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:628)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:223)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:381)
+	at io.netty.channel.DefaultChannelPipeline.addLast(DefaultChannelPipeline.java:370)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:22)
+	at com.ulab.uchat.server.WebsocketChatServerInitializer.initChannel(WebsocketChatServerInitializer.java:1)
+	at io.netty.channel.ChannelInitializer.initChannel(ChannelInitializer.java:129)
+	at io.netty.channel.ChannelInitializer.handlerAdded(ChannelInitializer.java:112)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	at io.netty.channel.DefaultChannelPipeline.access$100(DefaultChannelPipeline.java:46)
+	at io.netty.channel.DefaultChannelPipeline$PendingHandlerAddedTask.execute(DefaultChannelPipeline.java:1463)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAddedForAllHandlers(DefaultChannelPipeline.java:1115)
+	at io.netty.channel.DefaultChannelPipeline.invokeHandlerAddedIfNeeded(DefaultChannelPipeline.java:650)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.register0(AbstractChannel.java:502)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe.access$200(AbstractChannel.java:417)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$1.run(AbstractChannel.java:474)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.lang.IllegalStateException: init() must be invoked before being added to a ChannelPipeline if CombinedChannelDuplexHandler was constructed with the default constructor.
+	at io.netty.channel.CombinedChannelDuplexHandler.handlerAdded(CombinedChannelDuplexHandler.java:132)
+	at io.netty.channel.AbstractChannelHandlerContext.callHandlerAdded(AbstractChannelHandlerContext.java:956)
+	at io.netty.channel.DefaultChannelPipeline.callHandlerAdded0(DefaultChannelPipeline.java:609)
+	... 23 common frames omitted
+14:13:20.463 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (54  ) : Client(f5c1cf68):/0:0:0:0:0:0:0:1:64155 disconnected
+14:13:20.464 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (41  ) : Client(f5c1cf68):/0:0:0:0:0:0:0:1:64155 leave
+14:14:00.792 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 21136 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+14:14:00.797 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+14:14:03.890 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+14:14:03.916 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+14:14:03.944 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+14:14:03.945 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+14:14:04.189 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+14:14:04.190 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3242 ms
+14:14:04.836 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+14:14:05.105 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+14:14:05.539 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+14:14:06.589 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+14:14:06.594 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 6.788 seconds (JVM running for 7.495)
+14:14:06.678 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+14:14:13.594 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+14:14:13.595 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+14:14:13.609 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 14 ms
+14:14:16.564 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (30  ) : Client(af164d59):/0:0:0:0:0:0:0:1:64243 join
+14:14:16.570 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (48  ) : Client(af164d59):/0:0:0:0:0:0:0:1:64243 online
+14:14:21.618 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:22.632 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:23.265 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:23.504 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:23.721 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:23.912 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:24.097 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:24.272 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:24.497 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:24.729 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:24.969 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 导导弹
+14:14:42.758 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (30  ) : Client(6a5718ba):/127.0.0.1:64278 join
+14:14:42.760 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (48  ) : Client(6a5718ba):/127.0.0.1:64278 online
+15:15:03.245 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 23012 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+15:15:03.249 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+15:15:06.288 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+15:15:06.315 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+15:15:06.338 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+15:15:06.339 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+15:15:06.522 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+15:15:06.523 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3121 ms
+15:15:07.162 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+15:15:07.432 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+15:15:07.889 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+15:15:09.016 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+15:15:09.020 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 6.769 seconds (JVM running for 7.613)
+15:15:09.108 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+15:15:19.881 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:15:19.881 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+15:15:19.892 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 10 ms
+15:15:21.285 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (25  ) : Client(652dff8f):/0:0:0:0:0:0:0:1:65015 join
+15:15:21.291 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (40  ) : Client(652dff8f):/0:0:0:0:0:0:0:1:65015 online
+15:15:21.321 [ntLoopGroup-3-1]           c.u.u.s.ClientTypeJudgeHandler (37  ) : 
+15:15:36.494 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (25  ) : Client(7dab64aa):/0:0:0:0:0:0:0:1:65024 join
+15:15:36.496 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (40  ) : Client(7dab64aa):/0:0:0:0:0:0:0:1:65024 online
+15:15:36.497 [ntLoopGroup-3-2]           c.u.u.s.ClientTypeJudgeHandler (37  ) : 
+15:16:10.469 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (25  ) : Client(ab03e03a):/127.0.0.1:65066 join
+15:16:10.470 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (40  ) : Client(ab03e03a):/127.0.0.1:65066 online
+15:16:55.428 [ntLoopGroup-3-1]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: sss
+15:17:00.555 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: ffff
+15:26:44.635 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (25  ) : Client(92eba346):/127.0.0.1:65198 join
+15:26:44.636 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (40  ) : Client(92eba346):/127.0.0.1:65198 online
+15:27:15.757 [ntLoopGroup-3-4]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:65198 error
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:251)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+15:27:15.761 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (46  ) : Client(92eba346):/127.0.0.1:65198 inactive
+15:27:15.762 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (33  ) : Client(92eba346):/127.0.0.1:65198 leave
+15:27:17.662 [ntLoopGroup-3-3]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:65066 error
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:251)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+15:27:17.663 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (46  ) : Client(ab03e03a):/127.0.0.1:65066 inactive
+15:27:17.664 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (33  ) : Client(ab03e03a):/127.0.0.1:65066 leave
+15:27:38.572 [ntLoopGroup-3-5]           c.u.u.server.ConnectionHandler (25  ) : Client(6079060c):/127.0.0.1:65238 join
+15:27:38.573 [ntLoopGroup-3-5]           c.u.u.server.ConnectionHandler (40  ) : Client(6079060c):/127.0.0.1:65238 online
+15:27:58.748 [ntLoopGroup-3-5]             i.n.c.DefaultChannelPipeline (1152) : An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:251)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+15:27:58.749 [ntLoopGroup-3-5]           c.u.u.server.ConnectionHandler (46  ) : Client(6079060c):/127.0.0.1:65238 inactive
+15:27:58.750 [ntLoopGroup-3-5]           c.u.u.server.ConnectionHandler (33  ) : Client(6079060c):/127.0.0.1:65238 leave
+15:28:07.105 [ntLoopGroup-3-6]           c.u.u.server.ConnectionHandler (25  ) : Client(d068ac38):/127.0.0.1:65282 join
+15:28:07.106 [ntLoopGroup-3-6]           c.u.u.server.ConnectionHandler (40  ) : Client(d068ac38):/127.0.0.1:65282 online
+15:28:40.373 [ntLoopGroup-3-6]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:65282 error
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:251)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+15:28:40.374 [ntLoopGroup-3-6]           c.u.u.server.ConnectionHandler (46  ) : Client(d068ac38):/127.0.0.1:65282 inactive
+15:28:40.375 [ntLoopGroup-3-6]           c.u.u.server.ConnectionHandler (33  ) : Client(d068ac38):/127.0.0.1:65282 leave
+15:29:49.681 [ntLoopGroup-3-7]           c.u.u.server.ConnectionHandler (25  ) : Client(4d227810):/127.0.0.1:65327 join
+15:29:49.682 [ntLoopGroup-3-7]           c.u.u.server.ConnectionHandler (40  ) : Client(4d227810):/127.0.0.1:65327 online
+15:43:54.409 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 22800 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+15:43:54.415 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+15:43:57.870 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+15:43:57.928 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+15:43:57.976 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+15:43:57.977 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+15:43:58.313 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+15:43:58.314 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3813 ms
+15:43:59.056 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+15:43:59.356 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+15:43:59.945 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+15:44:01.108 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+15:44:01.113 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 7.727 seconds (JVM running for 8.51)
+15:44:01.205 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+15:44:08.449 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (25  ) : Client(bb6a0248):/127.0.0.1:49195 join
+15:44:08.456 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (40  ) : Client(bb6a0248):/127.0.0.1:49195 online
+15:44:21.686 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49195)  792ab23ettt
+15:46:17.088 [ntLoopGroup-3-1]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:49195 error
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:251)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+15:46:17.091 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (46  ) : Client(bb6a0248):/127.0.0.1:49195 inactive
+15:46:17.092 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (33  ) : Client(bb6a0248):/127.0.0.1:49195 leave
+15:46:25.125 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (25  ) : Client(891c7bb2):/127.0.0.1:49245 join
+15:46:25.126 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (40  ) : Client(891c7bb2):/127.0.0.1:49245 online
+15:46:29.308 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49245)  ff
+15:47:04.433 [nio-9443-exec-7]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:47:04.434 [nio-9443-exec-7]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+15:47:04.447 [nio-9443-exec-7]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 13 ms
+15:47:06.019 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (25  ) : Client(d7dd8912):/0:0:0:0:0:0:0:1:49259 join
+15:47:06.020 [ntLoopGroup-3-3]           c.u.u.server.ConnectionHandler (40  ) : Client(d7dd8912):/0:0:0:0:0:0:0:1:49259 online
+15:47:06.022 [ntLoopGroup-3-3]           c.u.u.s.ClientTypeJudgeHandler (37  ) : 
+15:47:14.403 [ntLoopGroup-3-2]        c.u.u.s.UlabChannelInboundHandler (58  ) : Client:/127.0.0.1:49245 error
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:223)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:192)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:380)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:251)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1133)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:148)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:714)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:576)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:493)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.lang.Thread.run(Thread.java:748)
+15:47:14.404 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (46  ) : Client(891c7bb2):/127.0.0.1:49245 inactive
+15:47:14.405 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (33  ) : Client(891c7bb2):/127.0.0.1:49245 leave
+15:47:23.360 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (25  ) : Client(a7cb9af1):/127.0.0.1:49294 join
+15:47:23.361 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (40  ) : Client(a7cb9af1):/127.0.0.1:49294 online
+15:47:27.404 [ntLoopGroup-3-4]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49294)  r
+15:52:32.041 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 24332 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+15:52:32.046 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+15:52:35.366 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+15:52:35.392 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+15:52:35.415 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+15:52:35.416 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+15:52:35.602 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+15:52:35.603 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3426 ms
+15:52:36.242 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+15:52:36.661 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+15:52:37.197 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+15:52:38.400 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+15:52:38.404 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 7.289 seconds (JVM running for 8.009)
+15:52:38.492 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+15:52:47.592 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (25  ) : Client(584baa98):/127.0.0.1:49445 join
+15:52:47.600 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (40  ) : Client(584baa98):/127.0.0.1:49445 online
+15:52:49.938 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:52:49.939 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+15:52:49.952 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 12 ms
+15:52:52.828 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (25  ) : Client(1fc3a4fd):/0:0:0:0:0:0:0:1:49457 join
+15:52:52.829 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (40  ) : Client(1fc3a4fd):/0:0:0:0:0:0:0:1:49457 online
+15:52:52.830 [ntLoopGroup-3-2]           c.u.u.s.ClientTypeJudgeHandler (37  ) : 
+15:52:58.938 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49445)  fff
+15:53:11.781 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: kkk
+15:53:17.373 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: kkkkkk
+15:53:24.274 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49445) uuu
+15:55:19.628 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 21032 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+15:55:19.634 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+15:55:22.845 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+15:55:22.882 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+15:55:22.921 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+15:55:22.921 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+15:55:23.229 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+15:55:23.229 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3451 ms
+15:55:23.951 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+15:55:24.263 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+15:55:24.819 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+15:55:26.001 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+15:55:26.006 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 7.38 seconds (JVM running for 8.107)
+15:55:26.092 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+15:55:35.358 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (25  ) : Client(e0fa82ca):/127.0.0.1:49596 join
+15:55:35.365 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (40  ) : Client(e0fa82ca):/127.0.0.1:49596 online
+15:55:36.960 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:55:36.961 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+15:55:36.973 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 11 ms
+15:55:45.529 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (25  ) : Client(36489e48):/0:0:0:0:0:0:0:1:49603 join
+15:55:45.530 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (40  ) : Client(36489e48):/0:0:0:0:0:0:0:1:49603 online
+15:55:45.533 [ntLoopGroup-3-2]           c.u.u.s.ClientTypeJudgeHandler (37  ) : 
+15:55:47.883 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49596)  1
+15:55:52.259 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 2
+15:55:59.436 [ntLoopGroup-3-2]             c.u.u.s.WebSocketTextHandler (23  ) : got msg: 2
+15:57:20.795 [           main]                com.ulab.uchat.server.App (50  ) : Starting App on LAPTOP-J8RNTEVT with PID 19908 (D:\chry\projects\uChat\uchat-server\target\classes started by chry in D:\chry\projects\uChat\uchat-server)
+15:57:20.799 [           main]                com.ulab.uchat.server.App (679 ) : The following profiles are active: dev
+15:57:23.966 [           main]              o.s.b.w.e.t.TomcatWebServer (90  ) : Tomcat initialized with port(s): 9443 (https)
+15:57:23.988 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Initializing ProtocolHandler ["https-jsse-nio-9443"]
+15:57:24.013 [           main]               o.a.c.core.StandardService (173 ) : Starting service [Tomcat]
+15:57:24.014 [           main]                o.a.c.core.StandardEngine (173 ) : Starting Servlet engine: [Apache Tomcat/9.0.19]
+15:57:24.273 [           main]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring embedded WebApplicationContext
+15:57:24.273 [           main]            o.s.web.context.ContextLoader (296 ) : Root WebApplicationContext: initialization completed in 3332 ms
+15:57:25.001 [           main]           o.s.s.c.ThreadPoolTaskExecutor (171 ) : Initializing ExecutorService 'applicationTaskExecutor'
+15:57:25.300 [           main]    o.s.b.a.w.s.WelcomePageHandlerMapping (61  ) : Adding welcome page template: index
+15:57:25.809 [           main]           o.a.c.http11.Http11NioProtocol (173 ) : Starting ProtocolHandler ["https-jsse-nio-9443"]
+15:57:26.970 [           main]              o.s.b.w.e.t.TomcatWebServer (204 ) : Tomcat started on port(s): 9443 (https) with context path ''
+15:57:26.977 [           main]                com.ulab.uchat.server.App (59  ) : Started App in 7.143 seconds (JVM running for 7.846)
+15:57:27.068 [           main]              c.u.u.s.WebsocketChatServer (37  ) : WebsocketChatServer started
+15:57:32.668 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (25  ) : Client(cbf9125c):/127.0.0.1:49732 join
+15:57:32.676 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (40  ) : Client(cbf9125c):/127.0.0.1:49732 online
+15:57:36.235 [nio-9443-exec-8]              o.a.c.c.C.[.[localhost].[/] (173 ) : Initializing Spring DispatcherServlet 'dispatcherServlet'
+15:57:36.237 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (524 ) : Initializing Servlet 'dispatcherServlet'
+15:57:36.248 [nio-9443-exec-8]                o.s.w.s.DispatcherServlet (546 ) : Completed initialization in 10 ms
+15:57:37.575 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (25  ) : Client(b3d3a30c):/0:0:0:0:0:0:0:1:49739 join
+15:57:37.576 [ntLoopGroup-3-2]           c.u.u.server.ConnectionHandler (40  ) : Client(b3d3a30c):/0:0:0:0:0:0:0:1:49739 online
+15:57:37.578 [ntLoopGroup-3-2]           c.u.u.s.ClientTypeJudgeHandler (37  ) : 
+15:57:42.676 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49732)  1
+15:57:47.708 [ntLoopGroup-3-2]        c.u.u.s.TextWebSocketFrameHandler (25  ) : [SERVER] - WebSocket(/0:0:0:0:0:0:0:1:49739) TextWebSocketFrame(data: PooledUnsafeDirectByteBuf(ridx: 0, widx: 1, cap: 1))
+15:57:53.824 [ntLoopGroup-3-1]           c.u.u.server.ConnectionHandler (21  ) : [SERVER] - UChatApp(/127.0.0.1:49732) 3
+15:57:58.725 [ntLoopGroup-3-2]        c.u.u.s.TextWebSocketFrameHandler (25  ) : [SERVER] - WebSocket(/0:0:0:0:0:0:0:1:49739) TextWebSocketFrame(data: PooledUnsafeDirectByteBuf(ridx: 0, widx: 1, cap: 1))

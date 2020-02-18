@@ -1,0 +1,14 @@
+spring:
+    profiles:
+        active: dev
+    application:
+        name: uchat
+
+netty:
+  bossThread: 2
+  workerThread: 2
+  keepalive: true
+  backlog: 100
+  
+logging:
+    config: classpath:log/logback.xml

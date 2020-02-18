@@ -38,6 +38,8 @@ netty:
 logging:
     config: classpath:log/logback.xml
 
+uchat:
+   root: D:\chry\downloaded\uchat
 #mybatis:
 #    type-aliases-package: com.ulab.sync.model.pojo
 #    configLocation: classpath:db/mybatis-config.xml
