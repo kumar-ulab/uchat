@@ -1,5 +1,6 @@
 package com.ulab.uchat.client;
 
+import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,8 +9,9 @@ import com.ulab.util.SpringUtil;
 
 @SpringBootApplication
 public class App {
-	public static String host = "127.0.0.1";
-	public static int port = 9090;
+	public static String host = "52.81.17.213";
+	public static int port = 9091;
+	public static int httpPort = 7080;
 
 	public static void main(String[] args) {
     	if (args.length > 0) {
@@ -18,7 +20,13 @@ public class App {
     	if (args.length > 1) {
         	port = Integer.parseInt(args[1]);
     	}
-        SpringApplication.run(App.class, args);
+    	if (args.length > 2) {
+    		httpPort = Integer.parseInt(args[1]);
+    	}
+        System.out.println("connecting to server(" + host + ":" + port + ")...");
+    	SpringApplication app = new SpringApplication(App.class);
+    	app.setBannerMode(Mode.OFF);
+    	app.run(args);
 //    	PictureChatClient pictureChatClient = SpringUtil.getBean(PictureChatClient.class);
 //    	pictureChatClient.init(host, port);
 //    	try {

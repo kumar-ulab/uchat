@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -19,8 +20,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.ulab.uchat.client.App;
+
 @Service
 public class HttpService {
+	
 	@Autowired RestTemplate restTemplate;
     private static final Logger log = LoggerFactory.getLogger(HttpService.class);
 	
@@ -36,7 +40,8 @@ public class HttpService {
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(MediaType.MULTIPART_FORM_DATA);
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multipartRequest, header);
-		String url = "https://localhost:9443/picture/channel/" + channelId;
+		String protocol = App.httpPort % 1000 == 443 ? "https://" : "http://"; 
+		String url = protocol + App.host + ":" + App.httpPort + "/picture/channel/" + channelId;
 		log.info("upload picture : " + filePath);
 		try {
 			ResponseEntity<Map> rsp =  restTemplate.exchange(

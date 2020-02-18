@@ -34,7 +34,7 @@
 	            } else {
 	            	var url=window.document.location.href;
 	            	var hostPos = url.indexOf("//") + 2 ;
-	            	var pathPos = url.indexOf(hostPos, "/");
+	            	var pathPos = url.indexOf("/", hostPos);
 	            	var hostport;
 	            	if (pathPos >= 0) {
 	            		hostport = url.substring(hostPos, pathPos);
@@ -48,8 +48,8 @@
 	            	} else {
 	            		host = hostport;
 	            	}
-//	                socket = new WebSocket("wss://127.0.0.1:${chatport}/ws");
 					var wsport = [[${chatPort}]];
+//	                socket = new WebSocket("wss://" + host + ":" + wsport + "/ws");
 	                socket = new WebSocket("ws://" + host + ":" + wsport + "/ws");
 	                socket.onmessage = function(event) {
 	                    var ta = document.getElementById('responseText');

@@ -50,6 +50,7 @@ public class AppConfig {
 		requestFactory.setHttpClient(httpClient);
 		requestFactory.setConnectTimeout(2*60*1000);
         requestFactory.setReadTimeout(5*60*1000);
+//        requestFactory.setBufferRequestBody(false);
         
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
 //		restTemplate.setRequestFactory(requestFactory);

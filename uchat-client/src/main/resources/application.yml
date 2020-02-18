@@ -1,6 +1,6 @@
 spring:
     profiles:
-        active: dev
+        active: prod
     application:
         name: uchat
 
@@ -9,6 +9,6 @@ netty:
   workerThread: 2
   keepalive: true
   backlog: 100
-  
+
 logging:
     config: classpath:log/logback.xml

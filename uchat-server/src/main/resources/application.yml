@@ -1,10 +1,10 @@
 server:
-    port: 9443
-    ssl:
-        key-store: classpath:uchat.jks
-        key-store-password: ulab123
-        key-store-type: JKS
-        enabled: true
+    port: 7080
+#    ssl:
+#        key-store: classpath:uchat.jks
+#        key-store-password: ulab123
+#        key-store-type: JKS
+#        enabled: true
 
 multipart:
     maxFileSize: 200Mb
@@ -29,7 +29,7 @@ spring:
 #        publisher-confirms: true
 
 netty:
-  port: 9090    #监听端口
+  port: 9091    #监听端口
   bossThread: 2 #线程数
   workerThread: 2 #线程数
   keepalive: true #保持连接
@@ -39,7 +39,7 @@ logging:
     config: classpath:log/logback.xml
 
 uchat:
-   root: D:\chry\downloaded\uchat
+   root: /data/ulab/uchat/images
 #mybatis:
 #    type-aliases-package: com.ulab.sync.model.pojo
 #    configLocation: classpath:db/mybatis-config.xml
