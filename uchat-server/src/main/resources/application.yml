@@ -1,0 +1,47 @@
+server:
+    port: 7443
+    ssl:
+        key-store: classpath:ulab.jks
+        key-store-password: ulab123
+        key-store-type: PKCS12
+        enabled: true
+
+multipart:
+    maxFileSize: 200Mb
+    maxRequestSize: 200Mb
+
+spring:
+    profiles:
+        active: dev
+    application:
+        name: uchat
+    datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://52.81.17.213:3306/uchat
+        username: uchat
+        password: uchat123
+#    rabbitmq:
+#        host: 54.223.24.218
+#        port: 5672
+#        username: ulab
+#        password: ulab123456
+#        virtual-host: /
+#        publisher-confirms: true
+
+netty:
+  port: 9092    #监听端口
+  bossThread: 2 #线程数
+  workerThread: 2 #线程数
+  keepalive: true #保持连接
+  backlog: 100
+  
+logging:
+    config: classpath:log/logback.xml
+
+uchat:
+   root: /data/ulab/uchat/images
+
+mybatis:
+    type-aliases-package: com.ulab.uchat.model.pojo
+    configLocation: classpath:db/mybatis-config.xml
+    mapperLocations: classpath:db/mappers/*.xml
