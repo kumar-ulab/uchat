@@ -61,8 +61,11 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 	    	if (msgType == 0) {
 	    		clientType = ClientType.Byte2ClientType(clientVal);
 		        log.info("client " + ctx.channel() + ", type=" + clientType.name());
+	    	} else {
+	    		clientType = ClientType.Http;
 	    	}
-	        if (clientType == null) {
+			ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(clientType);
+	        if (clientType == ClientType.Http) {
 	        	//Websocket need further check by http handler
 				chatService.addWebSocketHandlers(ctx.channel());
 				ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(ClientType.Web);
@@ -73,7 +76,7 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 		        chatService.notifyAll(ctx.channel(), "join");
 	        }
 		} finally {
-	        if (clientType == null) {
+	        if (clientType == ClientType.Http) {
 		    	super.channelRead(ctx,msg);
 	        } else {
 	            ReferenceCountUtil.release(msg);

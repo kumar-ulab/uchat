@@ -49,8 +49,8 @@
 	            		host = hostport;
 	            	}
 					var wsport = [[${chatPort}]];
-//	                socket = new WebSocket("wss://" + host + ":" + wsport + "/ws");
-	                socket = new WebSocket("wss://" + host + ":" + wsport + "/ws");
+					var ws = [[${ws}]];
+	                socket = new WebSocket(ws + "://" + host + ":" + wsport + "/ws");
 	                socket.onmessage = function(event) {
 	                    var ta = document.getElementById('responseText');
 	                    var rsp = JSON.parse(event.data);
@@ -156,9 +156,12 @@
 </head>
 <body>
     <form onsubmit="return false;">
-        <h3>Welcome to uChat V0.2
-        	<input id="login" type="button" value="login"/>
-        </h3>
+        <h3><label>Welcome to uChat</label>
+             <a href=download/uchat.zip>download Window App</a>
+       </h3>
+       <label>user:</label><input id="username" type="text" name="username"  style="width: 150px;" value=""/>
+       <label>password:</label><input id="password" type="password" name="password"  style="width: 150px;" value=""/>
+       	<input id="login" type="button" value="login"/>
         <table>
         <tr>
         <td>

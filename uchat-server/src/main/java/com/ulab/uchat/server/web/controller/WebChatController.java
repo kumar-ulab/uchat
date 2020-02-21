@@ -26,22 +26,23 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ulab.uchat.server.config.AppConfig;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.util.FileUtil;
 
 @Controller
 public class WebChatController {
     private static final Logger log = LoggerFactory.getLogger(WebChatController.class);
-
-    @Value("${uchat.root}") 
-    private String uchatRoot; 
-    
-    @Value("${netty.port}") 
-    private int nettyPort; 
+    @Autowired AppConfig appConfig;
     
     @RequestMapping("/")
     public String index(Model model) {
-    	model.addAttribute("chatPort", nettyPort);
+    	model.addAttribute("chatPort", appConfig.getNettyPort());
+    	if (appConfig.isSslEnabled()) {
+        	model.addAttribute("ws", "wss");
+    	} else {
+        	model.addAttribute("ws", "ws");
+    	}
         return "index";
     }
 
@@ -67,7 +68,7 @@ public class WebChatController {
         String fileName = file.getOriginalFilename();
         int suffixIndex = fileName.lastIndexOf('.');
         String suffix = fileName.substring(suffixIndex);
-        String filePath = uchatRoot + File.separator + channelId + File.separator;
+        String filePath = appConfig.getUchatRoot() + File.separator + channelId + File.separator;
         File picFolder = new File(filePath);
         picFolder.mkdirs();
         String picName = System.currentTimeMillis() + suffix;
@@ -100,7 +101,7 @@ public class WebChatController {
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
     	response.setHeader("Content-disposition", "attachment; filename=\"" + picName + "\"");
-        String filePath = uchatRoot + File.separator + channelId + File.separator + picName;
+        String filePath = appConfig.getUchatRoot() + File.separator + channelId + File.separator + picName;
 		OutputStream os = response.getOutputStream();
         File file = new File(filePath);
         FileInputStream inputStream = new FileInputStream(file);
@@ -120,7 +121,7 @@ public class WebChatController {
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
         response.setContentType("image/jpeg");
-        String filePath = uchatRoot + File.separator + channelId + File.separator + picName;
+        String filePath = appConfig.getUchatRoot() + File.separator + channelId + File.separator + picName;
 		OutputStream os = response.getOutputStream();
         File file = new File(filePath);
         FileInputStream inputStream = new FileInputStream(file);

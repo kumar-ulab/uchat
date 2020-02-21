@@ -1,7 +1,7 @@
 package com.ulab.uchat.types;
 
 public enum ClientType {
-	Web(0), Win(1), Ios(2);
+	Http(3), Web(0), Win(1), Ios(2);
 	
 	private byte val;
 	
@@ -15,9 +15,10 @@ public enum ClientType {
 	
 	public static ClientType Byte2ClientType(byte val) {
 		switch(val) {
-		case 1: return ClientType.Win;
+		case 0: return Web;
+		case 1: return Win;
 		case 2: return Ios;
-		default: return Web;
+		default: return Http;
 		}
 	}
 }

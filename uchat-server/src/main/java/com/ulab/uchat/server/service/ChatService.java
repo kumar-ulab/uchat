@@ -42,8 +42,6 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.ssl.SslHandler;
-import io.netty.handler.stream.ChunkedWriteHandler;
-import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 @Service
@@ -80,7 +78,7 @@ public class ChatService {
 		}
 		pipeline.addBefore("UchatText", "HttpServerCodec", new HttpServerCodec());
 		pipeline.addBefore("UchatText", "HttpObjectAggregator", new HttpObjectAggregator(64*1024));
-		pipeline.addBefore("UchatText", "ChunkedWriteHandler", new UchatHttpRequestHandler(appConfig.getPort(), "/ws"));
+		pipeline.addBefore("UchatText", "ChunkedWriteHandler", new UchatHttpRequestHandler(appConfig.getHttpPort(), "/ws"));
 		pipeline.addBefore("UchatText", "UchatHttpRequestHandler", new WebSocketServerProtocolHandler("/ws"));
 		pipeline.addBefore("UchatText", "WebSocketServerProtocolHandler", new WebsocketFrameHandler());
 	}

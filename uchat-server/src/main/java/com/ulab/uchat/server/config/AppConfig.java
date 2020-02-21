@@ -11,14 +11,28 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 
 @Component
 public class AppConfig {
-	@Value("${server.port}")
-	int port;
-	
-	public int getPort() {
-		return port;
+    @Value("${uchat.root}") 
+    private String uchatRoot; 
+    
+    @Value("${netty.port}") 
+    private int nettyPort; 
+    
+    @Value("${server.port}") 
+    private int httpPort; 
+
+	public int getHttpPort() {
+		return httpPort;
 	}
 	
 	public boolean isSslEnabled() {
-		return (port % 433 == 433);
+		return (httpPort % 1000 == 433);
+	}
+
+	public String getUchatRoot() {
+		return uchatRoot;
+	}
+
+	public int getNettyPort() {
+		return nettyPort;
 	}
 }
