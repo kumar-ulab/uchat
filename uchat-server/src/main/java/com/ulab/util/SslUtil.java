@@ -17,10 +17,11 @@ public class SslUtil {
 				synchronized (SslUtil.class) {
 					if(null == sslContext){
 						KeyStore ks = KeyStore.getInstance("PKCS12");
-						URL url = SslUtil.class.getClassLoader().getResource("ulab.jks");						
-						InputStream ksInputStream = new FileInputStream(url.getFile());
+						InputStream ksInputStream = ClassLoader.getSystemResourceAsStream("ulab.jks");
 						ks.load(ksInputStream, "ulab123".toCharArray());
-						KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+						String alg = KeyManagerFactory.getDefaultAlgorithm();
+						KeyManagerFactory kmf = KeyManagerFactory.getInstance(alg);
+
 						kmf.init(ks, "ulab123".toCharArray());
 						sslContext = SSLContext.getInstance("TLS");
 						sslContext.init(kmf.getKeyManagers(), null, null);
