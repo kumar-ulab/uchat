@@ -71,11 +71,13 @@ public class ChatService {
 	
 	public void addWebSocketHandlers(Channel ch) {
 		ChannelPipeline pipeline = ch.pipeline();
-		SSLContext sslContext = SslUtil.createSSLContext();
-		SSLEngine sslEngine = sslContext.createSSLEngine();
-		sslEngine.setUseClientMode(false);
-		sslEngine.setNeedClientAuth(false);
-		pipeline.addBefore("UchatText", "SslHandler", new SslHandler(sslEngine));		
+		if (appConfig.isSslEnabled()) {
+			SSLContext sslContext = SslUtil.createSSLContext();
+			SSLEngine sslEngine = sslContext.createSSLEngine();
+			sslEngine.setUseClientMode(false);
+			sslEngine.setNeedClientAuth(false);
+			pipeline.addBefore("UchatText", "SslHandler", new SslHandler(sslEngine));		
+		}
 		pipeline.addBefore("UchatText", "HttpServerCodec", new HttpServerCodec());
 		pipeline.addBefore("UchatText", "HttpObjectAggregator", new HttpObjectAggregator(64*1024));
 		pipeline.addBefore("UchatText", "ChunkedWriteHandler", new UchatHttpRequestHandler(appConfig.getPort(), "/ws"));

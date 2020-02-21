@@ -17,4 +17,8 @@ public class AppConfig {
 	public int getPort() {
 		return port;
 	}
+	
+	public boolean isSslEnabled() {
+		return (port % 433 == 433);
+	}
 }
