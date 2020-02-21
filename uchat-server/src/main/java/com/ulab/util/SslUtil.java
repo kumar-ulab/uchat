@@ -16,8 +16,8 @@ public class SslUtil {
 			if(null == sslContext) {
 				synchronized (SslUtil.class) {
 					if(null == sslContext){
-						KeyStore ks = KeyStore.getInstance("JKS");
-						URL url = SslUtil.class.getClassLoader().getResource("uchat.jks");						
+						KeyStore ks = KeyStore.getInstance("PKCS12");
+						URL url = SslUtil.class.getClassLoader().getResource("ulab.jks");						
 						InputStream ksInputStream = new FileInputStream(url.getFile());
 						ks.load(ksInputStream, "ulab123".toCharArray());
 						KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());

@@ -65,6 +65,7 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 	        if (clientType == null) {
 	        	//Websocket need further check by http handler
 				chatService.addWebSocketHandlers(ctx.channel());
+				ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(ClientType.Web);
 	        } else {
 				ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(clientType);
 				chatService.addSocketHandlers(ctx.channel());

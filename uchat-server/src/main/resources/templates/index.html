@@ -50,7 +50,7 @@
 	            	}
 					var wsport = [[${chatPort}]];
 //	                socket = new WebSocket("wss://" + host + ":" + wsport + "/ws");
-	                socket = new WebSocket("ws://" + host + ":" + wsport + "/ws");
+	                socket = new WebSocket("wss://" + host + ":" + wsport + "/ws");
 	                socket.onmessage = function(event) {
 	                    var ta = document.getElementById('responseText');
 	                    var rsp = JSON.parse(event.data);
