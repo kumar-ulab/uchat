@@ -10,8 +10,8 @@ import com.ulab.util.SpringUtil;
 @SpringBootApplication
 public class App {
 	public static String host = "52.81.17.213";
-	public static int port = 9091;
-	public static int httpPort = 7080;
+	public static int port = 9090;
+	public static int httpPort = 7443;
 
 	public static void main(String[] args) {
     	if (args.length > 0) {

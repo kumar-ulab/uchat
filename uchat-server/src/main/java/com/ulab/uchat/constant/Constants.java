@@ -17,4 +17,8 @@ public class Constants {
 		public static final AttributeKey<ClientType> CLIENT_TYPE = AttributeKey.valueOf("ClientType"); 
 		public static final AttributeKey<ClientType> CLIENT_USER = AttributeKey.valueOf("User"); 
 	}
+	public static class User {
+		public static final int PATIENT = 1; 
+		public static final int DOCTOR = 0; 
+	}
 }

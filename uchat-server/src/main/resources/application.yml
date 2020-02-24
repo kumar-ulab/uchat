@@ -29,7 +29,7 @@ spring:
 #        publisher-confirms: true
 
 netty:
-  port: 9092    #监听端口
+  port: 9090    #监听端口
   bossThread: 2 #线程数
   workerThread: 2 #线程数
   keepalive: true #保持连接

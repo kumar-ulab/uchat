@@ -25,7 +25,7 @@ public class AppConfig {
 	}
 	
 	public boolean isSslEnabled() {
-		return (httpPort % 1000 == 433);
+		return (httpPort % 1000 == 443);
 	}
 
 	public String getUchatRoot() {

@@ -1,5 +1,8 @@
 package com.ulab.uchat.pojo;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("chat message for receive")
 public class ServerMsg {
 	int type;
 	int device;

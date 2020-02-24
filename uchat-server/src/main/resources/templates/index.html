@@ -156,9 +156,12 @@
 </head>
 <body>
     <form onsubmit="return false;">
-        <h3><label>Welcome to uChat</label>
-             <a href=download/uchat.zip>download Window App</a>
-       </h3>
+        <h3>Welcome to uChat V0.3 (<label th:text="'chat port: ' + ${chatPort}">)</label></h3>
+        	<a href=swagger-ui.html>uChat server API document</a>
+             &nbsp&nbsp&nbsp&nbsp<a href=download/ulab.crt>download ULAB SSL certification</a>
+             &nbsp&nbsp&nbsp&nbsp<a href=download/uchat.zip>download Window App</a>
+             <br/>
+             <br/>
        <label>user:</label><input id="username" type="text" name="username"  style="width: 150px;" value=""/>
        <label>password:</label><input id="password" type="password" name="password"  style="width: 150px;" value=""/>
        	<input id="login" type="button" value="login"/>
