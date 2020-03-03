@@ -33,7 +33,7 @@ public class WebChatController {
     private static final Logger log = LoggerFactory.getLogger(WebChatController.class);
     @Autowired AppConfig appConfig;
     
-    @RequestMapping("/")
+    @RequestMapping("/chat")
     public String index(Model model) {
     	model.addAttribute("chatPort", appConfig.getNettyPort());
     	if (appConfig.isSslEnabled()) {
@@ -41,7 +41,12 @@ public class WebChatController {
     	} else {
         	model.addAttribute("ws", "ws");
     	}
-        return "index";
+        return "chat";
+    }
+
+    @RequestMapping("/")
+    public String login(Model model) {
+        return "login";
     }
 //
 //    @ResponseBody

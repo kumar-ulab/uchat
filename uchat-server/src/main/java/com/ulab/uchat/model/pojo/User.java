@@ -1,20 +1,37 @@
 package com.ulab.uchat.model.pojo;
 
+import java.sql.Timestamp;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("Abstrct User")
-public abstract class User {
-	@ApiModelProperty("user id in uChat system")
+public class User {
+	@ApiModelProperty("user id")
 	private String id;
-	@ApiModelProperty("user's personal information")
-	private Person person;
+	@ApiModelProperty("social identity")
+	private String identity;
+	@ApiModelProperty("user's email")
+	private String email;
+	@ApiModelProperty("first name")
+	private String firstName;
+	@ApiModelProperty("last name")
+	private String lastName;
+	@ApiModelProperty("user's phone")
+	private String phone;
+	@ApiModelProperty("user's password")
 	private String password;
-	@ApiModelProperty("user tyep:  0-Doctor, 1-Patient")
+	@ApiModelProperty("user type:  1-Doctor, 2-Patient")
 	private int type;
 	
+	private Timestamp createTime;
+	private Timestamp modifyTime;	
+		
+	public User() {		
+	}
+	
 	public User(int type) {
-		person = new Person();
+		this.type = type;
 	}
 	
 	public String getId() {
@@ -32,16 +49,69 @@ public abstract class User {
 		this.type = type;
 	}
 
-	public Person getPerson() {
-		return person;
+	public String pickIdentity() {
+		return identity;
 	}
-	public void setPerson(Person person) {
-		this.person = person;
+	
+	public void setIdentity(String identity) {
+		this.identity = identity;
 	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String pickPassword() {
 		return password;
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Timestamp pickCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
+	public Timestamp pickModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Timestamp modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public void setPerson(Person person) {
+		this.email = person.getEmail();
+		this.firstName = person.getFirstName();
+		this.lastName = person.getLastName();
+		this.identity = person.getIdentity();
+		this.phone = person.getPhone();
 	}
 }

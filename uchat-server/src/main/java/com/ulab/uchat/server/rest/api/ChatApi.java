@@ -29,6 +29,7 @@ import io.swagger.annotations.Api;
 
 @Api
 @Controller
+@RequestMapping(value="/api/chat")
 public class ChatApi {
     @Autowired AppConfig appConfig;
     private static final Logger log = LoggerFactory.getLogger(ChatApi.class);

@@ -12,13 +12,10 @@ public class Constants {
 		public static final byte CHAT_MSG_TEXT = 1;		//text message
 		public static final byte CHAT_MSG_PIC = 2;		//image message
 		public static final byte CHAT_MSG_NOTIFY = 3;	//system notification
+		public static final int TOKEN_EXPIRATION_SECONDS = 30 * 60;	//30 minutes
 	}
 	public static class Client {
 		public static final AttributeKey<ClientType> CLIENT_TYPE = AttributeKey.valueOf("ClientType"); 
 		public static final AttributeKey<ClientType> CLIENT_USER = AttributeKey.valueOf("User"); 
-	}
-	public static class User {
-		public static final int PATIENT = 1; 
-		public static final int DOCTOR = 0; 
 	}
 }

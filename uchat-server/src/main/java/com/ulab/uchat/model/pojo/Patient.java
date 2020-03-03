@@ -1,6 +1,6 @@
 package com.ulab.uchat.model.pojo;
 
-import com.ulab.uchat.constant.Constants;
+import com.ulab.uchat.types.UserType;
 
 import io.swagger.annotations.ApiModel;
 
@@ -8,6 +8,6 @@ import io.swagger.annotations.ApiModel;
 
 public class Patient extends User{
 	public Patient() {
-		super(Constants.User.PATIENT);
+		super(UserType.Patient.getVal());
 	}
 }

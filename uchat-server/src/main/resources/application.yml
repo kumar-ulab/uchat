@@ -27,7 +27,19 @@ spring:
 #        password: ulab123456
 #        virtual-host: /
 #        publisher-confirms: true
-
+    security:
+        user:
+            name: admin
+            password: 123456
+#    jackson:
+#        default-property-inclusion: NON_NULLl
+jwt:
+  header: Authorization
+  secret: mySecret
+  #token有效期一天
+  expiration: 86400
+  tokenHead: "Bearer "
+  
 netty:
   port: 9090    #监听端口
   bossThread: 2 #线程数
@@ -44,4 +56,4 @@ uchat:
 mybatis:
     type-aliases-package: com.ulab.uchat.model.pojo
     configLocation: classpath:db/mybatis-config.xml
-    mapperLocations: classpath:db/mappers/*.xml
+    mapperLocations: classpath:com/ulab/uchat/model/mapper/*.xml

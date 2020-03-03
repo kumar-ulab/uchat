@@ -4,7 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <settings>
+   <settings>
+        <setting name="useColumnLabel" value="true" />
         <setting name="mapUnderscoreToCamelCase" value="true" />
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
+  <typeAliases>  
+        <typeAlias alias="User"  type="com.ulab.uchat.model.pojo.User"/>
+        <typeAlias alias="LoginInfo"  type="com.ulab.uchat.pojo.LoginInfo"/>
+   </typeAliases>
 </configuration>
