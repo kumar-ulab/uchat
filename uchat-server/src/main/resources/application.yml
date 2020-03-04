@@ -34,11 +34,10 @@ spring:
 #    jackson:
 #        default-property-inclusion: NON_NULLl
 jwt:
-  header: Authorization
-  secret: mySecret
-  #token有效期一天
-  expiration: 86400
-  tokenHead: "Bearer "
+    token:
+        header: Chat-Token
+        expiration: 1800
+        secret: ulabchat
   
 netty:
   port: 9090    #监听端口

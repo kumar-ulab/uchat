@@ -4,31 +4,39 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.netty.util.internal.StringUtil;
 
 import org.noggit.JSONUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
+import com.ulab.uchat.server.security.config.JwtAuthenticationTokenFilter;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class JwtUtils {
+    private static final Logger log = LoggerFactory.getLogger(JwtUtils.class);
     public static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";
 
     private static final String CLAIM_KEY_AUTHORITIES = "scope";
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.token.secret}")
     private String secret;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.token.expiration}")
     private Long access_token_expiration;
 
-    @Value("${jwt.expiration}")
+    @Value("${jwt.token.expiration}")
     private Long refresh_token_expiration;
 
     private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
@@ -104,6 +112,21 @@ public class JwtUtils {
     }
 
 
+    public Boolean isTokenValidate(String token) {
+    	if (StringUtil.isNullOrEmpty(token)) {
+            log.warn("token is null");
+    		return false;
+    	}
+        String userId = getUsernameFromToken(token);
+        if (StringUtil.isNullOrEmpty(userId)) {
+            log.warn("userId is null");
+    		return false;
+        }
+        log.info(String.format("Api user: %s", userId));
+        final Date expiration = getExpirationDateFromToken(token);
+        return expiration.after(new Date());
+    }
+    
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername())

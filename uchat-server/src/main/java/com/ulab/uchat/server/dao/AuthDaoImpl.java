@@ -12,7 +12,7 @@ import com.ulab.uchat.server.security.auth.UserAuthInfo;
 public class AuthDaoImpl implements AuthDao {
 	@Autowired MapperUser userMapper;
 	
-    public UserAuthInfo findByUsername(@Param("name") String name) {
+    public UserAuthInfo findByUsername(String name) {
     	User user = userMapper.selectUserByLogin(name);
     	if (user != null) {
     		return new UserAuthInfo(user);

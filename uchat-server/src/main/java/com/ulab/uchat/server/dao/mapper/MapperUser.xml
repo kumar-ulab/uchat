@@ -13,17 +13,14 @@
         INSERT INTO user (id, identity, first_name, last_name, email, phone, password, type) 
         VALUES (#{user.id}, #{user.identity}, #{user.firstName}, #{user.lastName}, #{user.email}, #{user.phone}, #{user.password}, #{user.type});
     </insert>
-    
-    <select id="selectUserByLogin" parameterType="String" resultType="User">
-        SELECT * FROM user WHERE email = #{login} OR id = #{login} OR identity = #{login};
-    </select>
 
-    <select id="selectPairedUsers" parameterType="String" resultType="Java.util.List">
-        SELECT u.* FROM user u, patient_doctor pd WHERE pd.user1_id = #{user_id} AND u.id = pd.user2_id;
+    <select id="selectPairedUsers" parameterType="String" resultType="java.util.List">
+        SELECT u.* FROM user u, patient_doctor pd WHERE pd.user_id = #{user_id} AND u.id = pd.pair_user_id;
     </select>
     
     <insert id="addPatientDoctorRelation" parameterType="String">
-        INSERT INTO patient_doctor (patient_id, doctor_id) 
-        VALUES (#{patientId}, #{doctorId});
+        INSERT INTO patient_doctor (user_id, pair_user_id)
+        VALUES (#{patientId}, #{doctorId}),
+        	   (#{doctorId}, #{patientId});
     </insert>    
 </mapper>
