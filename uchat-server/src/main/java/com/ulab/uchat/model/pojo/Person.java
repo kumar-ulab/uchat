@@ -1,11 +1,11 @@
 package com.ulab.uchat.model.pojo;
 
 public class Person {
-	private String identity;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String phone;
+	private String identity = "";
+	private String firstName = "";
+	private String lastName = "";
+	private String email = "";
+	private String phone = "";
 	
 	public String pickIdentity() {
 		return identity;
@@ -32,6 +32,7 @@ public class Person {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+		this.identity = email;
 	}
 
 	public String getPhone() {
