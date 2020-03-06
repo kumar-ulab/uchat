@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
+public class UchatAuthTokenFilter extends OncePerRequestFilter {
+    private static final Logger log = LoggerFactory.getLogger(UchatAuthTokenFilter.class);
 
     @Value("${jwt.token.header}")
     private String tokenHeader;

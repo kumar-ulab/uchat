@@ -26,19 +26,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final UchatAuthFailHandler unauthorizedHandler;
 
     private final AccessDeniedHandler accessDeniedHandler;
 
     private final UserDetailsService CustomUserDetailsService;
 
-    private final JwtAuthenticationTokenFilter authenticationTokenFilter;
+    private final UchatAuthTokenFilter authenticationTokenFilter;
 
     @Autowired
-    public SecurityConfig(JwtAuthenticationEntryPoint unauthorizedHandler,
+    public SecurityConfig(UchatAuthFailHandler unauthorizedHandler,
                              @Qualifier("RestAuthenticationAccessDeniedHandler") AccessDeniedHandler accessDeniedHandler,
                              @Qualifier("CustomUserDetailsService") UserDetailsService CustomUserDetailsService,
-                             JwtAuthenticationTokenFilter authenticationTokenFilter) {
+                             UchatAuthTokenFilter authenticationTokenFilter) {
         this.unauthorizedHandler = unauthorizedHandler;
         this.accessDeniedHandler = accessDeniedHandler;
         this.CustomUserDetailsService = CustomUserDetailsService;
@@ -67,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth").permitAll()
                 .antMatchers("/api/chat/**", "/api/account/**").authenticated()
+                .antMatchers("/chat").authenticated()
                 .anyRequest().permitAll();
 
         httpSecurity.headers().cacheControl();

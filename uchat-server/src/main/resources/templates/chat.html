@@ -14,18 +14,7 @@
 	<script type="text/javascript" src="/js/jquery.1.11.1.js"></script>
     <script th:inline="javascript">
 	/*<![CDATA[*/
-		$(document).ready(function(){
-			var devTypes = ["Web", "Win", "Ios"];
-			var srvChannel = "";
-			
-	        var socket;
-	        if (!window.WebSocket) {
-	            window.WebSocket = window.MozWebSocket;
-		        if (!window.WebSocket) {
-		        	document.getElementById('responseText').value="Browser doesn't support WebSocket！";
-		        }
-	        }
-
+		$(document).ready(function(){	        
 	        var login = function() {
 	            if (socket && socket.readyState == WebSocket.OPEN) {
 	            	socket.close();
@@ -48,8 +37,6 @@
 	            	} else {
 	            		host = hostport;
 	            	}
-					var wsport = [[${chatPort}]];
-					var ws = [[${ws}]];
 	                socket = new WebSocket(ws + "://" + host + ":" + wsport + "/ws");
 	                socket.onmessage = function(event) {
 	                    var ta = document.getElementById('responseText');
@@ -88,7 +75,7 @@
 	                    ta.value += "\ndisconnected";
 	                    ta.scrollTop = ta.scrollHeight;
 	                };
-	                document.getElementById('login').value='logout'
+	                document.getElementById('login').value='disconnect'
 	            }
 	        }
 	        
@@ -119,9 +106,28 @@
 	            }
 	        }
 	        
-	        document.getElementById("login").onclick = login;
-	        document.getElementById("sendText").onclick = sendText;
-	        document.getElementById("sendPic").onclick = sendPic;
+			var getPairs = function() {
+			    $.ajax({
+			        url: "/api/account/user/" + user.id + "/pairs",
+			        dataType: "json",
+			        type: "get",
+			        contentType: "application/json",
+					headers:{
+		                'Chat-Token': chatToken,
+		            },
+			        error: function (res) {
+			            alert(res.desc);
+			            return;
+			        },
+			        success: function (res) {
+						for (var user of res) {
+		                    var pairs = document.getElementById('pairUser');
+		                    pairs.value += "\n" + user.email;
+						}
+			            return;
+			        }
+				});
+			};
 
 			var uploadPic = function(fileName) {				
 				var formData = new FormData();
@@ -150,23 +156,61 @@
 			        }
 				});
 			};
+
+	        
+	        document.getElementById("login").onclick = login;
+	        document.getElementById("sendText").onclick = sendText;
+	        document.getElementById("sendPic").onclick = sendPic;
+			var wsport = [[${chatPort}]];
+			var ws = [[${ws}]];
+			var user = [[${user}]];
+			var chatToken = [[${chatToken}]];
+			var devTypes = ["Web", "Win", "Ios"];
+			var srvChannel = "";
+			var inviteLink = document.getElementById("invite");
+			inviteLink.href = "/invite?userId=" + user.id +"&chatToken=" + chatToken;
+			var welcome = document.getElementById("welcome");
+			var userType = "";
+			var pairType = document.getElementById("pairType");
+			if (user.type==1) {
+				userType = "Doctor ";
+				pairType.innerText = "my patients";
+			} else if(user.type==2) {
+				userType = "Patient ";
+				pairType.innerText = "my doctors";
+			}
+			welcome.innerText = "Welcome " + userType + user.email + "(" + user.firstName + " " + user.lastName + ")";
+	        var socket;
+	        if (!window.WebSocket) {
+	            window.WebSocket = window.MozWebSocket;
+		        if (!window.WebSocket) {
+		        	document.getElementById('responseText').value="Browser doesn't support WebSocket！";
+		        }
+	        }
+	        getPairs();
+			
 		});
 	/*]]>*/
 	</script>
 </head>
 <body>
     <form onsubmit="return false;">
-        <h3>Welcome to uChat V0.3 (<label th:text="'chat port: ' + ${chatPort}">)</label></h3>
-        	<a href=swagger-ui.html>uChat server API document</a>
-             &nbsp&nbsp&nbsp&nbsp<a href=download/ulab.crt>download ULAB SSL certification</a>
-             &nbsp&nbsp&nbsp&nbsp<a href=download/uchat.zip>download Window App</a>
-             <br/>
-             <br/>
-       <label>user:</label><input id="username" type="text" name="username"  style="width: 150px;" value=""/>
-       <label>password:</label><input id="password" type="password" name="password"  style="width: 150px;" value=""/>
-       	<input id="login" type="button" value="login"/>
+    	<h3>
+        <label id="welcome"></label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+	    <label th:text="'uChat V0.5(chat port: ' + ${chatPort}"></label>)
+	   	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a id=invite href=/invite target="view_window">invite patient</a>
+	    </h3>
+       	<input id="login" type="button" value="connect"/>
         <table>
         <tr>
+        <td id=pairType></td>
+        <td>Chat Message</td>
+        <td>Chat Picture</td>
+        </tr/>
+        <tr>
+        <td>
+        <textarea id="pairUser" readonly="readonly" style="height: 500px;"></textarea>
+        </td>
         <td>
         <textarea id="responseText" readonly="readonly" style="width: 500px; height: 500px;"></textarea>
         </td>
@@ -181,5 +225,9 @@
         <input id="sendPic" type="button" value="send picture"/>
         <input id="clear" type="button" onclick="javascript:document.getElementById('responseText').value=''" value="clear"/>
     </form>
+    <br/>
+   	<a href=swagger-ui.html>uChat server API document</a>
+        &nbsp&nbsp&nbsp&nbsp<a href=download/ulab.crt>download ULAB SSL certification</a>
+        &nbsp&nbsp&nbsp&nbsp<a href=download/uchat.zip>download Window App</a>
 </body>
 </html>

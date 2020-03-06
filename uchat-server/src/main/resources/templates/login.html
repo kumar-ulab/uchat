@@ -2,20 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Welcome to Uchat</title>
+        <style>
+            .demo{
+                top: 0;
+                left: 0;
+                width:50%;
+                height:50%;
+                min-width: 300px;
+                min-height: 500px;
+                z-index:-10;
+                zoom: 1;
+                background-color: #fff;
+                background: url(images/back.jpg);
+                background-repeat: repeat;
+                background-size: cover;
+                -webkit-background-size: cover;
+                -o-background-size: cover;
+                background-position: center 0;
+                text-align:center
+            }
+
+        </style>    
+	<script type="text/javascript" src="/js/jquery.1.11.1.js"></script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+
+		});
+	/*]]>*/
+	</script>
 </head>
 <body>
+	<div class="demo">
     <h1>uChat Login</h1>
-    <form method="get" action="/">
+    <form method="post" action="/login">
         <div>
-            user:<input type="text" name="username">
+            <label style=text-align:right>username:</label><input id="username" type="text" name="login">
         </div>
+        <br/>
         <div>
-            password:<input type="password" name="password">
+            <label style=text-align:right>password:</label><input id="password" type="password" name="password">
         </div>
+        <br/>
         <div>
-            <button type="submit">login</button>
+            <button id="login" type="submit">login</button>
         </div>
     </form>
+   	<a href=/signup>sign up</a>
+    </div>
 </body>
 </html>

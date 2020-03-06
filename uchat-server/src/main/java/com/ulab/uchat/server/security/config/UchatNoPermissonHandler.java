@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Component("RestAuthenticationAccessDeniedHandler")
-public class RestAuthenticationAccessDeniedHandler implements AccessDeniedHandler {
+public class UchatNoPermissonHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         System.out.println("权限不足：" + e.getMessage());

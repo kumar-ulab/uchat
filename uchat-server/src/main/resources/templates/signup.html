@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Uchat</title>
+        <style>
+            .demo{
+                top: 0;
+                left: 0;
+                width:50%;
+                height:50%;
+                min-width: 300px;
+                min-height: 500px;
+                z-index:-10;
+                zoom: 1;
+                background-color: #fff;
+                background: url(images/back.jpg);
+                background-repeat: repeat;
+                background-size: cover;
+                -webkit-background-size: cover;
+                -o-background-size: cover;
+                background-position: center 0;
+                text-align:center
+            }
+
+        </style>    
+	<script type="text/javascript" src="/js/jquery.1.11.1.js"></script>
+    <script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ready(function(){
+			var signup = function() {
+				var person = {
+					id: "",
+					identity: "",
+					type: 1,
+					email: document.getElementById("email").value,
+					firstName: document.getElementById("firstName").value,
+					lastName: document.getElementById("lastName").value,
+					phone: document.getElementById("phone").value,
+					password: document.getElementById("password1").value
+				}
+			    $.ajax({
+			        url: "/api/auth/doctor",
+			        dataType: "json",
+			        type: "post",
+			        data: JSON.stringify(person), 
+			        processData: false,
+			        contentType: "application/json",
+			        error: function (res) {
+			            alert(res.desc);
+			            return;
+			        },
+			        success: function (res) {
+						alert("user signup ok");
+			            return;
+			        }
+				});
+			};
+		    document.getElementById("signup").onclick = signup;
+		});
+	/*]]>*/
+	</script>
+</head>
+<body>
+	<div class="demo">
+    <h1>uChat Doctor SignUp</h1>
+    <form method="post">
+        <label style=text-align:right>email:</label><input id="email" type="text" name="email">
+        <br/>
+        <label style=text-align:right>first name:</label><input id="firstName" type="text" name="firstName">
+        <br/>
+        <label style=text-align:right>last name:</label><input id="lastName" type="text" name="lastName">
+        <br/>
+        <label style=text-align:right>phone:</label><input id="phone" type="text" name="phone">
+        <br/>
+        <label style=text-align:right>password:</label><input id="password1" type="password" name="password">
+        <br/>
+        <label style=text-align:right>password again:</label><input id="password2" type="password" name="password">
+        <br/>
+        <input id="signup" type="button" name="signup" value="signup">
+    </form>
+    <a href="/">back to login</a>
+    </div>
+</body>
+</html>

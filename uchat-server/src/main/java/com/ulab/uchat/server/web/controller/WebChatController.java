@@ -14,17 +14,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ulab.uchat.constant.Constants;
+import com.ulab.uchat.pojo.LoginInfo;
+import com.ulab.uchat.pojo.LoginRsp;
 import com.ulab.uchat.server.config.AppConfig;
 import com.ulab.uchat.server.exception.AppException;
+import com.ulab.uchat.server.security.auth.UserAuthInfo;
+import com.ulab.uchat.server.service.AccountService;
 
 import io.swagger.annotations.Api;
 
@@ -32,10 +41,15 @@ import io.swagger.annotations.Api;
 public class WebChatController {
     private static final Logger log = LoggerFactory.getLogger(WebChatController.class);
     @Autowired AppConfig appConfig;
+    @Autowired AccountService accountService;
     
     @RequestMapping("/chat")
     public String index(Model model) {
+		Authentication authtication = SecurityContextHolder.getContext().getAuthentication();
+		UserAuthInfo userAuthInfo = (UserAuthInfo)authtication.getDetails();
     	model.addAttribute("chatPort", appConfig.getNettyPort());
+    	model.addAttribute("chatToken", userAuthInfo.getToken());
+    	model.addAttribute("user", userAuthInfo.getUser());
     	if (appConfig.isSslEnabled()) {
         	model.addAttribute("ws", "wss");
     	} else {
@@ -45,8 +59,45 @@ public class WebChatController {
     }
 
     @RequestMapping("/")
-    public String login(Model model) {
+    public String home(Model model) {
         return "login";
+    }
+
+    @RequestMapping("/signup")
+    public String signup(Model model) {
+        return "signup";
+    }
+    
+    @RequestMapping("/login")
+    public String login(@RequestParam("login") String login, 
+    		@RequestParam("password") String password,
+    		Model model) {
+    	LoginInfo loginInfo = new LoginInfo();
+    	loginInfo.setLogin(login);
+    	loginInfo.setPassword(password);
+		UserAuthInfo userAuthInfo = accountService.login(loginInfo);
+		if (userAuthInfo.getUser() != null) {
+	    	model.addAttribute("chatPort", appConfig.getNettyPort());
+	    	model.addAttribute("chatToken", userAuthInfo.getToken());
+			model.addAttribute("user", userAuthInfo.getUser());
+	    	if (appConfig.isSslEnabled()) {
+	        	model.addAttribute("ws", "wss");
+	    	} else {
+	        	model.addAttribute("ws", "ws");
+	    	}
+	        return "chat";
+		} else {
+			return "login";
+		}
+    }
+
+    @RequestMapping("/invite")
+    public String invitePatient(@RequestParam("userId") String userId,
+					    		@RequestParam("chatToken") String chatToken,
+					    		Model model) {
+    	model.addAttribute("chatToken", chatToken);
+		model.addAttribute("userId", userId);
+        return "invite";
     }
 //
 //    @ResponseBody

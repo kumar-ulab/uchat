@@ -14,8 +14,8 @@
         VALUES (#{user.id}, #{user.identity}, #{user.firstName}, #{user.lastName}, #{user.email}, #{user.phone}, #{user.password}, #{user.type});
     </insert>
 
-    <select id="selectPairedUsers" parameterType="String" resultType="java.util.List">
-        SELECT u.* FROM user u, patient_doctor pd WHERE pd.user_id = #{user_id} AND u.id = pd.pair_user_id;
+    <select id="selectPairedUsers" parameterType="String" resultType="User">
+        SELECT u.* FROM user u, patient_doctor pd WHERE pd.user_id = #{userId} AND u.id = pd.pair_user_id;
     </select>
     
     <insert id="addPatientDoctorRelation" parameterType="String">
