@@ -10,15 +10,19 @@
 		    max-width: 100%;
 		    max-height: 100%;  
 		}
+		.pair{
+		     border:1px solid gray;
+		     vertical-align:top;
+		}
 	</style>
 	<script type="text/javascript" src="/js/jquery.1.11.1.js"></script>
     <script th:inline="javascript">
 	/*<![CDATA[*/
 		$(document).ready(function(){	        
-	        var login = function() {
+	        var connect = function() {
 	            if (socket && socket.readyState == WebSocket.OPEN) {
 	            	socket.close();
-	                document.getElementById('login').value='login'
+	                document.getElementById('connect').value='connect'
 	            	return;
 	            } else {
 	            	var url=window.document.location.href;
@@ -59,6 +63,10 @@
                 			+ "[" + client + "(" + devType + ")] " + rsp.data;
 	                    	break;
 	                    case 3:
+	                    	ta.value = ta.value + '\n' 
+                			+ "[" + client + "(" + devType + ")] " + rsp.data;
+	                    	break;
+	                    case 4:
 	                    default:
 	                    	ta.value = ta.value + '\n' 
                 			+ "[" + client + "(" + devType + ")] " + rsp.data;
@@ -75,7 +83,7 @@
 	                    ta.value += "\ndisconnected";
 	                    ta.scrollTop = ta.scrollHeight;
 	                };
-	                document.getElementById('login').value='disconnect'
+	                document.getElementById('connect').value='disconnect'
 	            }
 	        }
 	        
@@ -120,9 +128,13 @@
 			            return;
 			        },
 			        success: function (res) {
+						var i=0;
 						for (var user of res) {
-		                    var pairs = document.getElementById('pairUser');
-		                    pairs.value += "\n" + user.email;
+							myPairs[i] = user;
+		                    var pairs = document.getElementById('pairList');
+		                    var html = '\n<tr><td><input id="pair' + i + '" type="checkbox" value=""/>' + user.email + '</td></tr>';
+							$('#pairList').append(html);
+							i++;
 						}
 			            return;
 			        }
@@ -161,7 +173,7 @@
 			};
 
 	        
-	        document.getElementById("login").onclick = login;
+	        document.getElementById("connect").onclick = connect;
 	        document.getElementById("sendText").onclick = sendText;
 	        document.getElementById("sendPic").onclick = sendPic;
 			var wsport = [[${chatPort}]];
@@ -169,18 +181,22 @@
 			var user = [[${user}]];
 			var chatToken = [[${chatToken}]];
 			var devTypes = ["Web", "Win", "Ios"];
+			var myPairs=[];
 			var srvChannel = "";
 			var inviteLink = document.getElementById("invite");
 			inviteLink.href = "/invite?userId=" + user.id +"&chatToken=" + chatToken;
 			var welcome = document.getElementById("welcome");
 			var userType = "";
-			var pairType = document.getElementById("pairType");
+			var pairType = "";
+			var pairTypeEle = document.getElementById("pairType");
 			if (user.type==1) {
 				userType = "Doctor ";
-				pairType.innerText = "my patients";
+				pairType = "Patient"
+				pairTypeEle.innerText = "my patients";
 			} else if(user.type==2) {
 				userType = "Patient ";
-				pairType.innerText = "my doctors";
+				pairType = "Doctor"
+				pairTypeEle.innerText = "my doctors";
 			}
 			welcome.innerText = "Welcome " + userType + user.email + "(" + user.firstName + " " + user.lastName + ")";
 	        var socket;
@@ -203,16 +219,21 @@
 	    <label th:text="'uChat V0.6(chat port: ' + ${chatPort}"></label>)
 	   	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a id=invite href=/invite target="view_window">invite patient</a>
 	    </h3>
-       	<input id="login" type="button" value="connect"/>
+       	<input id="connect" type="button" value="connect"/>
         <table>
         <tr>
         <td id=pairType></td>
         <td>Chat Message</td>
         <td>Chat Picture</td>
-        </tr/>
+        </tr>
         <tr>
-        <td>
-        <textarea id="pairUser" readonly="readonly" style="height: 500px;"></textarea>
+        <td class="pair">
+        	<div>
+	        <table>
+	        	<tbody id="pairList">
+	        	</tbody>
+	        </table>
+        	</div>
         </td>
         <td>
         <textarea id="responseText" readonly="readonly" style="width: 500px; height: 500px;"></textarea>

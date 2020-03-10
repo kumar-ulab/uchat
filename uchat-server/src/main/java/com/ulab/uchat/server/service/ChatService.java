@@ -27,6 +27,7 @@ import com.ulab.uchat.server.handler.ConnectionHandler;
 import com.ulab.uchat.server.handler.UchatTextHandler;
 import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
 import com.ulab.uchat.server.handler.WebsocketFrameHandler;
+import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.security.domain.ErrorStatus;
 import com.ulab.uchat.types.ClientType;
 import com.ulab.uchat.types.MsgType;
@@ -56,6 +57,7 @@ public class ChatService {
 	private static ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);	
 
 	@Autowired AppConfig appConfig;
+	@Autowired JwtUtils jwt;
 	
 	public void sendText(String text) {
 		System.err.println(text);
@@ -139,7 +141,7 @@ public class ChatService {
 	
 	public void pingClientAck(Channel channel, String msg) {	
 		try {
-			sendMsg(channel, MsgType.Connect.getVal(), msg);
+			sendMsg(channel, MsgType.Connect, msg);
 		} catch (Exception e) {
 			log.error("failed to notify message: channel=" + channel.id().asShortText());
 			return;
@@ -148,21 +150,42 @@ public class ChatService {
 	
 	public void notify(Channel channel, String msg) {
 		try {
-			sendMsg(channel, MsgType.Notify.getVal(), msg);
+			sendMsg(channel, MsgType.Notify, msg);
 		} catch (Exception e) {
 			log.error("failed to notify message: channel=" + channel.id().asShortText());
 			return;
 		}
 	}
 	
-	private void sendMsg(Channel channel, int type, String msg) throws Exception {
+	private void sendMsg(Channel channel, MsgType type, String msg) {
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(type);
+		serverMsg.setType(type.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		serverMsg.setData(msg);
 		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
 		serverMsg.setDevice(clientType.getVal());
-		String json = JsonUtil.Object2Json(serverMsg);
+		String json;
+		try {
+			json = JsonUtil.Object2Json(serverMsg);
+		} catch (IOException e) {
+			throw new AppException(e);
+		}
+		if (clientType == ClientType.Web) {
+			sendWebMsg(channel, json);
+		} else {
+			channel.writeAndFlush(json);
+		}
+	}
+	
+	private void sendMsg(Channel channel, ServerMsg serverMsg) {
+		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+		serverMsg.setDevice(clientType.getVal());
+		String json;
+		try {
+			json = JsonUtil.Object2Json(serverMsg);
+		} catch (IOException e) {
+			throw new AppException(e);
+		}
 		if (clientType == ClientType.Web) {
 			sendWebMsg(channel, json);
 		} else {
@@ -265,26 +288,40 @@ public class ChatService {
 		}
 	}
 	
-	private void handleConnectMsg(Channel channel, String chatToken) {		
+	private void handleConnectMsg(Channel channel, String chatToken) {
 		ServerMsg serverMsg = new ServerMsg();
 		serverMsg.setType(MsgType.Connect.getVal());
-		serverMsg.setChannel(channel.id().asShortText());
 		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
 		serverMsg.setDevice(clientType.getVal());
-		serverMsg.setData(chatToken);
-        sendMsgToAll(channel, serverMsg);
+		if (!jwt.isTokenValidate(chatToken)) {
+			serverMsg.setChannel("");
+			serverMsg.setData("invalid token");
+		} else {
+			serverMsg.setChannel(null);
+			serverMsg.setData("welcome");
+		}
+        sendMsg(channel, serverMsg);
 	}
 	
 	private void handleSelectMsg(Channel channel, String pairUserId) {
+		ServerMsg serverMsg = new ServerMsg();
+		serverMsg.setType(MsgType.Select.getVal());		
 		Channel pairChannel = findPairChannel(pairUserId);		
 		if (pairChannel == null) {
-			//Pair is Offline
+			serverMsg.setChannel(null);
+			serverMsg.setDevice(0);
+			serverMsg.setData("offline");
 			sendPairResult(pairChannel, false);
 		} else {
 			addPairChennl(channel, pairChannel);
 			addPairChennl(pairChannel, channel);			
 			sendPairResult(pairChannel, true);
 		}
+		ClientType clientType = pairChannel.attr(Constants.Client.CLIENT_TYPE).get();
+		serverMsg.setChannel(pairChannel.id().asShortText());
+		serverMsg.setDevice(clientType.getVal());
+		serverMsg.setData("online");
+		sendMsg(channel, serverMsg);
 	}
 	
 	private void addPairChennl(Channel channel, Channel pairChannel) {
