@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.ChatData;
+import com.ulab.uchat.pojo.ChatPair;
+import com.ulab.uchat.pojo.ChatPairGroup;
 import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.ServerMsg;
 import com.ulab.uchat.server.config.AppConfig;
@@ -27,6 +29,7 @@ import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
 import com.ulab.uchat.server.handler.WebsocketFrameHandler;
 import com.ulab.uchat.server.security.domain.ErrorStatus;
 import com.ulab.uchat.types.ClientType;
+import com.ulab.uchat.types.MsgType;
 import com.ulab.util.FileUtil;
 import com.ulab.util.JsonUtil;
 import com.ulab.util.SslUtil;
@@ -111,7 +114,7 @@ public class ChatService {
 				info = "";
 				data = inputText.getBytes();
 			}
-			ChatData chatData = new ChatData(Constants.Chat.CHAT_MSG_PIC, info, data);
+			ChatData chatData = new ChatData((byte)MsgType.Picture.getVal(), info, data);
 			sendData(channel, chatData);
 		} catch (IOException e) {
 			throw new AppException(e);
@@ -136,7 +139,7 @@ public class ChatService {
 	
 	public void pingClientAck(Channel channel, String msg) {	
 		try {
-			sendMsg(channel, Constants.Chat.CHAT_MSG_CONNECT, msg);
+			sendMsg(channel, MsgType.Connect.getVal(), msg);
 		} catch (Exception e) {
 			log.error("failed to notify message: channel=" + channel.id().asShortText());
 			return;
@@ -145,14 +148,14 @@ public class ChatService {
 	
 	public void notify(Channel channel, String msg) {
 		try {
-			sendMsg(channel, Constants.Chat.CHAT_MSG_NOTIFY, msg);
+			sendMsg(channel, MsgType.Notify.getVal(), msg);
 		} catch (Exception e) {
 			log.error("failed to notify message: channel=" + channel.id().asShortText());
 			return;
 		}
 	}
 	
-	private void sendMsg(Channel channel, byte type, String msg) throws Exception {
+	private void sendMsg(Channel channel, int type, String msg) throws Exception {
 		ServerMsg serverMsg = new ServerMsg();
 		serverMsg.setType(type);
 		serverMsg.setChannel(channel.id().asShortText());
@@ -169,7 +172,7 @@ public class ChatService {
 	
 	public void notifyAll(Channel selfChannel, String msg) {
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(Constants.Chat.CHAT_MSG_NOTIFY);
+		serverMsg.setType(MsgType.Notify.getVal());
 		serverMsg.setChannel(selfChannel.id().asShortText());
 		ClientType myClientType = selfChannel.attr(Constants.Client.CLIENT_TYPE).get();
 		serverMsg.setDevice(myClientType.getVal());
@@ -236,24 +239,25 @@ public class ChatService {
 	
 	public void sendPairResult(Channel channel, boolean isPaired) {
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(Constants.Chat.CHAT_MSG_CONNECT);
+		serverMsg.setType(MsgType.Select.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		serverMsg.setData(String.valueOf(isPaired));
 		notify(channel, serverMsg);
 	}
 	
 	public void handleMessage(Channel channel, ClientMsg chatMsg) {
-		switch(chatMsg.getType()) {
-		case Constants.Chat.CHAT_MSG_CONNECT:
+		MsgType msgType = MsgType.Int2MsgType(chatMsg.getType());
+		switch(msgType) {
+		case Connect:
 			handleConnectMsg(channel, chatMsg.getData());
 			break;
-		case Constants.Chat.CHAT_MSG_SELECT:
+		case Select:
 			handleSelectMsg(channel, chatMsg.getData());
 			break;
-		case Constants.Chat.CHAT_MSG_TEXT:
+		case Text:
 			handleTextMsg(channel, chatMsg.getData());
 			break;
-		case Constants.Chat.CHAT_MSG_PIC:
+		case Picture:
 			handlePicMsg(channel, chatMsg.getData());
 			break;
 		default:
@@ -263,7 +267,7 @@ public class ChatService {
 	
 	private void handleConnectMsg(Channel channel, String chatToken) {		
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(Constants.Chat.CHAT_MSG_CONNECT);
+		serverMsg.setType(MsgType.Connect.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
 		serverMsg.setDevice(clientType.getVal());
@@ -277,15 +281,22 @@ public class ChatService {
 			//Pair is Offline
 			sendPairResult(pairChannel, false);
 		} else {
-//			addPairChennl(channel, pairChannel);
-//			addPairChennl(pairChannel, channel);			
-//			chatService.sendPairResult(pairChannel, true);
+			addPairChennl(channel, pairChannel);
+			addPairChennl(pairChannel, channel);			
+			sendPairResult(pairChannel, true);
 		}
+	}
+	
+	private void addPairChennl(Channel channel, Channel pairChannel) {
+		User pairUser = (User) (pairChannel.attr(Constants.Client.CLIENT_USER).get());
+		ChatPair thisChatPair = new ChatPair(pairUser, pairChannel);
+		ChatPairGroup thisPairGroup = (ChatPairGroup) channel.attr(Constants.Client.PAIR_USERS).get();
+		thisPairGroup.addPair(thisChatPair);
 	}
 
 	private void handleTextMsg(Channel channel, String text) {		
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(Constants.Chat.CHAT_MSG_TEXT);
+		serverMsg.setType(MsgType.Text.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
 		serverMsg.setDevice(clientType.getVal());
@@ -295,25 +306,11 @@ public class ChatService {
 
 	private void handlePicMsg(Channel channel, String picId) {		
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(Constants.Chat.CHAT_MSG_PIC);
+		serverMsg.setType(MsgType.Picture.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
 		serverMsg.setDevice(clientType.getVal());
 		serverMsg.setData(picId);
         sendMsgToAll(channel, serverMsg);
-	}
-	
-	//        Channel channel = ctx.channel();
-//		
-//		String pairUserId = clientMsg.getData();
-//		Channel pairChannel = chatService.findPairChannel(pairUserId);
-//		
-//		if (pairChannel == null) {
-//			//Pair is Offline
-//			chatService.sendPairResult(pairChannel, false);
-//		} else {
-//			addPairChennl(channel, pairChannel);
-//			addPairChennl(pairChannel, channel);			
-//			chatService.sendPairResult(pairChannel, true);
-//		}
+	}	
 }
