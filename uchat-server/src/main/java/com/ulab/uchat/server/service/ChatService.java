@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ulab.uchat.constant.Constants;
+import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.ChatData;
+import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.ServerMsg;
 import com.ulab.uchat.server.config.AppConfig;
 import com.ulab.uchat.server.exception.AppException;
@@ -23,6 +25,7 @@ import com.ulab.uchat.server.handler.ConnectionHandler;
 import com.ulab.uchat.server.handler.UchatTextHandler;
 import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
 import com.ulab.uchat.server.handler.WebsocketFrameHandler;
+import com.ulab.uchat.server.security.domain.ErrorStatus;
 import com.ulab.uchat.types.ClientType;
 import com.ulab.util.FileUtil;
 import com.ulab.util.JsonUtil;
@@ -133,7 +136,7 @@ public class ChatService {
 	
 	public void pingClientAck(Channel channel, String msg) {	
 		try {
-			sendMsg(channel, Constants.Chat.CHAT_MSG_LOGIN, msg);
+			sendMsg(channel, Constants.Chat.CHAT_MSG_CONNECT, msg);
 		} catch (Exception e) {
 			log.error("failed to notify message: channel=" + channel.id().asShortText());
 			return;
@@ -204,4 +207,113 @@ public class ChatService {
     		}
 		}
 	}
+	
+	public void notify(Channel channel, ServerMsg srvMsg) {
+		String text;
+		try {
+			text = JsonUtil.Object2Json(srvMsg);
+		} catch (IOException e) {
+			log.error("failed to send message", e);
+			return;
+		}
+		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+		if (ClientType.Web == clientType) {
+	        channel.writeAndFlush(new TextWebSocketFrame(text));
+		} else {
+			channel.writeAndFlush(text);
+		}
+	}
+	
+	public Channel findPairChannel(String userId) {
+		for (Channel channel : channels) {
+			User user = (User) (channel.attr(Constants.Client.CLIENT_USER).get());
+			if (userId.equals(user.getId())) {
+				return channel;
+			}
+		}
+		return null;
+	}
+	
+	public void sendPairResult(Channel channel, boolean isPaired) {
+		ServerMsg serverMsg = new ServerMsg();
+		serverMsg.setType(Constants.Chat.CHAT_MSG_CONNECT);
+		serverMsg.setChannel(channel.id().asShortText());
+		serverMsg.setData(String.valueOf(isPaired));
+		notify(channel, serverMsg);
+	}
+	
+	public void handleMessage(Channel channel, ClientMsg chatMsg) {
+		switch(chatMsg.getType()) {
+		case Constants.Chat.CHAT_MSG_CONNECT:
+			handleConnectMsg(channel, chatMsg.getData());
+			break;
+		case Constants.Chat.CHAT_MSG_SELECT:
+			handleSelectMsg(channel, chatMsg.getData());
+			break;
+		case Constants.Chat.CHAT_MSG_TEXT:
+			handleTextMsg(channel, chatMsg.getData());
+			break;
+		case Constants.Chat.CHAT_MSG_PIC:
+			handlePicMsg(channel, chatMsg.getData());
+			break;
+		default:
+			log.error("unsupported message: type=" + chatMsg.getType());
+		}
+	}
+	
+	private void handleConnectMsg(Channel channel, String chatToken) {		
+		ServerMsg serverMsg = new ServerMsg();
+		serverMsg.setType(Constants.Chat.CHAT_MSG_CONNECT);
+		serverMsg.setChannel(channel.id().asShortText());
+		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+		serverMsg.setDevice(clientType.getVal());
+		serverMsg.setData(chatToken);
+        sendMsgToAll(channel, serverMsg);
+	}
+	
+	private void handleSelectMsg(Channel channel, String pairUserId) {
+		Channel pairChannel = findPairChannel(pairUserId);		
+		if (pairChannel == null) {
+			//Pair is Offline
+			sendPairResult(pairChannel, false);
+		} else {
+//			addPairChennl(channel, pairChannel);
+//			addPairChennl(pairChannel, channel);			
+//			chatService.sendPairResult(pairChannel, true);
+		}
+	}
+
+	private void handleTextMsg(Channel channel, String text) {		
+		ServerMsg serverMsg = new ServerMsg();
+		serverMsg.setType(Constants.Chat.CHAT_MSG_TEXT);
+		serverMsg.setChannel(channel.id().asShortText());
+		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+		serverMsg.setDevice(clientType.getVal());
+		serverMsg.setData(text);
+        sendMsgToAll(channel, serverMsg);
+	}
+
+	private void handlePicMsg(Channel channel, String picId) {		
+		ServerMsg serverMsg = new ServerMsg();
+		serverMsg.setType(Constants.Chat.CHAT_MSG_PIC);
+		serverMsg.setChannel(channel.id().asShortText());
+		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+		serverMsg.setDevice(clientType.getVal());
+		serverMsg.setData(picId);
+        sendMsgToAll(channel, serverMsg);
+	}
+	
+	//        Channel channel = ctx.channel();
+//		
+//		String pairUserId = clientMsg.getData();
+//		Channel pairChannel = chatService.findPairChannel(pairUserId);
+//		
+//		if (pairChannel == null) {
+//			//Pair is Offline
+//			chatService.sendPairResult(pairChannel, false);
+//		} else {
+//			addPairChennl(channel, pairChannel);
+//			addPairChennl(pairChannel, channel);			
+//			chatService.sendPairResult(pairChannel, true);
+//		}
 }

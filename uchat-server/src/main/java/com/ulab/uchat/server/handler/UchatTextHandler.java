@@ -13,26 +13,25 @@ import com.ulab.util.JsonUtil;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.ReferenceCountUtil;
 
-public class UchatTextHandler extends SimpleChannelInboundHandler<String> {
+public class UchatTextHandler extends ChannelInboundHandlerAdapter {
     private static final Logger log = LoggerFactory.getLogger(UchatTextHandler.class);
-    private ChatService chatService = SpringBeanHelper.getBean(ChatService.class);
     
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, String text) throws Exception {
-        log.info("ChatMsg: " + text);
-		Channel channel = ctx.channel();
-		ClientMsg chatMsg = JsonUtil.json2Object(text, ClientMsg.class);
-		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(chatMsg.getType());
-		serverMsg.setChannel(channel.id().asShortText());
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		serverMsg.setDevice(clientType.getVal());
-		serverMsg.setData(chatMsg.getData());
-        chatService.sendMsgToAll(channel, serverMsg);
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		String text = String.valueOf(msg);
+		try {
+			ClientMsg chatMsg = JsonUtil.json2Object(text, ClientMsg.class);
+			ctx.fireChannelRead(chatMsg);
+		} catch (Exception e) {
+			log.error("invalid chat Message: " + text, e);
+            ReferenceCountUtil.release(msg);
+		}
 	}
-	
+
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		Channel channel = ctx.channel();

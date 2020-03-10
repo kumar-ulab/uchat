@@ -54,7 +54,7 @@
                 			+ "[" + client + "(" + devType + ")] " + rsp.data;
 	                    	break;
 	                    case 2:
-	                    	document.getElementById("chatImg").src = "api/chat/picture/channel/" + rsp.channel + "/pic/" + rsp.data;
+	                    	document.getElementById("chatImg").src = "api/chat/picture/channel/" + rsp.channel + "/pic/" + rsp.data + "?chatToken="+chatToken;
 	                    	ta.value = ta.value + '\n' 
                 			+ "[" + client + "(" + devType + ")] " + rsp.data;
 	                    	break;
@@ -135,9 +135,12 @@
 				var file = $('#filePath')[0].files[0];
 				formData.append("file", file);
 			    $.ajax({
-			        url: "/picture/channel/" + srvChannel,
+			        url: "/api/chat/picture/channel/" + srvChannel,
 			        dataType: "json",
 			        type: "post",
+					headers:{
+						'Chat-Token': chatToken
+					},
 			        data: formData, 
 			        processData: false,
 			        contentType: false,
@@ -197,7 +200,7 @@
     <form onsubmit="return false;">
     	<h3>
         <label id="welcome"></label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-	    <label th:text="'uChat V0.5(chat port: ' + ${chatPort}"></label>)
+	    <label th:text="'uChat V0.6(chat port: ' + ${chatPort}"></label>)
 	   	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a id=invite href=/invite target="view_window">invite patient</a>
 	    </h3>
        	<input id="login" type="button" value="connect"/>

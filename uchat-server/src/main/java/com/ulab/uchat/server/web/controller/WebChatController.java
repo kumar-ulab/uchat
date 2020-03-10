@@ -43,21 +43,6 @@ public class WebChatController {
     @Autowired AppConfig appConfig;
     @Autowired AccountService accountService;
     
-    @RequestMapping("/chat")
-    public String index(Model model) {
-		Authentication authtication = SecurityContextHolder.getContext().getAuthentication();
-		UserAuthInfo userAuthInfo = (UserAuthInfo)authtication.getDetails();
-    	model.addAttribute("chatPort", appConfig.getNettyPort());
-    	model.addAttribute("chatToken", userAuthInfo.getToken());
-    	model.addAttribute("user", userAuthInfo.getUser());
-    	if (appConfig.isSslEnabled()) {
-        	model.addAttribute("ws", "wss");
-    	} else {
-        	model.addAttribute("ws", "ws");
-    	}
-        return "chat";
-    }
-
     @RequestMapping("/")
     public String home(Model model) {
         return "login";
@@ -68,7 +53,7 @@ public class WebChatController {
         return "signup";
     }
     
-    @RequestMapping("/login")
+    @RequestMapping("/chat")
     public String login(@RequestParam("login") String login, 
     		@RequestParam("password") String password,
     		Model model) {

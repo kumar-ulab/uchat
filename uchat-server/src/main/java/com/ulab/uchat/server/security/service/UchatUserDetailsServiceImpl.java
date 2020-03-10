@@ -8,10 +8,10 @@ import com.ulab.uchat.server.dao.AuthDao;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
 
 @Component(value="CustomUserDetailsService")
-public class CustomUserDetailsServiceImpl implements UserDetailsService {
+public class UchatUserDetailsServiceImpl implements UserDetailsService {
     private final AuthDao authDao;
 
-    public CustomUserDetailsServiceImpl(AuthDao authMapper) {
+    public UchatUserDetailsServiceImpl(AuthDao authMapper) {
         this.authDao = authMapper;
     }
 

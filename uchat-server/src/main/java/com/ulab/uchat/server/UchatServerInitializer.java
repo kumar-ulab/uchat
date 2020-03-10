@@ -1,5 +1,6 @@
 package com.ulab.uchat.server;
 
+import com.ulab.uchat.server.handler.ChatMessageHandler;
 import com.ulab.uchat.server.handler.ConnectionHandler;
 import com.ulab.uchat.server.handler.UchatTextHandler;
 
@@ -14,5 +15,6 @@ public class UchatServerInitializer extends ChannelInitializer<SocketChannel> {
 		ChannelPipeline pipeline = ch.pipeline();
 		pipeline.addLast("connection", new ConnectionHandler());
 		pipeline.addLast("UchatText", new UchatTextHandler());
+		pipeline.addLast("ChatMessageHandler", new ChatMessageHandler());
 	}
 }

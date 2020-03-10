@@ -1,5 +1,9 @@
 package com.ulab.uchat.server.config;
 
+import java.io.File;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,5 +38,13 @@ public class AppConfig {
 
 	public int getNettyPort() {
 		return nettyPort;
+	}
+	
+	@PostConstruct
+	private void init() {
+		if (File.separatorChar == '\\') {
+			String usrHome = System.getProperty("user.home");
+			uchatRoot = usrHome + uchatRoot.replace('/', File.separatorChar);
+		}
 	}
 }

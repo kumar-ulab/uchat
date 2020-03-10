@@ -1,12 +1,9 @@
 package com.ulab.uchat.server.security.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -65,9 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/chat/picture/**").permitAll()
+                .antMatchers("/api/chat/file/**").permitAll()
                 .antMatchers("/api/chat/**", "/api/account/**").authenticated()
-                .antMatchers("/chat").authenticated()
                 .anyRequest().permitAll();
 
         httpSecurity.headers().cacheControl();
