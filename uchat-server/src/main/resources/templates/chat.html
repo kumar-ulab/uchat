@@ -123,6 +123,9 @@
 	            	};
 	            	var json = JSON.stringify(msg);
 	                socket.send(json);
+                    var ta = document.getElementById('responseText');
+                    ta.value += "\n[you(Web)] " + msg.data;
+                    ta.scrollTop = ta.scrollHeight;
 	            } else {
 	                alert("not connected.");
 	            }
@@ -195,6 +198,9 @@
 			            	};
 			            	var json = JSON.stringify(msg);
 			                socket.send(json);
+		                    var ta = document.getElementById('responseText');
+		                    ta.value += "\n[you(Web)] picture " + msg.data;
+		                    ta.scrollTop = ta.scrollHeight;
 			            return;
 			        }
 				});
@@ -255,7 +261,7 @@
     <form onsubmit="return false;">
     	<h3>
         <label id="welcome"></label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-	    <label th:text="'uChat V0.6(chat port: ' + ${chatPort}"></label>)
+	    <label th:text="'uChat V0.7(chat port: ' + ${chatPort}"></label>)
 	   	&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a id=invite href=/invite target="view_window">invite patient</a>
 	    </h3>
        	<input id="connect" type="button" value="connect"/>
