@@ -18,7 +18,9 @@ import com.ulab.uchat.model.pojo.Doctor;
 import com.ulab.uchat.model.pojo.Patient;
 import com.ulab.uchat.model.pojo.Person;
 import com.ulab.uchat.model.pojo.User;
+import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.GeneralRsp;
+import com.ulab.uchat.pojo.ServerMsg;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.security.domain.ErrorStatus;
 import com.ulab.uchat.server.security.service.AuthService;
@@ -81,5 +83,14 @@ public class AccountApi {
 		if (!owerId.equals(userId)) {
 			throw new AppException(ErrorStatus.No_Permission, "no permission");
 		}
+	}
+
+	@ResponseBody
+    @RequestMapping(value="/test", 
+    				produces= "application/json",
+    				method= RequestMethod.POST)
+    @ApiOperation(value = "nouse", notes = "no use")
+	public ServerMsg getPairsOfUser(@RequestBody ClientMsg msg) {
+		return new ServerMsg();
 	}
 }

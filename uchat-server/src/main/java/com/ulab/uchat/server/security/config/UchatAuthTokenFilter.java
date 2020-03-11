@@ -54,7 +54,11 @@ public class UchatAuthTokenFilter extends OncePerRequestFilter {
     	if (query == null) {
     		return null;
     	}
-    	int start = query.indexOf("Chat-Token=") + "Chat-Token=".length();
+    	int start = query.indexOf("Chat-Token=");
+    	if (start < 0) {
+    		return null;
+    	}
+    	start += "Chat-Token=".length();
     	if (start < 0) {
     		return null;
     	}

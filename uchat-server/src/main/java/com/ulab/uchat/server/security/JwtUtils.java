@@ -115,7 +115,6 @@ public class JwtUtils {
 
     public Boolean isTokenValidate(String token) {
     	if (StringUtil.isNullOrEmpty(token)) {
-            log.warn("token is null");
     		return false;
     	}
         String userId = getUsernameFromToken(token);

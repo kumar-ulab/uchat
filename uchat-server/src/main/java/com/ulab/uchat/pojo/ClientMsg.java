@@ -1,11 +1,15 @@
 package com.ulab.uchat.pojo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("chat message for send")
+@ApiModel("client -> server message")
 public class ClientMsg {
+	@ApiModelProperty("Message Type:  0-connect, 1-text msg, 2-picture message")
 	int type;
+	@ApiModelProperty("message send to this userId, no use for connect type")
 	String toUserId;
+	@ApiModelProperty("type1 - token, type2 - text message, type3 - picture filename")
 	String data;
 	
 	public int getType() {

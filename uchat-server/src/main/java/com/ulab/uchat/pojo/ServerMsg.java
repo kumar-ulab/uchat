@@ -1,13 +1,19 @@
 package com.ulab.uchat.pojo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("chat message for receive")
+@ApiModel("server -> client message")
 public class ServerMsg {
+	@ApiModelProperty("Message Type:  0-connect, 1-text msg, 2-picture message, 3-system notification")
 	int type;
+	@ApiModelProperty("the chat channelassigned to you")
 	String channel;
+	@ApiModelProperty("device the message is sent from")
 	int device;
+	@ApiModelProperty("userId who the message is sent from")
 	String fromUserId;
+	@ApiModelProperty("type0 - welcome message, type1 - text message, type2 - picture filename, type3 - system message")
 	String data;
 	
 	public int getType() {
