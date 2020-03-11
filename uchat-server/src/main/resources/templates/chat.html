@@ -46,7 +46,12 @@
 	                    var ta = document.getElementById('responseText');
 	                    var rsp = JSON.parse(event.data);
 	                    var devType = devTypes[rsp.device];
-	                    var client = rsp.channel == srvChannel ? "you" : rsp.channel;
+	                    if (rsp.fromUserId != null) {
+		                    var fromUser = userMap[rsp.fromUserId];
+		                    var client = fromUser.email;
+	                    } else {
+	                    	var client = "";
+	                    }
 	                    switch (rsp.type) {
 	                    case 0:
 	                    	srvChannel = rsp.channel;
@@ -110,8 +115,10 @@
 	                return;
 	            }
 	            if (socket.readyState == WebSocket.OPEN) {
+	            	var toUser = selectUser();
 	            	var msg = {
 	            		type: 1,
+	            		toUserId: toUser.id,
 	            		data: document.getElementById("text").value
 	            	};
 	            	var json = JSON.stringify(msg);
@@ -153,6 +160,7 @@
 		                    var html = '\n<tr><td><input id="pair' + i + '" type="checkbox" value=""/>' + user.email + '</td></tr>';
 							$('#pairList').append(html);
 							i++;
+							userMap[user.id] = user;
 						}
 			            return;
 			        }
@@ -179,8 +187,10 @@
 			            return;
 			        },
 			        success: function (res) {
+		            	var toUser = selectUser();
 		            	var msg = {
 			            		type: 2,
+			            		toUserId: toUser.id,
 			            		data: res.pic
 			            	};
 			            	var json = JSON.stringify(msg);
@@ -190,6 +200,15 @@
 				});
 			};
 
+			var selectUser = function() {
+				for (var i=0; i<myPairs.length; i++) {
+                    var pairEle = document.getElementById('pair' + i);
+                    if (pairEle.checked == true) {
+                    	return myPairs[i];
+                    }
+				}
+				return null;
+			};
 	        
 	        document.getElementById("connect").onclick = connect;
 	        document.getElementById("sendText").onclick = sendText;
@@ -199,6 +218,8 @@
 			var user = [[${user}]];
 			var chatToken = [[${chatToken}]];
 			var devTypes = ["Web", "Win", "Ios"];
+			var myPairs=[];
+			var userMap={};
 			var myPairs=[];
 			var srvChannel = "";
 			var inviteLink = document.getElementById("invite");

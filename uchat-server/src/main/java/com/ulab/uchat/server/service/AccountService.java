@@ -34,8 +34,10 @@ public class AccountService {
 	}
 	
 	public String generatePatientPassword(Person person) {
-		//TO DO
-		return "ulab123456";
+		String pass = "ulab123456";
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodedPassword = encoder.encode(pass);
+		return encodedPassword;
 	}
 	
 	@Transactional
