@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.server.helper.SpringBeanHelper;
 import com.ulab.uchat.server.service.ChatService;
-import com.ulab.uchat.types.ClientType;
+import com.ulab.uchat.types.DeviceType;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
@@ -41,7 +41,7 @@ public class UchatHttpRequestHandler extends SimpleChannelInboundHandler<FullHtt
     @Override
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
     	Channel channel = ctx.channel();
-    	if (channel.hasAttr(Constants.Client.CLIENT_TYPE)) {
+    	if (channel.hasAttr(Constants.Client.DEVICE_TYPE)) {
     		if (isChatRequest(request)) {
                 ctx.fireChannelRead(request.retain());
     		} else {							//normal http but not ws request

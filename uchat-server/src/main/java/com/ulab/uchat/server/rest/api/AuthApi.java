@@ -17,6 +17,7 @@ import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.GeneralRsp;
 import com.ulab.uchat.pojo.LoginInfo;
 import com.ulab.uchat.pojo.LoginRsp;
+import com.ulab.uchat.server.config.AppConfig;
 import com.ulab.uchat.server.security.auth.ResponseUserToken;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
 import com.ulab.uchat.server.security.service.AuthService;
@@ -34,6 +35,7 @@ public class AuthApi {
 
 	@Autowired AccountService accountService;
 	@Autowired AuthService authService;
+	@Autowired AppConfig appConig;
 	
 	@ResponseBody
     @RequestMapping(value="/user", 
@@ -46,7 +48,7 @@ public class AuthApi {
     	LoginRsp rsp = new LoginRsp();
     	rsp.setToken(userAuthInfo.getToken());
     	rsp.setUser(userAuthInfo.getUser());
-    	rsp.setExpiration(Constants.Chat.TOKEN_EXPIRATION_SECONDS);
+    	rsp.setExpiration(appConig.getExpirationSeconds());
     	return rsp;
 	}
 

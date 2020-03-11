@@ -1,14 +1,12 @@
 package com.ulab.uchat.server.service;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
-import org.mybatis.generator.logging.log4j2.Log4j2AbstractLoggerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,27 +14,22 @@ import org.springframework.stereotype.Service;
 
 import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.model.pojo.User;
-import com.ulab.uchat.pojo.ChatData;
-import com.ulab.uchat.pojo.ChatPair;
-import com.ulab.uchat.pojo.ChatPairGroup;
 import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.ServerMsg;
 import com.ulab.uchat.server.config.AppConfig;
+import com.ulab.uchat.server.dao.mapper.MapperUser;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.handler.ConnectionHandler;
-import com.ulab.uchat.server.handler.UchatTextHandler;
 import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
 import com.ulab.uchat.server.handler.WebsocketFrameHandler;
 import com.ulab.uchat.server.security.JwtUtils;
-import com.ulab.uchat.server.security.domain.ErrorStatus;
-import com.ulab.uchat.types.ClientType;
+import com.ulab.uchat.server.security.auth.UserAuthInfo;
+import com.ulab.uchat.types.DeviceType;
 import com.ulab.uchat.types.MsgType;
-import com.ulab.util.FileUtil;
+import com.ulab.uchat.types.UserType;
 import com.ulab.util.JsonUtil;
 import com.ulab.util.SslUtil;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelPipeline;
@@ -58,6 +51,7 @@ public class ChatService {
 
 	@Autowired AppConfig appConfig;
 	@Autowired JwtUtils jwt;
+	@Autowired MapperUser mapperUser;
 	
 	public void sendText(String text) {
 		System.err.println(text);
@@ -68,6 +62,7 @@ public class ChatService {
 	}
 	
 	public void addChannel(Channel channel) {
+		channel.attr(Constants.Client.ACTIVE_TIME).set(System.currentTimeMillis());
 		channels.add(channel);
 	}
 	
@@ -103,112 +98,49 @@ public class ChatService {
 		pipeline.remove(handlerType);
 	}
 	
-	public void sendData(Channel channel, String inputText) {
-		String filePath = inputText.trim();
-		String info;
-		try {
-			File file = new File(filePath);
-			byte[] data;
-			if (file.exists()) {
-				data = FileUtil.readFile2Bytes(file);
-				info = filePath;
-			} else {
-				info = "";
-				data = inputText.getBytes();
-			}
-			ChatData chatData = new ChatData((byte)MsgType.Picture.getVal(), info, data);
-			sendData(channel, chatData);
-		} catch (IOException e) {
-			throw new AppException(e);
-		}
-	}
-
-	public void sendData(Channel channel, ChatData data) {
-		ByteBuf byteBuf = Unpooled.wrappedBuffer(data.getBytes());
-        String channelId = channel.id().asShortText();
-        System.out.println("send chat data on channel " + channelId);
-		channel.writeAndFlush(byteBuf);
-	}
-	
-	public void sendWebMsg(Channel channel, String msg) {
-		channel.writeAndFlush(new TextWebSocketFrame(msg));
-	}
-	
-	public String getChannelAttr(Channel channel) {
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		return "[SERVER] - " + clientType + "(" + channel.remoteAddress() + ")";
-	}
-	
-	public void pingClientAck(Channel channel, String msg) {	
-		try {
-			sendMsg(channel, MsgType.Connect, msg);
-		} catch (Exception e) {
-			log.error("failed to notify message: channel=" + channel.id().asShortText());
-			return;
-		}
-	}
-	
-	public void notify(Channel channel, String msg) {
-		try {
-			sendMsg(channel, MsgType.Notify, msg);
-		} catch (Exception e) {
-			log.error("failed to notify message: channel=" + channel.id().asShortText());
-			return;
-		}
-	}
-	
-	private void sendMsg(Channel channel, MsgType type, String msg) {
+	public void sendDenyMsg(Channel channel, String msg) {	
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(type.getVal());
-		serverMsg.setChannel(channel.id().asShortText());
+		serverMsg.setType(MsgType.Connect.getVal());		
+		serverMsg.setChannel(null);
+		serverMsg.setFromUserId(null);
 		serverMsg.setData(msg);
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		serverMsg.setDevice(clientType.getVal());
-		String json;
-		try {
-			json = JsonUtil.Object2Json(serverMsg);
-		} catch (IOException e) {
-			throw new AppException(e);
-		}
-		if (clientType == ClientType.Web) {
-			sendWebMsg(channel, json);
-		} else {
-			channel.writeAndFlush(json);
-		}
+		serverMsg.setDevice(DeviceType.Sys.getVal());
+		sendMsg(channel, DeviceType.Sys, serverMsg);
+	}
+	
+	private void sendMsg(Set<Channel> toChannels, final ServerMsg serverMsg) {
+		toChannels.forEach(channel -> {
+			sendMsg(channel, serverMsg);
+		});
 	}
 	
 	private void sendMsg(Channel channel, ServerMsg serverMsg) {
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		serverMsg.setDevice(clientType.getVal());
+		DeviceType device = channel.attr(Constants.Client.DEVICE_TYPE).get();
+		sendMsg(channel, device, serverMsg);
+	}
+	
+	private void sendMsg(Channel channel, DeviceType device, ServerMsg serverMsg) {
 		String json;
 		try {
 			json = JsonUtil.Object2Json(serverMsg);
 		} catch (IOException e) {
 			throw new AppException(e);
 		}
-		if (clientType == ClientType.Web) {
-			sendWebMsg(channel, json);
-		} else {
-			channel.writeAndFlush(json);
-		}
+		sendMsg(channel, device, json);
 	}
 	
 	public void notifyAll(Channel selfChannel, String msg) {
 		ServerMsg serverMsg = new ServerMsg();
 		serverMsg.setType(MsgType.Notify.getVal());
 		serverMsg.setChannel(selfChannel.id().asShortText());
-		ClientType myClientType = selfChannel.attr(Constants.Client.CLIENT_TYPE).get();
+		DeviceType myClientType = selfChannel.attr(Constants.Client.DEVICE_TYPE).get();
 		serverMsg.setDevice(myClientType.getVal());
 		serverMsg.setData(msg);
 		try {
 			String json = JsonUtil.Object2Json(serverMsg);
 			for (Channel channel : channels) {
-				ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-				if (clientType == ClientType.Web) {
-					sendWebMsg(channel, json);
-				} else {
-					channel.writeAndFlush(json);
-				}
+				DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+				sendMsg(channel, clientType, json);
 			}
 		} catch (IOException e) {
 			log.error("failed to notify message");
@@ -216,138 +148,118 @@ public class ChatService {
 		}
 	}
 
-	public void sendMsgToAll(Channel selfChannel, ServerMsg srvMsg) {
-		String text;
-		try {
-			text = JsonUtil.Object2Json(srvMsg);
-		} catch (IOException e) {
-			log.error("failed to send message", e);
-			return;
-		}
-		for (Channel channel : channels) {
-    		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-    		if (ClientType.Web == clientType) {
-		        channel.writeAndFlush(new TextWebSocketFrame(text));
-    		} else {
-    			channel.writeAndFlush(text);
-    		}
-		}
-	}
-	
-	public void notify(Channel channel, ServerMsg srvMsg) {
-		String text;
-		try {
-			text = JsonUtil.Object2Json(srvMsg);
-		} catch (IOException e) {
-			log.error("failed to send message", e);
-			return;
-		}
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		if (ClientType.Web == clientType) {
-	        channel.writeAndFlush(new TextWebSocketFrame(text));
+	private void sendMsg(Channel channel, DeviceType clientType, String msg) {
+		if (clientType == DeviceType.Web) {
+			channel.writeAndFlush(new TextWebSocketFrame(msg));
 		} else {
-			channel.writeAndFlush(text);
+			channel.writeAndFlush(msg);
 		}
-	}
-	
-	public Channel findPairChannel(String userId) {
-		for (Channel channel : channels) {
-			User user = (User) (channel.attr(Constants.Client.CLIENT_USER).get());
-			if (userId.equals(user.getId())) {
-				return channel;
-			}
-		}
-		return null;
-	}
-	
-	public void sendPairResult(Channel channel, boolean isPaired) {
-		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(MsgType.Select.getVal());
-		serverMsg.setChannel(channel.id().asShortText());
-		serverMsg.setData(String.valueOf(isPaired));
-		notify(channel, serverMsg);
 	}
 	
 	public void handleMessage(Channel channel, ClientMsg chatMsg) {
 		MsgType msgType = MsgType.Int2MsgType(chatMsg.getType());
 		switch(msgType) {
 		case Connect:
-			handleConnectMsg(channel, chatMsg.getData());
-			break;
-		case Select:
-			handleSelectMsg(channel, chatMsg.getData());
+			handleConnectMsg(channel, chatMsg);
 			break;
 		case Text:
-			handleTextMsg(channel, chatMsg.getData());
+			handleTextMsg(channel, chatMsg);
 			break;
 		case Picture:
-			handlePicMsg(channel, chatMsg.getData());
+			handlePicMsg(channel, chatMsg);
 			break;
 		default:
 			log.error("unsupported message: type=" + chatMsg.getType());
 		}
+		channel.attr(Constants.Client.ACTIVE_TIME).set(System.currentTimeMillis());		
 	}
 	
-	private void handleConnectMsg(Channel channel, String chatToken) {
+	private void handleConnectMsg(Channel channel, ClientMsg chatMsg) {
+		String chatToken = chatMsg.getData();
 		ServerMsg serverMsg = new ServerMsg();
 		serverMsg.setType(MsgType.Connect.getVal());
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+		DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
 		serverMsg.setDevice(clientType.getVal());
 		if (!jwt.isTokenValidate(chatToken)) {
-			serverMsg.setChannel("");
+			serverMsg.setChannel(null);
+			serverMsg.setFromUserId(null);
 			serverMsg.setData("invalid token");
 		} else {
-			serverMsg.setChannel(null);
-			serverMsg.setData("welcome");
+			UserAuthInfo userAuthInfo = jwt.getUserFromToken(chatToken);
+			String username = userAuthInfo.getUsername();
+			User user = mapperUser.selectUserByLogin(username);
+			channel.attr(Constants.Client.CLIENT_USER).set(user);
+			serverMsg.setFromUserId(null);
+			serverMsg.setChannel(channel.id().asShortText());
+			serverMsg.setData("welcome " + UserType.parse(user.getType()).getTitle() + " " + user.getFirstName() + " " + user.getLastName());
 		}
         sendMsg(channel, serverMsg);
 	}
 	
-	private void handleSelectMsg(Channel channel, String pairUserId) {
-		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(MsgType.Select.getVal());		
-		Channel pairChannel = findPairChannel(pairUserId);		
-		if (pairChannel == null) {
-			serverMsg.setChannel(null);
-			serverMsg.setDevice(0);
-			serverMsg.setData("offline");
-			sendPairResult(pairChannel, false);
-		} else {
-			addPairChennl(channel, pairChannel);
-			addPairChennl(pairChannel, channel);			
-			sendPairResult(pairChannel, true);
-		}
-		ClientType clientType = pairChannel.attr(Constants.Client.CLIENT_TYPE).get();
-		serverMsg.setChannel(pairChannel.id().asShortText());
-		serverMsg.setDevice(clientType.getVal());
-		serverMsg.setData("online");
-		sendMsg(channel, serverMsg);
+	private void handleTextMsg(Channel channel, ClientMsg chatMsg) {
+		handleChatMsg(channel, MsgType.Text, chatMsg);
+	}
+
+	private void handlePicMsg(Channel channel, ClientMsg chatMsg) {
+		handleChatMsg(channel, MsgType.Picture, chatMsg);
 	}
 	
-	private void addPairChennl(Channel channel, Channel pairChannel) {
-		User pairUser = (User) (pairChannel.attr(Constants.Client.CLIENT_USER).get());
-		ChatPair thisChatPair = new ChatPair(pairUser, pairChannel);
-		ChatPairGroup thisPairGroup = (ChatPairGroup) channel.attr(Constants.Client.PAIR_USERS).get();
-		thisPairGroup.addPair(thisChatPair);
-	}
+	private void handleChatMsg(Channel channel, MsgType msgType, ClientMsg chatMsg) {
+		String toUserId = chatMsg.getToUserId();
+		Set<Channel> toChannels = findChannelByUserId(toUserId);
 
-	private void handleTextMsg(Channel channel, String text) {		
+		String data = chatMsg.getData();
+		User fromUser = channel.attr(Constants.Client.CLIENT_USER).get();
+		DeviceType fromDevice = channel.attr(Constants.Client.DEVICE_TYPE).get();
+		
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(MsgType.Text.getVal());
+		serverMsg.setType(msgType.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		serverMsg.setDevice(clientType.getVal());
-		serverMsg.setData(text);
-        sendMsgToAll(channel, serverMsg);
-	}
+		serverMsg.setFromUserId(fromUser.getId());
+		serverMsg.setDevice(fromDevice.getVal());
+		serverMsg.setData(data);
 
-	private void handlePicMsg(Channel channel, String picId) {		
+		sendMsg(toChannels, serverMsg);
+	}
+	
+	public void sendNotify(Channel channel, User toUser, String msg) {
+		String toUserId = toUser.getId();
+		Set<Channel> toChannels = findChannelByUserId(toUserId);
+		
 		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(MsgType.Picture.getVal());
+		serverMsg.setType(MsgType.Notify.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
-		ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
-		serverMsg.setDevice(clientType.getVal());
-		serverMsg.setData(picId);
-        sendMsgToAll(channel, serverMsg);
-	}	
+		serverMsg.setFromUserId(null);
+		serverMsg.setDevice(DeviceType.Sys.getVal());
+		serverMsg.setData(msg);
+
+		sendMsg(toChannels, serverMsg);
+	}
+	
+	private Set<Channel> findChannelByUserId(String userId) {
+		final Set<Channel> toChannels = new HashSet<>();
+		channels.forEach(channel -> {
+			User user = channel.attr(Constants.Client.CLIENT_USER).get();
+			if (user.getId().equals(userId)) {
+				toChannels.add(channel);
+			}
+		});
+		return toChannels;
+	}
+	
+	public void freeInactiveChannel() {
+		final Set<Channel> inactiveChannels = new HashSet<>();
+		channels.forEach(channel -> {
+			Long activeTime = channel.attr(Constants.Client.ACTIVE_TIME).get();
+			Long expireTs = activeTime + appConfig.getExpirationMs();
+			if (expireTs < System.currentTimeMillis()) {
+				inactiveChannels.add(channel);
+			}
+		});
+		inactiveChannels.forEach(channel -> {
+			User user = channel.attr(Constants.Client.CLIENT_USER).get();
+			log.info("disconnect inactive user:" + user.getId() + "(" + user.getEmail() + ")");
+			channel.close();
+		});
+	}
 }

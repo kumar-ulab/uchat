@@ -24,6 +24,9 @@ public class AppConfig {
     @Value("${server.port}") 
     private int httpPort; 
 
+    @Value("${jwt.token.expiration}")
+    private int expirationSeconds;
+    
 	public int getHttpPort() {
 		return httpPort;
 	}
@@ -38,6 +41,15 @@ public class AppConfig {
 
 	public int getNettyPort() {
 		return nettyPort;
+	}
+	
+	
+	public int getExpirationSeconds() {
+		return expirationSeconds;
+	}
+
+	public long getExpirationMs() {
+		return expirationSeconds * 1000;
 	}
 	
 	@PostConstruct

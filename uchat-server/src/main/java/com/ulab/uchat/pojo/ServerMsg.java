@@ -5,8 +5,9 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("chat message for receive")
 public class ServerMsg {
 	int type;
-	int device;
 	String channel;
+	int device;
+	String fromUserId;
 	String data;
 	
 	public int getType() {
@@ -26,6 +27,12 @@ public class ServerMsg {
 	}
 	public void setDevice(int device) {
 		this.device = device;
+	}
+	public String getFromUserId() {
+		return fromUserId;
+	}
+	public void setFromUserId(String fromUserId) {
+		this.fromUserId = fromUserId;
 	}
 	public String getData() {
 		return data;

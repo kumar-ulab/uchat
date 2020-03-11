@@ -8,7 +8,7 @@ import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.ServerMsg;
 import com.ulab.uchat.server.helper.SpringBeanHelper;
 import com.ulab.uchat.server.service.ChatService;
-import com.ulab.uchat.types.ClientType;
+import com.ulab.uchat.types.DeviceType;
 import com.ulab.util.JsonUtil;
 
 import io.netty.channel.Channel;

@@ -36,7 +36,7 @@ spring:
 jwt:
     token:
         header: Chat-Token
-        expiration: 1800
+        expiration: 300
         secret: ulabchat
   
 netty:

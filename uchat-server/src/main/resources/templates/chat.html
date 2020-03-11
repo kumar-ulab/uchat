@@ -51,7 +51,7 @@
 	                    case 0:
 	                    	srvChannel = rsp.channel;
 	                    	ta.value = ta.value + '\n' 
-	                    			+ "[you(" + devType + ")] " + rsp.data;
+	                    			+ "[system] " + rsp.data;
 	                    	break;
 	                    case 1:
 	                    	ta.value = ta.value + '\n' 
@@ -77,6 +77,7 @@
 	                    var ta = document.getElementById('responseText');
 	                    ta.value += "\nconnected!";
 	                    ta.scrollTop = ta.scrollHeight;
+	                    sendConnect();
 	                };
 	                socket.onclose = function(event) {
 	                    var ta = document.getElementById('responseText');
@@ -84,6 +85,23 @@
 	                    ta.scrollTop = ta.scrollHeight;
 	                };
 	                document.getElementById('connect').value='disconnect'
+	            }
+	        }
+	        
+	        var sendConnect = function() {
+	            if (!window.WebSocket) {
+	                return;
+	            }
+	            if (socket.readyState == WebSocket.OPEN) {
+	            	var msg = {
+	            		type: 0,
+	            		toUserId: user.id,
+	            		data: chatToken
+	            	};
+	            	var json = JSON.stringify(msg);
+	                socket.send(json);
+	            } else {
+	                alert("not connected.");
 	            }
 	        }
 	        

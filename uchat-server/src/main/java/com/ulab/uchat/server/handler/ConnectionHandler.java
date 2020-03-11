@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.server.helper.SpringBeanHelper;
+import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.service.ChatService;
-import com.ulab.uchat.types.ClientType;
+import com.ulab.uchat.types.DeviceType;
+import com.ulab.uchat.types.MsgType;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -17,6 +19,7 @@ import io.netty.util.ReferenceCountUtil;
 public class ConnectionHandler extends ChannelInboundHandlerAdapter {
     private static final Logger log = LoggerFactory.getLogger(ConnectionHandler.class);
     private ChatService chatService = SpringBeanHelper.getBean(ChatService.class);
+    private JwtUtils jwt = SpringBeanHelper.getBean(JwtUtils.class);
     	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -36,7 +39,7 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     	Channel channel = ctx.channel();
-    	ClientType clientType = channel.attr(Constants.Client.CLIENT_TYPE).get();
+    	DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
     	if (clientType != null) {
 			log.info("Client(" + channel.id().asShortText() + "):" + channel.remoteAddress() + " msg:" + msg);
 	    	super.channelRead(ctx,msg);
@@ -46,37 +49,37 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 			ByteBuf in = (ByteBuf) msg;
 	    	byte msgType = in.getByte(0);
 	    	byte clientVal = in.getByte(1);
-	    	int size = in.readableBytes() - 2;
-	    	byte[] token = new byte[size];
-	    	in.getBytes(2, token);
-	    	String tokenStr = new String(token);
-	    	if (tokenStr.isEmpty()) {
-		        chatService.pingClientAck(channel, "login failed, username or password incorrect");
-		        log.info("user not login, channel close");
-		        Thread.sleep(1000);
-		        ctx.close();
-			} else {
-				log.info("Client(" + channel.id().asShortText() + "):" + channel.remoteAddress() + " login");
-			}
-	    	if (msgType == 0) {
-	    		clientType = ClientType.Byte2ClientType(clientVal);
+	    	if ((int)msgType == MsgType.Connect.getVal()) {
+		    	int size = in.readableBytes() - 2;
+		    	byte[] token = new byte[size];
+		    	in.getBytes(2, token);
+		    	String tokenStr = new String(token);
+		    	if (!jwt.isTokenValidate(tokenStr)) {
+//			        chatService.sendDenyMsg(channel, "invalid user or session expired");
+			        log.info("user not login, channel close");
+			        Thread.sleep(1000);
+			        ctx.close();
+				} else {
+					log.info("Client(" + channel.id().asShortText() + "):" + channel.remoteAddress() + " login");
+				}
+	    		clientType = DeviceType.Byte2ClientType(clientVal);
 		        log.info("client " + ctx.channel() + ", type=" + clientType.name());
 	    	} else {
-	    		clientType = ClientType.Http;
+	    		clientType = DeviceType.Http;
 	    	}
-			ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(clientType);
-	        if (clientType == ClientType.Http) {
+			ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(clientType);
+	        if (clientType == DeviceType.Http) {
 	        	//Websocket need further check by http handler
 				chatService.addWebSocketHandlers(ctx.channel());
-				ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(ClientType.Web);
+				ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(DeviceType.Web);
 	        } else {
-				ctx.channel().attr(Constants.Client.CLIENT_TYPE).set(clientType);
+				ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(clientType);
 				chatService.addSocketHandlers(ctx.channel());
-		        chatService.pingClientAck(channel, "login successfully");
+		        chatService.sendDenyMsg(channel, "login successfully");
 		        chatService.notifyAll(ctx.channel(), "join");
 	        }
 		} finally {
-	        if (clientType == ClientType.Http) {
+	        if (clientType == DeviceType.Http) {
 		    	super.channelRead(ctx,msg);
 	        } else {
 	            ReferenceCountUtil.release(msg);
