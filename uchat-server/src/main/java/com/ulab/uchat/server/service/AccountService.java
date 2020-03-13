@@ -3,6 +3,8 @@ package com.ulab.uchat.server.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import com.ulab.uchat.model.pojo.Person;
 import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.LoginInfo;
 import com.ulab.uchat.pojo.LoginRsp;
+import com.ulab.uchat.pojo.UserChangeRequest;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.security.auth.ResponseUserToken;
@@ -81,4 +84,16 @@ public class AccountService {
 		mapperUser.addPatientDoctorRelation(patient.getId(), doctorId);
 		return patient;
 	}
+
+	@Transactional
+	public User updateUser(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (user.pickPassword() != null) {
+	        String encodedPassword = encoder.encode(user.pickPassword());
+	        user.setPassword(encodedPassword);
+        }
+		mapperUser.updateUser(user, user.pickPassword());
+		return user;
+	}
+	
 }

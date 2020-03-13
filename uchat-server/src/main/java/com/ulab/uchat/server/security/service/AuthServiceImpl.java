@@ -27,14 +27,14 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtils jwtTokenUtil;
-    private final AuthDao authMapper;
+    private final AuthDao authDao;
 
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, JwtUtils jwtTokenUtil, AuthDao authMapper) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, JwtUtils jwtTokenUtil, AuthDao authDao) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
-        this.authMapper = authMapper;
+        this.authDao = authDao;
     }
 
     @Override
@@ -76,4 +76,22 @@ public class AuthServiceImpl implements AuthService {
             throw new AppException(ErrorStatus.Password_mismatch, e.getMessage());
         }
     }
+    
+	public void validatePermission(String username) {
+		Authentication authtication = SecurityContextHolder.getContext().getAuthentication();
+		String userId= authtication.getName();
+		if (!username.equals(userId)) {
+			throw new AppException(ErrorStatus.No_Permission, "no permission");
+		}
+	}
+
+	public void validatePermission(String username, String password) {
+		Authentication authtication = SecurityContextHolder.getContext().getAuthentication();
+		String userId= authtication.getName();
+		if (!username.equals(userId)) {
+			throw new AppException(ErrorStatus.No_Permission, "no permission");
+		}
+        authenticate(username, password);
+	}
+	
 }

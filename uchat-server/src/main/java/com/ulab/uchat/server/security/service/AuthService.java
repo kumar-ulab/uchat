@@ -8,4 +8,6 @@ public interface AuthService {
     void logout(String token);
     ResponseUserToken refresh(String oldToken);
     UserAuthInfo getUserByToken(String token);
+	void validatePermission(String username);
+	void validatePermission(String username, String password);
 }

@@ -14,6 +14,28 @@
         VALUES (#{user.id}, #{user.identity}, #{user.firstName}, #{user.lastName}, #{user.email}, #{user.phone}, #{user.password}, #{user.type});
     </insert>
 
+    <update id="updateUser" parameterType="User">
+        UPDATE user
+        <trim prefix="SET" suffixOverrides=",">
+	        <if test="user.email !=null and user.email !=''">
+		        email=#{user.email},
+		    </if>
+	        <if test="user.firstName !=null and user.firstName !=''">
+		        first_name=#{user.firstName},
+		    </if>
+	        <if test="user.lastName !=null and user.lastName !=''">
+		        last_name=#{user.lastName},
+		    </if>
+	        <if test="user.phone !=null and user.phone !=''">
+		        phone=#{user.phone},
+		    </if>
+	        <if test="password !=null and password !=''">
+		        password=#{password}
+		    </if>
+	    </trim>
+        WHERE id=#{user.id}
+    </update>
+    
     <select id="selectPairedUsers" parameterType="String" resultType="User">
         SELECT u.* FROM user u, patient_doctor pd WHERE pd.user_id = #{userId} AND u.id = pd.pair_user_id;
     </select>

@@ -12,4 +12,5 @@ public interface MapperUser {
 	int addUser(@Param("user") User user);
 	List<User> selectPairedUsers(@Param("userId") String userId);
 	int addPatientDoctorRelation(@Param("patientId") String patientId, @Param("doctorId") String doctorId);
+	int updateUser(@Param("user") User user, @Param("password") String password);
 }
