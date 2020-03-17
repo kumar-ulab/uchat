@@ -38,7 +38,7 @@ jwt:
         header: Chat-Token
         expiration: 300
         secret: ulabchat
-  
+
 netty:
   port: 9090    #监听端口
   bossThread: 2 #线程数
@@ -51,6 +51,16 @@ logging:
 
 uchat:
    root: /data/ulab/uchat/images
+
+mail:
+   protocol: smtp
+   host: smtp.yunyou.top
+   port: 465
+   username: info@ulabsystems.cn
+   password: ulabmail@2019
+   from:
+      email: info@ulabsystems.cn
+      name: Ulab
 
 mybatis:
     type-aliases-package: com.ulab.uchat.model.pojo

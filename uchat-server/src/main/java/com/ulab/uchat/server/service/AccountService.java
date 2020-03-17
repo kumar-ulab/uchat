@@ -3,23 +3,19 @@ package com.ulab.uchat.server.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ulab.uchat.server.dao.mapper.MapperUser;
-import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.model.pojo.Patient;
 import com.ulab.uchat.model.pojo.Person;
 import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.LoginInfo;
-import com.ulab.uchat.pojo.LoginRsp;
-import com.ulab.uchat.pojo.UserChangeRequest;
 import com.ulab.uchat.server.exception.AppException;
+import com.ulab.uchat.server.helper.CodeHelper;
+import com.ulab.uchat.server.helper.MailHelper;
 import com.ulab.uchat.server.security.JwtUtils;
-import com.ulab.uchat.server.security.auth.ResponseUserToken;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
 import com.ulab.uchat.server.security.domain.ErrorStatus;
 import com.ulab.uchat.server.security.service.AuthService;
@@ -30,6 +26,8 @@ public class AccountService {
 	@Autowired AuthService authService;
 	@Autowired MapperUser mapperUser;
 	@Autowired JwtUtils jwtTokenUtil;
+	@Autowired CodeHelper codeHelper;
+	@Autowired MailHelper mailHelper;
 	
 	public void generateUserId(User user) {
 		UserType type = UserType.parse(user.getType());
@@ -95,5 +93,22 @@ public class AccountService {
 		mapperUser.updateUser(user, user.pickPassword());
 		return user;
 	}
-	
+
+	public boolean updatePasswordByCode(String userId, String code, String password) {
+		if (codeHelper.refreshCodeIfValid(userId, code)) {
+			User user = new User();
+			user.setId(userId);
+			user.setPassword(password);
+			updateUser(user);
+			return true;
+		}
+		return false;
+	}
+
+	public void createCode(String userId) {
+		codeHelper.refreshCode(userId);
+		String code = codeHelper.createCodeFromTs(userId, System.currentTimeMillis());
+		User user = mapperUser.selectUserByLogin(userId);
+		mailHelper.sendMail(user.getEmail(), "Uchat reset password", "reset password code: " + code);
+	}
 }

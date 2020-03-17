@@ -1,5 +1,7 @@
 package com.ulab.util;
 
+import java.util.Random;
+
 public class MiscUtil {
 	public static int integer2Bytes(byte[] bytes, int i, int v) {
 	    //High to low

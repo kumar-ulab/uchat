@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,9 @@ import com.ulab.uchat.pojo.GeneralRsp;
 import com.ulab.uchat.pojo.LoginInfo;
 import com.ulab.uchat.pojo.LoginRsp;
 import com.ulab.uchat.server.config.AppConfig;
+import com.ulab.uchat.server.dao.mapper.MapperUser;
+import com.ulab.uchat.server.exception.AppException;
+import com.ulab.uchat.server.helper.CodeHelper;
 import com.ulab.uchat.server.security.auth.ResponseUserToken;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
 import com.ulab.uchat.server.security.service.AuthService;
@@ -36,6 +40,8 @@ public class AuthApi {
 	@Autowired AccountService accountService;
 	@Autowired AuthService authService;
 	@Autowired AppConfig appConig;
+	@Autowired CodeHelper codeHelper;
+	@Autowired MapperUser mapperUser;
 	
 	@ResponseBody
     @RequestMapping(value="/user", 
@@ -59,5 +65,37 @@ public class AuthApi {
     				consumes={"application/json"})
 	public User doctorSignup(@RequestBody Doctor doctor) {
 		return accountService.signUp(doctor);
+	}
+
+
+	@ResponseBody
+    @RequestMapping(value="/user/{userId}/password", 
+    				produces= "application/json",
+    				method= RequestMethod.PUT)
+    @ApiOperation(value = "change password via code", notes = "change password via code")
+	public GeneralRsp updatePasswordByCode(
+			@PathVariable("userId") String userId, 
+			@RequestParam("code") String code,
+			@RequestParam("password") String password) {
+		GeneralRsp rsp = new GeneralRsp();
+		if (accountService.updatePasswordByCode(userId, code, password)) {
+			rsp.setStatus(0);
+		} else {
+			rsp.setStatus(1);
+			rsp.setMessage("code is incorrect or expired!");
+			throw new AppException("code is incorrect or expired!");
+		}
+		return rsp;
+	}
+
+	@ResponseBody
+    @RequestMapping(value="/user/{userId}/code", 
+    				produces= "application/json",
+    				method= RequestMethod.POST)
+    @ApiOperation(value = "sendPasswordCodeMail", notes = "send password code mail")
+	public GeneralRsp mailCode(
+			@PathVariable("userId") String userId) {
+		accountService.createCode(userId);
+		return  new GeneralRsp();
 	}
 }

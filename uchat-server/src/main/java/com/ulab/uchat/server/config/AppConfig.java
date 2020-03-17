@@ -1,17 +1,15 @@
 package com.ulab.uchat.server.config;
 
 import java.io.File;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
-
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import com.ulab.util.MiscUtil;
 
 @Component
 public class AppConfig {
@@ -26,7 +24,7 @@ public class AppConfig {
 
     @Value("${jwt.token.expiration}")
     private int expirationSeconds;
-    
+    		
 	public int getHttpPort() {
 		return httpPort;
 	}
@@ -54,6 +52,10 @@ public class AppConfig {
 	
 	@PostConstruct
 	private void init() {
+		converPathSeperator();
+	}
+	
+	private void converPathSeperator() {
 		if (File.separatorChar == '\\') {
 			String usrHome = System.getProperty("user.home");
 			uchatRoot = usrHome + uchatRoot.replace('/', File.separatorChar);
