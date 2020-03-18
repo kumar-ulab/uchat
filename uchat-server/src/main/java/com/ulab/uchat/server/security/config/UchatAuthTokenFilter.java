@@ -30,8 +30,7 @@ public class UchatAuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-    	String token = getTokenFromRequest(request);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {    	String token = getTokenFromRequest(request);
         if (jwtUtils.isTokenValidate(token)) {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
             	UserAuthInfo userAuthInfo = jwtUtils.getUserFromToken(token);

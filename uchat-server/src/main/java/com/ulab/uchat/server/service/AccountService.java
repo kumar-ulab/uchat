@@ -80,6 +80,10 @@ public class AccountService {
 		generateUserId(patient);
 		mapperUser.addUser(patient);
 		mapperUser.addPatientDoctorRelation(patient.getId(), doctorId);
+		User doctor = mapperUser.selectUserByLogin(doctorId);
+		String title = "Doctor " + doctor.getFirstName() + " " + doctor.getLastName() + " invite you join uChat";
+		String html = "<a href=\"https://" + System.getenv("UCHAT_HOST") + "/download/uchat.zip\">download the app</a>";
+		mailHelper.sendMail(person.getEmail(), title, html);
 		return patient;
 	}
 
