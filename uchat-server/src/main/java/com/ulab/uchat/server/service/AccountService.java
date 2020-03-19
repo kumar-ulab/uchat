@@ -14,6 +14,7 @@ import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.LoginInfo;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.helper.CodeHelper;
+import com.ulab.uchat.server.helper.CodeHelper.Code;
 import com.ulab.uchat.server.helper.MailHelper;
 import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
@@ -98,10 +99,11 @@ public class AccountService {
 		return user;
 	}
 
-	public boolean updatePasswordByCode(String userId, String code, String password) {
-		if (codeHelper.refreshCodeIfValid(userId, code)) {
+	public boolean updatePasswordByCode(String code, String password) {
+		Code c = codeHelper.devryptCode(code);
+		if (codeHelper.refreshCodeIfValid(c)) {
 			User user = new User();
-			user.setId(userId);
+			user.setId(c.userId);
 			user.setPassword(password);
 			updateUser(user);
 			return true;
@@ -109,10 +111,14 @@ public class AccountService {
 		return false;
 	}
 
-	public void createCode(String userId) {
+	public void createCode(String email) {
+		User user = mapperUser.selectUserByLogin(email);
+		if (user == null) {
+			throw new AppException(ErrorStatus.No_Such_User, "no such user");
+		}
+		String userId = user.getId();
 		codeHelper.refreshCode(userId);
-		String code = codeHelper.createCodeFromTs(userId, System.currentTimeMillis());
-		User user = mapperUser.selectUserByLogin(userId);
+		String code = codeHelper.encryptCode(userId, System.currentTimeMillis());
 		mailHelper.sendMail(user.getEmail(), "Uchat reset password", "reset password code: " + code);
 	}
 }

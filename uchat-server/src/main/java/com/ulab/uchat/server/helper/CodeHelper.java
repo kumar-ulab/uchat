@@ -6,25 +6,47 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
+import com.ulab.uchat.server.helper.CodeHelper.Code;
+
 @Component
 public class CodeHelper {
+	public static class Code {
+		public String userId;		
+		public long ts;
+	}
 	
     private Map<String, int[]> dictionaries = new ConcurrentHashMap<>();
+    private int[] generalDict = randomArray(0,25,26); 
 
-    public String createCodeFromTs(String userId, long ts) {
-		int hash = userId.hashCode();
-		refreshCode(userId);
-		int[] dictionary = dictionaries.get(userId);
-		String digitString = String.valueOf(ts + hash);
+    private String encrypt(int[] dictionary, long val) {
+		String digitString = String.valueOf(val);
+		return encrypt(dictionary, digitString);
+    }
+    
+    private String encrypt(int[] dictionary, String digitString) {
 		StringBuffer sbu = new StringBuffer();
 		for (int i=0; i<digitString.length(); i++) {
 			char c = digitString.charAt(i);
 			String d = String.valueOf(c);
 			int n = Integer.parseInt(d);
 			int v = dictionary[n];
-			char t = (char)(65 + v);
-			sbu.append(t);
+			c = (char)(65 + v);
+			sbu.append(c);
 		}
+		return sbu.toString();
+    }
+    
+    public String encryptCode(String userId, long ts) {
+		refreshCode(userId);
+		StringBuffer sbu = new StringBuffer();
+		sbu.append(userId.charAt(0));
+		sbu.append(encrypt(generalDict, userId.substring(1)));
+		char lenChar = (char)(sbu.length() + 65);
+		sbu.insert(0, lenChar);		
+		int hash = userId.hashCode();
+
+		int[] dictionary = dictionaries.get(userId);
+		sbu.append(encrypt(dictionary, ts + hash * 47));
 		return sbu.toString();
 	}
 	
@@ -33,11 +55,34 @@ public class CodeHelper {
 		dictionaries.put(userId, dictionary);
 	}
 	
-	public long getTsFromCode(String userId, String code) {
+	public Code devryptCode(String code) {
+		int userIdlen = code.charAt(0) - 65;
+		int userEndIndex = userIdlen + 1;
+		char userType = code.charAt(1);		
+		String id = decryptDigit(generalDict, code.substring(2, userEndIndex));
+		if (id == null) {
+			return null;
+		}
+		String userId = userType + id;
+
 		int[] dictionary = dictionaries.get(userId);
 		if (dictionary == null) {
-			return 0;
+			return null;
 		}
+		String tsStr = decryptDigit(dictionary, code.substring(userEndIndex));
+		Long ts = 0L;
+		try {
+			Long v = Long.parseLong(tsStr);
+			ts = v - userId.hashCode() * 47;
+		} catch (Exception e) {
+		}
+		Code c = new Code();
+		c.userId = userId;
+		c.ts = ts;
+		return c;
+	}
+	
+	private String decryptDigit(int[] dictionary, String code) {
 		StringBuffer sbu = new StringBuffer();
 		for (int i=0; i<code.length(); i++) {
 			char d = code.charAt(i);
@@ -49,24 +94,23 @@ public class CodeHelper {
 				}
 			}
 			if (c > 9) {
-				return 0;
+				return null;
 			}
 			sbu.append(String.valueOf(c));
 		}
-		String digitString = sbu.toString();
-		Long v = Long.parseLong(digitString);
-		Long ts = v - userId.hashCode() * 47;
-		return ts;
+		return sbu.toString();
 	}
 	
-	public boolean isCodeValid(String userId, String code) {
-		long ts = getTsFromCode(userId, code);
-		return System.currentTimeMillis() - ts < 24 * 60 * 60 * 1000;
+	private boolean isCodeValid(Code c) {
+		if (c.userId != null && c.ts > 0) {
+			return System.currentTimeMillis() - c.ts < 24 * 60 * 60 * 1000;
+		}
+		return false;
 	}
 	
-	public boolean refreshCodeIfValid(String userId, String code) {
-		if (isCodeValid(userId, code)) {
-			refreshCode(userId);
+	public boolean refreshCodeIfValid(Code c) {
+		if (isCodeValid(c)) {
+			refreshCode(c.userId);
 			return true;
 		}
 		return false;
@@ -98,12 +142,14 @@ public class CodeHelper {
 		long ts = System.currentTimeMillis();
 		System.out.println("ts=" + ts);
 		CodeHelper appConfig = new CodeHelper();
-		String code = appConfig.createCodeFromTs("D12345", ts);
+		String code = appConfig.encryptCode("D12345", ts);
 		System.out.println("code=" + code);
-		long ts1 = appConfig.getTsFromCode("D12345", code);
-		System.out.println(appConfig.isCodeValid("D12345", code));
+		Code c = appConfig.devryptCode(code);
+		System.out.println("userId=" + c.userId + ", ts=" + c.ts);
+		System.out.println(appConfig.isCodeValid(c));
 		appConfig.refreshCode("D12345");
-		System.out.println(appConfig.isCodeValid("D12345", code));
-		System.out.println("ts=" + ts1);
+		c = appConfig.devryptCode(code);
+		System.out.println("userId=" + c.userId + ", ts=" + c.ts);
+		System.out.println(appConfig.isCodeValid(c));
 	}
 }

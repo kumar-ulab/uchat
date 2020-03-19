@@ -69,17 +69,17 @@ public class AuthApi {
 
 
 	@ResponseBody
-    @RequestMapping(value="/user/{userId}/password", 
+    @RequestMapping(value="/user/password", 
     				produces= "application/json",
     				method= RequestMethod.PUT)
     @ApiOperation(value = "change password via code", notes = "change password via code")
 	public GeneralRsp updatePasswordByCode(
-			@PathVariable("userId") String userId, 
 			@RequestParam("code") String code,
 			@RequestParam("password") String password) {
 		GeneralRsp rsp = new GeneralRsp();
-		if (accountService.updatePasswordByCode(userId, code, password)) {
+		if (accountService.updatePasswordByCode(code, password)) {
 			rsp.setStatus(0);
+			rsp.setMessage("password is changed");
 		} else {
 			rsp.setStatus(1);
 			rsp.setMessage("code is incorrect or expired!");
@@ -89,13 +89,15 @@ public class AuthApi {
 	}
 
 	@ResponseBody
-    @RequestMapping(value="/user/{userId}/code", 
+    @RequestMapping(value="/user/code", 
     				produces= "application/json",
     				method= RequestMethod.POST)
     @ApiOperation(value = "sendPasswordCodeMail", notes = "send password code mail")
 	public GeneralRsp mailCode(
-			@PathVariable("userId") String userId) {
-		accountService.createCode(userId);
-		return  new GeneralRsp();
+			@RequestParam("email") String email) {
+		accountService.createCode(email);
+		GeneralRsp rsp =  new GeneralRsp();
+		rsp.setMessage("mail is sent to " + email);
+		return rsp;
 	}
 }
