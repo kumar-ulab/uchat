@@ -2,7 +2,10 @@ package com.ulab.uchat.server.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,7 @@ import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.LoginInfo;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.helper.CodeHelper;
+import com.ulab.uchat.server.helper.HttpHelper;
 import com.ulab.uchat.server.helper.CodeHelper.Code;
 import com.ulab.uchat.server.helper.MailHelper;
 import com.ulab.uchat.server.security.JwtUtils;
@@ -24,7 +28,9 @@ import com.ulab.uchat.types.UserType;
 
 @Service
 public class AccountService {
-	@Autowired AuthService authService;
+    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+
+    @Autowired AuthService authService;
 	@Autowired MapperUser mapperUser;
 	@Autowired JwtUtils jwtTokenUtil;
 	@Autowired CodeHelper codeHelper;
@@ -60,7 +66,23 @@ public class AccountService {
     public UserAuthInfo login(LoginInfo loginInfo) {    		
     	String username = loginInfo.getLogin();
     	String password = loginInfo.getPassword();
-    	return authService.login(username, password);
+    	try {
+        	return authService.login(username, password);
+    	} catch(Exception e) {
+    		if (authService.remoteAuthentication(username, password)) {
+    			User user = new User();
+    			user.setEmail(username);
+    			user.setIdentity(username);
+    			user.setPassword(password);
+    			user.setFirstName("UDesign");
+    			user.setLastName("Doctor");
+    			signUp(user);
+    			logger.info("auto import uDesign account: " + username);
+            	return authService.login(username, password);
+    		} else {
+    			throw e;
+    		}
+    	}
     }
     
 	@Transactional

@@ -10,8 +10,16 @@
     </select>
     
     <insert id="addUser" parameterType="User">
-        INSERT INTO user (id, identity, first_name, last_name, email, phone, password, type) 
-        VALUES (#{user.id}, #{user.identity}, #{user.firstName}, #{user.lastName}, #{user.email}, #{user.phone}, #{user.password}, #{user.type});
+        INSERT INTO user (id, identity, first_name, last_name, email, 
+        <if test="user.phone !=null and user.phone !=''">
+	        phone, 
+	    </if>
+        password, type) 
+        VALUES (#{user.id}, #{user.identity}, #{user.firstName}, #{user.lastName}, #{user.email},
+        <if test="user.phone !=null and user.phone !=''">
+	         #{user.phone},
+	    </if>
+         #{user.password}, #{user.type});
     </insert>
 
     <update id="updateUser" parameterType="User">

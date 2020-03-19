@@ -25,7 +25,10 @@ public class AppConfig {
     @Value("${jwt.token.expiration}")
     private int expirationSeconds;
     		
-	public int getHttpPort() {
+    @Value("${auth.remote.url}") 
+    private String remoteAuth; 
+
+    public int getHttpPort() {
 		return httpPort;
 	}
 	
@@ -50,6 +53,11 @@ public class AppConfig {
 		return expirationSeconds * 1000;
 	}
 	
+	
+	public String getRemoteAuth() {
+		return remoteAuth;
+	}
+
 	@PostConstruct
 	private void init() {
 		converPathSeperator();

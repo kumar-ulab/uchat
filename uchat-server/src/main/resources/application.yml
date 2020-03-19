@@ -61,6 +61,9 @@ mail:
    from:
       email: info@ulabsystems.cn
       name: Ulab
+auth:
+   remote:
+      url: https://54.223.24.218:8443/verify_source
 
 mybatis:
     type-aliases-package: com.ulab.uchat.model.pojo
