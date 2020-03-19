@@ -27,9 +27,14 @@ public class HttpHelper {
 			}
 		};
 		String url = getUrl(appConfig.getRemoteAuth(), param);
-		logger.info("remote verify user: url= " + appConfig.getRemoteAuth());
-		ResponseEntity<Object> rspEntity = restTemplate.postForEntity(url, null, Object.class);
-		return rspEntity.getStatusCode().is2xxSuccessful();
+		try {
+			ResponseEntity<Object> rspEntity = restTemplate.postForEntity(url, null, Object.class);
+			logger.info("remote verify user succeed: user=" + username + ", url=" + appConfig.getRemoteAuth());
+			return rspEntity.getStatusCode().is2xxSuccessful();
+		} catch (Exception e) {
+			logger.info("remote verify user failed: user=" + username + ", url=" + appConfig.getRemoteAuth());
+			return false;
+		}
 	}
 	
 	private String getUrl(String baseUrl, Map<String, ?> urlParams) {
