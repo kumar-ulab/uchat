@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ulab.uchat.constant.Constants;
+import com.ulab.uchat.model.pojo.ChatDevice;
 import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.ServerMsg;
@@ -24,7 +25,7 @@ import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
 import com.ulab.uchat.server.handler.WebsocketFrameHandler;
 import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
-import com.ulab.uchat.types.DeviceType;
+import com.ulab.uchat.types.ChannelType;
 import com.ulab.uchat.types.MsgType;
 import com.ulab.uchat.types.UserType;
 import com.ulab.util.JsonUtil;
@@ -104,8 +105,8 @@ public class ChatService {
 		serverMsg.setChannel(null);
 		serverMsg.setFromUserId(null);
 		serverMsg.setData(msg);
-		serverMsg.setDevice(DeviceType.Sys.getVal());
-		sendMsg(channel, DeviceType.Sys, serverMsg);
+		serverMsg.setDevice(ChannelType.Sys.name());
+		sendMsg(channel, ChannelType.Sys, serverMsg);
 	}
 	
 	private void sendMsg(Set<Channel> toChannels, final ServerMsg serverMsg) {
@@ -115,11 +116,11 @@ public class ChatService {
 	}
 	
 	private void sendMsg(Channel channel, ServerMsg serverMsg) {
-		DeviceType device = channel.attr(Constants.Client.DEVICE_TYPE).get();
+		ChannelType device = channel.attr(Constants.Client.CHANNEL_TYPE).get();
 		sendMsg(channel, device, serverMsg);
 	}
 	
-	private void sendMsg(Channel channel, DeviceType device, ServerMsg serverMsg) {
+	private void sendMsg(Channel channel, ChannelType device, ServerMsg serverMsg) {
 		String json;
 		try {
 			json = JsonUtil.Object2Json(serverMsg);
@@ -133,13 +134,13 @@ public class ChatService {
 		ServerMsg serverMsg = new ServerMsg();
 		serverMsg.setType(MsgType.Notify.getVal());
 		serverMsg.setChannel(selfChannel.id().asShortText());
-		DeviceType myClientType = selfChannel.attr(Constants.Client.DEVICE_TYPE).get();
-		serverMsg.setDevice(myClientType.getVal());
+		String deviceType = selfChannel.attr(Constants.Client.DEVICE_TYPE).get();
+		serverMsg.setDevice(deviceType);
 		serverMsg.setData(msg);
 		try {
 			String json = JsonUtil.Object2Json(serverMsg);
 			for (Channel channel : channels) {
-				DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+				ChannelType clientType = channel.attr(Constants.Client.CHANNEL_TYPE).get();
 				sendMsg(channel, clientType, json);
 			}
 		} catch (IOException e) {
@@ -148,8 +149,8 @@ public class ChatService {
 		}
 	}
 
-	private void sendMsg(Channel channel, DeviceType clientType, String msg) {
-		if (clientType == DeviceType.Web) {
+	private void sendMsg(Channel channel, ChannelType clientType, String msg) {
+		if (clientType == ChannelType.Web) {
 			channel.writeAndFlush(new TextWebSocketFrame(msg));
 		} else {
 			channel.writeAndFlush(msg);
@@ -177,11 +178,10 @@ public class ChatService {
 	private void handleConnectMsg(Channel channel, ClientMsg chatMsg) {
 		String chatToken = chatMsg.getData();
 		ServerMsg serverMsg = new ServerMsg();
+		ChatDevice dev = getDeviceFromDeviceInfo(chatMsg.getDevice());
 		serverMsg.setType(MsgType.Connect.getVal());
-		DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
-		serverMsg.setDevice(clientType.getVal());
 		if (!jwt.isTokenValidate(chatToken)) {
-			serverMsg.setChannel(null);
+			serverMsg.setChannel(null);	
 			serverMsg.setFromUserId(null);
 			serverMsg.setData("invalid token");
 		} else {
@@ -189,9 +189,12 @@ public class ChatService {
 			String username = userAuthInfo.getUsername();
 			User user = mapperUser.selectUserByLogin(username);
 			channel.attr(Constants.Client.CLIENT_USER).set(user);
+			channel.attr(Constants.Client.DEVICE_TYPE).set(dev.getDeviceType());		
+			mapperUser.updateAndInsertDevice(user.getId(), dev.getDeviceType(), dev.getPushAddress());
 			serverMsg.setFromUserId(null);
 			serverMsg.setChannel(channel.id().asShortText());
 			serverMsg.setData("welcome " + UserType.parse(user.getType()).getTitle() + " " + user.getFirstName() + " " + user.getLastName());
+			serverMsg.setDevice(dev.getDeviceType());
 		}
         sendMsg(channel, serverMsg);
 	}
@@ -210,13 +213,12 @@ public class ChatService {
 
 		String data = chatMsg.getData();
 		User fromUser = channel.attr(Constants.Client.CLIENT_USER).get();
-		DeviceType fromDevice = channel.attr(Constants.Client.DEVICE_TYPE).get();
-		
 		ServerMsg serverMsg = new ServerMsg();
 		serverMsg.setType(msgType.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		serverMsg.setFromUserId(fromUser.getId());
-		serverMsg.setDevice(fromDevice.getVal());
+		String fromDeviceType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+		serverMsg.setDevice(fromDeviceType);
 		serverMsg.setData(data);
 
 		sendMsg(toChannels, serverMsg);
@@ -230,7 +232,7 @@ public class ChatService {
 		serverMsg.setType(MsgType.Notify.getVal());
 		serverMsg.setChannel(channel.id().asShortText());
 		serverMsg.setFromUserId(null);
-		serverMsg.setDevice(DeviceType.Sys.getVal());
+		serverMsg.setDevice(ChannelType.Sys.name());
 		serverMsg.setData(msg);
 
 		sendMsg(toChannels, serverMsg);
@@ -261,5 +263,17 @@ public class ChatService {
 			log.info("disconnect inactive user:" + user.getId() + "(" + user.getEmail() + ")");
 			channel.close();
 		});
+	}
+	
+	private ChatDevice getDeviceFromDeviceInfo(String deviceInfo) {
+		ChatDevice dev = new ChatDevice();
+		try {
+			String[] parts = deviceInfo.split("@");
+			dev.setDeviceType(parts[0]);
+			dev.setPushAddress(parts[1]);
+		} catch (Exception e) {
+			log.error("Invalid device info: deviceInfo", e);
+		}
+		return dev;
 	}
 }

@@ -7,7 +7,7 @@ import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.server.helper.SpringBeanHelper;
 import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.service.ChatService;
-import com.ulab.uchat.types.DeviceType;
+import com.ulab.uchat.types.ChannelType;
 import com.ulab.uchat.types.MsgType;
 
 import io.netty.buffer.ByteBuf;
@@ -39,7 +39,7 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     	Channel channel = ctx.channel();
-    	DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+    	ChannelType clientType = channel.attr(Constants.Client.CHANNEL_TYPE).get();
     	if (clientType != null) {
 			log.info("Client(" + channel.id().asShortText() + "):" + channel.remoteAddress() + " msg:" + msg);
 	    	super.channelRead(ctx,msg);
@@ -62,24 +62,24 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 				} else {
 					log.info("Client(" + channel.id().asShortText() + "):" + channel.remoteAddress() + " login");
 				}
-	    		clientType = DeviceType.Byte2ClientType(clientVal);
+	    		clientType = ChannelType.Byte2ClientType(clientVal);
 		        log.info("client " + ctx.channel() + ", type=" + clientType.name());
 	    	} else {
-	    		clientType = DeviceType.Http;
+	    		clientType = ChannelType.Http;
 	    	}
-			ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(clientType);
-	        if (clientType == DeviceType.Http) {
+			ctx.channel().attr(Constants.Client.CHANNEL_TYPE).set(clientType);
+	        if (clientType == ChannelType.Http) {
 	        	//Websocket need further check by http handler
 				chatService.addWebSocketHandlers(ctx.channel());
-				ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(DeviceType.Web);
+				ctx.channel().attr(Constants.Client.CHANNEL_TYPE).set(ChannelType.Web);
 	        } else {
-				ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(clientType);
+				ctx.channel().attr(Constants.Client.CHANNEL_TYPE).set(clientType);
 				chatService.addSocketHandlers(ctx.channel());
 		        chatService.sendDenyMsg(channel, "login successfully");
 		        chatService.notifyAll(ctx.channel(), "join");
 	        }
 		} finally {
-	        if (clientType == DeviceType.Http) {
+	        if (clientType == ChannelType.Http) {
 		    	super.channelRead(ctx,msg);
 	        } else {
 	            ReferenceCountUtil.release(msg);

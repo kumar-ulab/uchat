@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.server.helper.SpringBeanHelper;
 import com.ulab.uchat.server.service.ChatService;
-import com.ulab.uchat.types.DeviceType;
+import com.ulab.uchat.types.ChannelType;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,9 +21,9 @@ public class WebsocketFrameHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
     	Channel channel = ctx.channel();
-    	DeviceType clientType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+    	ChannelType clientType = channel.attr(Constants.Client.CHANNEL_TYPE).get();
     	if (clientType == null) {
-    		channel.attr(Constants.Client.DEVICE_TYPE).set(DeviceType.Web);
+    		channel.attr(Constants.Client.CHANNEL_TYPE).set(ChannelType.Web);
 //            chatService.pingClientAck(channel, "login successfully");
 //            chatService.notifyAll(channel, "join");
     	}
@@ -38,7 +38,7 @@ public class WebsocketFrameHandler extends ChannelInboundHandlerAdapter {
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
     	if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
         	Channel channel = ctx.channel();
-			ctx.channel().attr(Constants.Client.DEVICE_TYPE).set(DeviceType.Web);
+			ctx.channel().attr(Constants.Client.CHANNEL_TYPE).set(ChannelType.Web);
 //	        chatService.pingClientAck(channel, "login successfully");
 //	        chatService.notifyAll(ctx.channel(), "join");
 	        chatService.addChannel(channel);

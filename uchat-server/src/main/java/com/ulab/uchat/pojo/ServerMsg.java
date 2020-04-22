@@ -10,7 +10,7 @@ public class ServerMsg {
 	@ApiModelProperty("the chat channelassigned to you")
 	String channel;
 	@ApiModelProperty("device the message is sent from")
-	int device;
+	String device;
 	@ApiModelProperty("userId who the message is sent from")
 	String fromUserId;
 	@ApiModelProperty("type0 - welcome message, type1 - text message, type2 - picture filename, type3 - system message")
@@ -28,10 +28,10 @@ public class ServerMsg {
 	public void setChannel(String channel) {
 		this.channel = channel;
 	}	
-	public int getDevice() {
+	public String getDevice() {
 		return device;
 	}
-	public void setDevice(int device) {
+	public void setDevice(String device) {
 		this.device = device;
 	}
 	public String getFromUserId() {

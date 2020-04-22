@@ -12,5 +12,6 @@
   <typeAliases>  
         <typeAlias alias="User"  type="com.ulab.uchat.model.pojo.User"/>
         <typeAlias alias="LoginInfo"  type="com.ulab.uchat.pojo.LoginInfo"/>
+        <typeAlias alias="ChatDevice"  type="com.ulab.uchat.model.pojo.ChatDevice"/>
    </typeAliases>
 </configuration>

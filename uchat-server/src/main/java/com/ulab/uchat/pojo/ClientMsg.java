@@ -7,7 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 public class ClientMsg {
 	@ApiModelProperty("Message Type:  0-connect, 1-text msg, 2-picture message")
 	int type;
-	@ApiModelProperty("message send to this userId, no use for connect type")
+	@ApiModelProperty("type0 - deviceType@deviceToken, like Iphone8@18F179F34B328341BE26F1A23698961BB56189E777FBD413106D1CDB78C6770F:"
+			+ ",  type1-2: userId, message will send to this user")
 	String toUserId;
 	@ApiModelProperty("type1 - token, type2 - text message, type3 - picture filename")
 	String data;
@@ -22,6 +23,12 @@ public class ClientMsg {
 		return toUserId;
 	}
 	public void setToUserId(String toUserId) {
+		this.toUserId = toUserId;
+	}
+	public String getDevice() {
+		return toUserId;
+	}
+	public void setDevice(String toUserId) {
 		this.toUserId = toUserId;
 	}
 	public String getData() {

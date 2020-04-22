@@ -1,11 +1,11 @@
 package com.ulab.uchat.types;
 
-public enum DeviceType {
+public enum ChannelType {
 	Http(3), Web(0), Win(1), Ios(2), Sys(4);
 	
 	private byte val;
 	
-	private DeviceType(int val) {
+	private ChannelType(int val) {
 		this.val = (byte)val;
 	}
 	
@@ -13,7 +13,7 @@ public enum DeviceType {
 		return val;
 	}
 	
-	public static DeviceType Byte2ClientType(byte val) {
+	public static ChannelType Byte2ClientType(byte val) {
 		switch(val) {
 		case 0: return Web;
 		case 1: return Win;

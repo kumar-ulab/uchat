@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("Abstrct User")
+@ApiModel("Abstract User")
 public class User {
 	@ApiModelProperty("user id")
 	private String id;

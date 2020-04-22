@@ -45,7 +45,7 @@
 	                socket.onmessage = function(event) {
 	                    var ta = document.getElementById('responseText');
 	                    var rsp = JSON.parse(event.data);
-	                    var devType = devTypes[rsp.device];
+	                    var devType = rsp.device;
 	                    if (rsp.fromUserId != null) {
 		                    var fromUser = userMap[rsp.fromUserId];
 		                    var client = fromUser.email;
@@ -100,7 +100,7 @@
 	            if (socket.readyState == WebSocket.OPEN) {
 	            	var msg = {
 	            		type: 0,
-	            		toUserId: user.id,
+	            		toUserId: "Iphone8@18F179F34B328341BE26F1A23698961BB56189E777FBD413106D1CDB78C6770F",
 	            		data: chatToken
 	            	};
 	            	var json = JSON.stringify(msg);
