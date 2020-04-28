@@ -14,4 +14,8 @@ public class Constants {
 		public static final AttributeKey<Long> ACTIVE_TIME = AttributeKey.valueOf("ActiveTime");
 		public static final AttributeKey<ChannelType> DEVICE = AttributeKey.valueOf("Device"); 
 	}
+	
+	public static final int MESSAGE_STATUS_NO_SEND = 0;
+	
+	public static final int MESSAGE_STATUS_SENT = 1; 
 }

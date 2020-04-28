@@ -1,8 +1,12 @@
 package com.ulab.uchat.server.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -12,12 +16,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ulab.uchat.constant.Constants;
 import com.ulab.uchat.model.pojo.ChatDevice;
+import com.ulab.uchat.model.pojo.Message;
 import com.ulab.uchat.model.pojo.User;
 import com.ulab.uchat.pojo.ClientMsg;
 import com.ulab.uchat.pojo.ServerMsg;
 import com.ulab.uchat.server.config.AppConfig;
+import com.ulab.uchat.server.dao.mapper.MapperMessage;
 import com.ulab.uchat.server.dao.mapper.MapperUser;
 import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.handler.ConnectionHandler;
@@ -53,6 +61,9 @@ public class ChatService {
 	@Autowired AppConfig appConfig;
 	@Autowired JwtUtils jwt;
 	@Autowired MapperUser mapperUser;
+	
+	@Autowired
+	private MapperMessage mapperMessage;
 	
 	public void sendText(String text) {
 		System.err.println(text);
@@ -184,6 +195,7 @@ public class ChatService {
 			serverMsg.setChannel(null);	
 			serverMsg.setFromUserId(null);
 			serverMsg.setData("invalid token");
+	        sendMsg(channel, serverMsg);
 		} else {
 			UserAuthInfo userAuthInfo = jwt.getUserFromToken(chatToken);
 			String username = userAuthInfo.getUsername();
@@ -195,8 +207,9 @@ public class ChatService {
 			serverMsg.setChannel(channel.id().asShortText());
 			serverMsg.setData("welcome " + UserType.parse(user.getType()).getTitle() + " " + user.getFirstName() + " " + user.getLastName());
 			serverMsg.setDevice(dev.getDeviceType());
+	        sendMsg(channel, serverMsg);
+			pushLeaveMessage(channel);
 		}
-        sendMsg(channel, serverMsg);
 	}
 	
 	private void handleTextMsg(Channel channel, ClientMsg chatMsg) {
@@ -209,19 +222,34 @@ public class ChatService {
 	
 	private void handleChatMsg(Channel channel, MsgType msgType, ClientMsg chatMsg) {
 		String toUserId = chatMsg.getToUserId();
-		Set<Channel> toChannels = findChannelByUserId(toUserId);
-
-		String data = chatMsg.getData();
 		User fromUser = channel.attr(Constants.Client.CLIENT_USER).get();
-		ServerMsg serverMsg = new ServerMsg();
-		serverMsg.setType(msgType.getVal());
-		serverMsg.setChannel(channel.id().asShortText());
-		serverMsg.setFromUserId(fromUser.getId());
-		String fromDeviceType = channel.attr(Constants.Client.DEVICE_TYPE).get();
-		serverMsg.setDevice(fromDeviceType);
-		serverMsg.setData(data);
+		Set<Channel> toChannels = findChannelByUserId(toUserId);
+		if (toChannels == null || toChannels.isEmpty()) {
+			Message message = new Message();
+			message.setId(UUID.randomUUID().toString().replace("-", ""));
+			message.setFromUserId(fromUser.getId());
+			message.setToUserId(toUserId);
+			message.setType(String.valueOf(chatMsg.getType()));
+			message.setContent(chatMsg.getData());
+			message.setCreateTime(new Date());
+			message.setUpdateTime(new Date());
+			message.setStatus(0);
+			int index = mapperMessage.saveMessage(message);
+			if (index == 0) {
+				log.error("failed to save message");
+			}
+		} else {
+			String data = chatMsg.getData();
+			ServerMsg serverMsg = new ServerMsg();
+			serverMsg.setType(msgType.getVal());
+			serverMsg.setChannel(channel.id().asShortText());
+			serverMsg.setFromUserId(fromUser.getId());
+			String fromDeviceType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+			serverMsg.setDevice(fromDeviceType);
+			serverMsg.setData(data);
 
-		sendMsg(toChannels, serverMsg);
+			sendMsg(toChannels, serverMsg);
+		}
 	}
 	
 	public void sendNotify(Channel channel, User toUser, String msg) {
@@ -275,5 +303,30 @@ public class ChatService {
 			log.error("Invalid device info: deviceInfo", e);
 		}
 		return dev;
+	}
+	
+	private void pushLeaveMessage(Channel channel) {
+		ServerMsg serverMsg = null;
+		List<String> ids = new ArrayList<String>();
+		User toUser = channel.attr(Constants.Client.CLIENT_USER).get();
+		if (toUser != null) {
+			List<Message> messageList = mapperMessage.findMessageByToUserId(toUser.getId());
+			if (messageList != null && messageList.size() > 0) {
+				for (Message message : messageList) {
+					serverMsg = new ServerMsg();
+					serverMsg.setType(Integer.parseInt(message.getType()));
+					serverMsg.setChannel(channel.id().asShortText());
+					serverMsg.setFromUserId(message.getFromUserId());
+					String fromDeviceType = channel.attr(Constants.Client.DEVICE_TYPE).get();
+					serverMsg.setDevice(fromDeviceType);
+					serverMsg.setData(message.getContent());
+					sendMsg(channel, serverMsg);
+					ids.add(message.getId());
+				}
+				mapperMessage.batchUpdateStatus(Constants.MESSAGE_STATUS_SENT, ids);
+			}
+		} else {
+			log.error("The user is not online");
+		}
 	}
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ulab.uchat.server.dao.mapper.MapperMessage">
+	<resultMap type="Message" id="baseResultMap"></resultMap>
+    <insert id="saveMessage" parameterType="Message">
+	INSERT INTO message (id, from_user_id, to_user_id, type, content, create_time,
+	update_time, status)
+	VALUES (#{id}, #{fromUserId}, #{toUserId}, #{type}, #{content}, #{createTime},
+	#{updateTime}, #{status})
+	</insert>
+	
+	<select id="findMessageByToUserId" resultMap="baseResultMap" parameterType="String">
+        SELECT
+			* 
+		FROM
+			message 
+		WHERE
+			to_user_id = #{userId}
+		AND 
+			 `status` = 0
+		ORDER BY create_time ASC
+    </select>
+    <update id="updateStatus">
+    UPDATE 
+    	message 
+	SET 
+		`status` = #{status} 
+	WHERE
+		id = #{id}
+    </update>
+    
+    <update id="batchUpdateStatus">
+    UPDATE 
+    	message 
+	SET 
+		`status` = #{status} 
+	WHERE id in 
+	<foreach collection="ids" index="index" item="id" separator="," open="(" close=")">
+    	#{id}
+    </foreach>
+    </update>
+    
+    <delete id="deleteMessage">
+    	DELETE 
+		FROM
+			message 
+		WHERE
+			`status` = 1
+    </delete>
+</mapper>
