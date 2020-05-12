@@ -55,7 +55,7 @@
     </insert>    
  
     <select id="selectDevice" parameterType="String" resultType="ChatDevice">
-        SELECT device_type, pushAddress FROM user_device WHERE user_id = #{userId};
+        SELECT device_type, push_address FROM user_device WHERE user_id = #{userId};
     </select>
  
 	<insert id="updateAndInsertDevice" parameterType="String">

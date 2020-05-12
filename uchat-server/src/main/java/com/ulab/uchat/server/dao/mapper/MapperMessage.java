@@ -11,7 +11,7 @@ public interface MapperMessage {
 	
 	int saveMessage(Message message);
 	
-	List<Message> findMessageByToUserId(@Param("userId") String userId);
+	List<Message> findLeaveMessageByToUserId(@Param("userId") String userId);
 	
 	int updateStatus(@Param("id")String id, @Param("status") int status);
 	

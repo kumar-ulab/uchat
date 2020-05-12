@@ -9,7 +9,7 @@
 	#{updateTime}, #{status})
 	</insert>
 	
-	<select id="findMessageByToUserId" resultMap="baseResultMap" parameterType="String">
+	<select id="findLeaveMessageByToUserId" resultMap="baseResultMap" parameterType="String">
         SELECT
 			* 
 		FROM

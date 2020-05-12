@@ -15,7 +15,7 @@ public class Constants {
 		public static final AttributeKey<ChannelType> DEVICE = AttributeKey.valueOf("Device"); 
 	}
 	
-	public static final int MESSAGE_STATUS_NO_SEND = 0;
+	public static final int MESSAGE_STATUS_SEND = 0;
 	
-	public static final int MESSAGE_STATUS_SENT = 1; 
+	public static final int MESSAGE_STATUS_RECEIVE = 1; 
 }

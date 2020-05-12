@@ -31,8 +31,11 @@ import com.ulab.uchat.server.exception.AppException;
 import com.ulab.uchat.server.handler.ConnectionHandler;
 import com.ulab.uchat.server.handler.UchatHttpRequestHandler;
 import com.ulab.uchat.server.handler.WebsocketFrameHandler;
+import com.ulab.uchat.server.push.PushMsg;
 import com.ulab.uchat.server.security.JwtUtils;
 import com.ulab.uchat.server.security.auth.UserAuthInfo;
+import com.ulab.uchat.server.task.PushMessageTask;
+import com.ulab.uchat.server.task.TaskManager;
 import com.ulab.uchat.types.ChannelType;
 import com.ulab.uchat.types.MsgType;
 import com.ulab.uchat.types.UserType;
@@ -64,6 +67,9 @@ public class ChatService {
 	
 	@Autowired
 	private MapperMessage mapperMessage;
+	
+	@Autowired
+	private TaskManager taskManager;
 	
 	public void sendText(String text) {
 		System.err.println(text);
@@ -225,6 +231,7 @@ public class ChatService {
 		User fromUser = channel.attr(Constants.Client.CLIENT_USER).get();
 		Set<Channel> toChannels = findChannelByUserId(toUserId);
 		if (toChannels == null || toChannels.isEmpty()) {
+			List<String> deviceTokens = new ArrayList<String>();
 			Message message = new Message();
 			message.setId(UUID.randomUUID().toString().replace("-", ""));
 			message.setFromUserId(fromUser.getId());
@@ -233,11 +240,15 @@ public class ChatService {
 			message.setContent(chatMsg.getData());
 			message.setCreateTime(new Date());
 			message.setUpdateTime(new Date());
-			message.setStatus(0);
+			message.setStatus(Constants.MESSAGE_STATUS_SEND);
 			int index = mapperMessage.saveMessage(message);
 			if (index == 0) {
 				log.error("failed to save message");
 			}
+			String deviceToken = getDeviceTokenByUserId(toUserId);
+			deviceTokens.add(deviceToken);
+			PushMessageTask pushMessageTask = taskManager.createPushMessageTask(fromUser.getFirstName() + fromUser.getLastName(), chatMsg.getData(), deviceTokens);
+			taskManager.submitTask(pushMessageTask, fromUser.getId());
 		} else {
 			String data = chatMsg.getData();
 			ServerMsg serverMsg = new ServerMsg();
@@ -290,6 +301,7 @@ public class ChatService {
 			User user = channel.attr(Constants.Client.CLIENT_USER).get();
 			log.info("disconnect inactive user:" + user.getId() + "(" + user.getEmail() + ")");
 			channel.close();
+			taskManager.shutdown(user.getId());
 		});
 	}
 	
@@ -310,7 +322,7 @@ public class ChatService {
 		List<String> ids = new ArrayList<String>();
 		User toUser = channel.attr(Constants.Client.CLIENT_USER).get();
 		if (toUser != null) {
-			List<Message> messageList = mapperMessage.findMessageByToUserId(toUser.getId());
+			List<Message> messageList = mapperMessage.findLeaveMessageByToUserId(toUser.getId());
 			if (messageList != null && messageList.size() > 0) {
 				for (Message message : messageList) {
 					serverMsg = new ServerMsg();
@@ -323,10 +335,15 @@ public class ChatService {
 					sendMsg(channel, serverMsg);
 					ids.add(message.getId());
 				}
-				mapperMessage.batchUpdateStatus(Constants.MESSAGE_STATUS_SENT, ids);
+				mapperMessage.batchUpdateStatus(Constants.MESSAGE_STATUS_RECEIVE, ids);
 			}
 		} else {
 			log.error("The user is not online");
 		}
+	}
+	
+	public String getDeviceTokenByUserId(String userId) {
+		ChatDevice chatDevice = mapperUser.selectDevice(userId);
+		return chatDevice.getPushAddress();
 	}
 }
