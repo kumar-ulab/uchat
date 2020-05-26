@@ -1,5 +1,7 @@
 package com.ulab.uchat.pojo;
 
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,6 +17,8 @@ public class ServerMsg {
 	String fromUserId;
 	@ApiModelProperty("type0 - welcome message, type1 - text message, type2 - picture filename, type3 - system message")
 	String data;
+	@ApiModelProperty("time the message is sent from")
+	Date createTime;
 	
 	public int getType() {
 		return type;
@@ -45,5 +49,11 @@ public class ServerMsg {
 	}
 	public void setData(String data) {
 		this.data = data;
-	}	
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 }

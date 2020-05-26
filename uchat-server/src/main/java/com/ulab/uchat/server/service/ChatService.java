@@ -123,6 +123,7 @@ public class ChatService {
 		serverMsg.setFromUserId(null);
 		serverMsg.setData(msg);
 		serverMsg.setDevice(ChannelType.Sys.name());
+		serverMsg.setCreateTime(new Date());
 		sendMsg(channel, ChannelType.Sys, serverMsg);
 	}
 	
@@ -154,6 +155,7 @@ public class ChatService {
 		String deviceType = selfChannel.attr(Constants.Client.DEVICE_TYPE).get();
 		serverMsg.setDevice(deviceType);
 		serverMsg.setData(msg);
+		serverMsg.setCreateTime(new Date());
 		try {
 			String json = JsonUtil.Object2Json(serverMsg);
 			for (Channel channel : channels) {
@@ -201,6 +203,7 @@ public class ChatService {
 			serverMsg.setChannel(null);	
 			serverMsg.setFromUserId(null);
 			serverMsg.setData("invalid token");
+			serverMsg.setCreateTime(new Date());
 	        sendMsg(channel, serverMsg);
 		} else {
 			UserAuthInfo userAuthInfo = jwt.getUserFromToken(chatToken);
@@ -213,6 +216,7 @@ public class ChatService {
 			serverMsg.setChannel(channel.id().asShortText());
 			serverMsg.setData("welcome " + UserType.parse(user.getType()).getTitle() + " " + user.getFirstName() + " " + user.getLastName());
 			serverMsg.setDevice(dev.getDeviceType());
+			serverMsg.setCreateTime(new Date());
 	        sendMsg(channel, serverMsg);
 			pushLeaveMessage(channel);
 		}
@@ -258,6 +262,7 @@ public class ChatService {
 			String fromDeviceType = channel.attr(Constants.Client.DEVICE_TYPE).get();
 			serverMsg.setDevice(fromDeviceType);
 			serverMsg.setData(data);
+			serverMsg.setCreateTime(new Date());
 
 			sendMsg(toChannels, serverMsg);
 		}
@@ -273,6 +278,7 @@ public class ChatService {
 		serverMsg.setFromUserId(null);
 		serverMsg.setDevice(ChannelType.Sys.name());
 		serverMsg.setData(msg);
+		serverMsg.setCreateTime(new Date());
 
 		sendMsg(toChannels, serverMsg);
 	}
@@ -332,6 +338,7 @@ public class ChatService {
 					String fromDeviceType = channel.attr(Constants.Client.DEVICE_TYPE).get();
 					serverMsg.setDevice(fromDeviceType);
 					serverMsg.setData(message.getContent());
+					serverMsg.setCreateTime(message.getCreateTime());
 					sendMsg(channel, serverMsg);
 					ids.add(message.getId());
 				}
