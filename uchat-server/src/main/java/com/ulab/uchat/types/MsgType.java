@@ -1,6 +1,6 @@
 package com.ulab.uchat.types;
 public enum MsgType {
-	Connect(0), Text(1), Picture(2), Notify(3);
+	Connect(0), Text(1), Picture(2), Notify(3), File(4);
 	
 	private int val;
 	
@@ -18,6 +18,7 @@ public enum MsgType {
 		case 1: return Text;
 		case 2: return Picture;
 		case 3: return Notify;
+		case 4: return File;
 		default: 
 			return Notify;
 		}

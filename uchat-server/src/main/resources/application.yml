@@ -50,7 +50,7 @@ logging:
     config: classpath:log/logback.xml
 
 uchat:
-   root: /data/ulab/uchat/images
+   root: /data/ulab/uchat
 
 mail:
    protocol: smtp

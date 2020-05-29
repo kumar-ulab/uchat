@@ -72,6 +72,11 @@
                 			+ "[" + client + "(" + devType + ")] " + rsp.data;
 	                    	break;
 	                    case 4:
+	                    	document.getElementById("chatFile").href = "api/chat/file/channel/" + rsp.channel + "/file/" + rsp.data + "?chatToken="+chatToken;
+	                    	document.getElementById("chatFile").text =  rsp.data;
+	                    	ta.value = ta.value + '\n' 
+                			+ "[" + client + "(" + devType + ")] " + rsp.data;
+	                    	break;
 	                    default:
 	                    	ta.value = ta.value + '\n' 
                 			+ "[" + client + "(" + devType + ")] " + rsp.data;
@@ -142,6 +147,17 @@
 	            }
 	        }
 	        
+	        var sendFile = function() {
+	            if (!window.WebSocket) {
+	                return;
+	            }
+	            if (socket.readyState == WebSocket.OPEN) {
+	            	uploadFile(document.getElementById("text").value, socket);
+	            } else {
+	                alert("not connected.");
+	            }
+	        }
+	        
 			var getPairs = function() {
 			    $.ajax({
 			        url: "/api/account/user/" + user.id + "/pairs",
@@ -205,6 +221,41 @@
 			        }
 				});
 			};
+			
+			var uploadFile = function(fileName) {				
+				var formData = new FormData(); 
+				var file = $('#filePath')[0].files[0];
+				formData.append("file", file);
+			    $.ajax({
+			        url: "/api/chat/file/channel/" + srvChannel,
+			        dataType: "json",
+			        type: "post",
+					headers:{
+						'Chat-Token': chatToken
+					},
+			        data: formData, 
+			        processData: false,
+			        contentType: false,
+			        error: function (res) {
+			            alert(res.desc);
+			            return;
+			        },
+			        success: function (res) {
+		            	var toUser = selectUser();
+		            	var msg = {
+			            		type: 4,
+			            		toUserId: toUser.id,
+			            		data: res.fileName
+			            	};
+			            	var json = JSON.stringify(msg);
+			                socket.send(json);
+		                    var ta = document.getElementById('responseText');
+		                    ta.value += "\n[you(Web)] File " + msg.data;
+		                    ta.scrollTop = ta.scrollHeight;
+			            return;
+			        }
+				});
+			};
 
 			var selectUser = function() {
 				for (var i=0; i<myPairs.length; i++) {
@@ -219,6 +270,7 @@
 	        document.getElementById("connect").onclick = connect;
 	        document.getElementById("sendText").onclick = sendText;
 	        document.getElementById("sendPic").onclick = sendPic;
+	        document.getElementById("sendFile").onclick = sendFile;
 			var wsport = [[${chatPort}]];
 			var ws = [[${ws}]];
 			var user = [[${user}]];
@@ -286,12 +338,16 @@
         <td>
 	        <div style="width: 500px; height: 500px;"><img id="chatImg" src="/images/uChat.jpg"></div>
         </td>
+        <td>
+	        <div style="width: 500px; height: 500px;"><a id="chatFile"></a></div>
+        </td>
         </tr>
         </table>
         <input id="text" type="text" name="message"  style="width: 400px;" value=""/>
         <input id="sendText" type="button" value="send text"/>
 	    <input id="filePath" name="filePath" type="file"/>
         <input id="sendPic" type="button" value="send picture"/>
+        <input id="sendFile" type="button" value="send File"/>
         <input id="clear" type="button" onclick="javascript:document.getElementById('responseText').value=''" value="clear"/>
     </form>
     <br/>

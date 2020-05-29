@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("server -> client message")
 public class ServerMsg {
-	@ApiModelProperty("Message Type:  0-connect, 1-text msg, 2-picture message, 3-system notification")
+	@ApiModelProperty("Message Type:  0-connect, 1-text msg, 2-picture message, 3-system notification, 4-file message")
 	int type;
 	@ApiModelProperty("the chat channelassigned to you")
 	String channel;
@@ -15,7 +15,7 @@ public class ServerMsg {
 	String device;
 	@ApiModelProperty("userId who the message is sent from")
 	String fromUserId;
-	@ApiModelProperty("type0 - welcome message, type1 - text message, type2 - picture filename, type3 - system message")
+	@ApiModelProperty("type0 - welcome message, type1 - text message, type2 - picture filename, type3 - system message, type4 - filename message")
 	String data;
 	@ApiModelProperty("time the message is sent from")
 	Date createTime;

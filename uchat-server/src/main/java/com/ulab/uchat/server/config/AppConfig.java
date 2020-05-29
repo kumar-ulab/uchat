@@ -26,7 +26,11 @@ public class AppConfig {
     private int expirationSeconds;
     		
     @Value("${auth.remote.url}") 
-    private String remoteAuth; 
+    private String remoteAuth;
+    
+    private static final String IMAGES_DIR = "images";
+    
+    private static final String FILE_DIR = "file";
 
     public int getHttpPort() {
 		return httpPort;
@@ -68,5 +72,13 @@ public class AppConfig {
 			String usrHome = System.getProperty("user.home");
 			uchatRoot = usrHome + uchatRoot.replace('/', File.separatorChar);
 		}
+	}
+	
+	public String getPictureDirPath() {
+		return getUchatRoot() + File.separator + IMAGES_DIR;
+	}
+	
+	public String getFileDirPath() {
+		return getUchatRoot() + File.separator + FILE_DIR;
 	}
 }

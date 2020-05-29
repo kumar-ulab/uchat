@@ -188,6 +188,9 @@ public class ChatService {
 		case Picture:
 			handlePicMsg(channel, chatMsg);
 			break;
+		case File:
+			handleFileMsg(channel, chatMsg);
+			break;
 		default:
 			log.error("unsupported message: type=" + chatMsg.getType());
 		}
@@ -228,6 +231,10 @@ public class ChatService {
 
 	private void handlePicMsg(Channel channel, ClientMsg chatMsg) {
 		handleChatMsg(channel, MsgType.Picture, chatMsg);
+	}
+	
+	private void handleFileMsg(Channel channel, ClientMsg chatMsg) {
+		handleChatMsg(channel, MsgType.File, chatMsg);
 	}
 	
 	private void handleChatMsg(Channel channel, MsgType msgType, ClientMsg chatMsg) {

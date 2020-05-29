@@ -53,21 +53,13 @@ public class ChatApi {
             log.info("no file attached");
             throw new AppException("no file attached"); 
         }
-
-        String fileName = file.getOriginalFilename();
-        int suffixIndex = fileName.lastIndexOf('.');
-        String suffix = fileName.substring(suffixIndex);
-        String filePath = appConfig.getUchatRoot() + File.separator + channelId + File.separator;
-        File picFolder = new File(filePath);
-        picFolder.mkdirs();
-        String picName = System.currentTimeMillis() + suffix;
-        File dest = new File(filePath + picName);
+        String filePath = appConfig.getPictureDirPath() + File.separator + channelId + File.separator;
         try {
-            file.transferTo(dest);
-            log.info("upload done: " + dest);
+        	String fileName = transferFile(file, filePath);
+            log.info("upload done: " + filePath + fileName);
             return new HashMap<String, Object>() {
             	{
-            		put("pic", picName );
+            		put("pic", fileName);
             	}
             };
         } catch (IOException e) {
@@ -91,7 +83,7 @@ public class ChatApi {
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
     	response.setHeader("Content-disposition", "attachment; filename=\"" + picName + "\"");
-        String filePath = appConfig.getUchatRoot() + File.separator + channelId + File.separator + picName;
+        String filePath = appConfig.getPictureDirPath() + File.separator + channelId + File.separator + picName;
 		OutputStream os = response.getOutputStream();
         File file = new File(filePath);
         FileInputStream inputStream = new FileInputStream(file);
@@ -112,10 +104,90 @@ public class ChatApi {
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
         response.setContentType("image/jpeg");
-        String filePath = appConfig.getUchatRoot() + File.separator + channelId + File.separator + picName;
+        String filePath = appConfig.getPictureDirPath() + File.separator + channelId + File.separator + picName;
 		OutputStream os = response.getOutputStream();
         File file = new File(filePath);
         FileInputStream inputStream = new FileInputStream(file);
         IOUtils.copyLarge(inputStream, os);
 	}
+    
+    @ResponseBody
+    @RequestMapping(value="/file/channel/{id}", 
+    				produces= "application/json", 
+    				method= RequestMethod.POST,
+    				consumes={"miltipart/mixed", 
+    						  "multipart/form-data", 
+    						  "application/json", 
+    						  "application/octet-stream", 
+    						  "application/x-binary"})
+    public Object uploadFile(@PathVariable(value="id") String channelId,
+				        @RequestPart(value="file") MultipartFile file,
+				        HttpServletResponse response,
+				        HttpServletRequest request) {
+        log.info("REST API: " + request.getRequestURI() + ", channel=" + channelId);
+        if (file.isEmpty()) {
+            log.info("no file attached");
+            throw new AppException("no file attached"); 
+        }
+        String filePath = appConfig.getFileDirPath() + File.separator + channelId + File.separator;
+        try {
+        	String fileName = transferFile(file, filePath);
+            log.info("upload done: " + filePath + fileName);
+            return new HashMap<String, Object>() {
+            	{
+            		put("fileName", fileName);
+            	}
+            };
+        } catch (IOException e) {
+            log.error(e.toString(), e);
+            throw new AppException("Uploading file failed");
+        }
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/file/channel/{channel}/file/{fileName}", 
+	produces= MediaType.APPLICATION_OCTET_STREAM_VALUE, 
+	method= RequestMethod.GET)
+	public void downloadFile(
+			@PathVariable(value="channel") String channelId,
+			@PathVariable(value="fileName") String fileName,
+			@RequestParam(value="chatToken") String chatToken,
+            HttpServletResponse response,
+            HttpServletRequest request) throws IOException {
+        log.info("REST API: " + request.getRequestURI() + ", fileName=" + fileName);
+        response.setHeader("Expires", "0");
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "public");
+    	response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");
+        String filePath = appConfig.getFileDirPath() + File.separator + channelId + File.separator + fileName;
+        FileInputStream inputStream = null;
+        try {
+        	OutputStream os = response.getOutputStream();
+            File file = new File(filePath);
+            inputStream = new FileInputStream(file);
+            IOUtils.copyLarge(inputStream, os);
+		} catch (Exception e) {
+			log.error("Download file exception", e);
+		} finally {
+			IOUtils.closeQuietly(inputStream);
+		}
+		
+	}
+    
+    private String transferFile(MultipartFile file, String filePath) throws IOException {
+    	String fileName = "";
+    	if (file != null) {
+    		String originalFileName = file.getOriginalFilename();
+            int suffixIndex = originalFileName.lastIndexOf('.');
+            String suffix = originalFileName.substring(suffixIndex);
+            File fileFolder = new File(filePath);
+            if (!fileFolder.exists()) {
+            	fileFolder.mkdirs();
+    		}
+            fileName = System.currentTimeMillis() + suffix;
+            File dest = new File(filePath + fileName);
+            file.transferTo(dest);
+		}
+    	return fileName;
+    }
 }
