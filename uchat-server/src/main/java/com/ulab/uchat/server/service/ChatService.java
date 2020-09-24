@@ -294,7 +294,7 @@ public class ChatService {
 		final Set<Channel> toChannels = new HashSet<>();
 		channels.forEach(channel -> {
 			User user = channel.attr(Constants.Client.CLIENT_USER).get();
-			if (user.getId().equals(userId)) {
+			if (user != null && user.getId() != null && user.getId().equals(userId)) {
 				toChannels.add(channel);
 			}
 		});
